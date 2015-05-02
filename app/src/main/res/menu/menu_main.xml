@@ -1,0 +1,12 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    <item android:id="@+id/storePreference" android:title="@string/storePreference"
+        android:orderInCategory="200"
+        android:showAsAction="always"
+        />
+    <item android:id="@+id/connect" android:title="@string/connectNow"
+        android:orderInCategory="100"
+        android:showAsAction="always"
+        />
+</menu>
