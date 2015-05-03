@@ -13,8 +13,8 @@ import java.net.URL;
  */
 public class Authenticate {
 
-/*    private static final String AUTHENTICATE = "http://219.219.114.15/portal/portal_io.do";*/
-    private static final String AUTHENTICATE = "http://p.nju.edu.cn/portal/portal_io.do";
+    private static final String AUTHENTICATE = "http://219.219.114.15/portal/portal_io.do";
+/*    private static final String AUTHENTICATE = "http://p.nju.edu.cn/portal/portal_io.do";*/
     public static int i=0;
 
     public static String connectAndPost(String postData) throws InterruptedException {
