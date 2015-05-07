@@ -25,7 +25,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                 NetworkInfo.State state = networkInfo.getState();
                 boolean isConnected2 =(state==NetworkInfo.State.CONNECTED);
                 if(isConnected2){
-                    Log.i("NetworkConnectChangedReceiver","网络连接已经建立");
+                    Log.i("NetworkConnectChanged","网络连接已经建立");
                     WifiManager  mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());
@@ -35,7 +35,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                             new Thread(){
                                 @Override
                                 public void run(){
-                                    String result= null;
                                     try {
                                         String PostData=sharedPreferences.getString("PostData",null);
                                         if(PostData!=null){
@@ -51,8 +50,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
-                                    if(result!=null)
-                                        Log.i("RESULT",result );
                                 }
 
                             }.start();
