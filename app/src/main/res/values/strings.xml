@@ -7,5 +7,6 @@
     <string name="password">密码</string>
     <string name="storePreference">保存</string>
     <string name="connectNow">立即连接</string>
+    <string name="disconnect">下线</string>
     <color name="ColorPrimaryDark">#fff2faff</color>
 </resources>

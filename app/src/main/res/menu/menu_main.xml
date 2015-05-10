@@ -9,4 +9,8 @@
         android:orderInCategory="100"
         android:showAsAction="always"
         />
+    <item android:id="@+id/disconnect" android:title="@string/disconnect"
+        android:orderInCategory="50"
+        android:showAsAction="always"
+        />
 </menu>

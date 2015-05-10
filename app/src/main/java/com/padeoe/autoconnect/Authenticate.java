@@ -1,6 +1,9 @@
 package com.padeoe.autoconnect;
 
 import android.util.Log;
+
+import com.google.gson.Gson;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -9,16 +12,16 @@ import java.net.URL;
 
 /**
  * Created by padeoe on 4/20/15.
+ *
  * @author yus
  */
 public class Authenticate {
 
     private static final String AUTHENTICATE = "http://219.219.114.15/portal/portal_io.do";
-/*    private static final String AUTHENTICATE = "http://p.nju.edu.cn/portal/portal_io.do";*/
-    public static int i=0;
+    /*    private static final String AUTHENTICATE = "http://p.nju.edu.cn/portal/portal_io.do";*/
+    public static int i = 0;
 
     public static String connectAndPost(String postData) throws InterruptedException {
-
         try {
             byte[] postAsBytes = postData.getBytes("UTF-8");
             URL url = new URL(AUTHENTICATE);
@@ -35,13 +38,12 @@ public class Authenticate {
             try (OutputStream outputStream = connection.getOutputStream()) {
                 outputStream.write(postAsBytes);
             }*/
-            OutputStream outputStream=null;
-            try{
+            OutputStream outputStream = null;
+            try {
                 outputStream = connection.getOutputStream();
                 outputStream.write(postAsBytes);
-            }
-            finally{
-                if(outputStream!=null){
+            } finally {
+                if (outputStream != null) {
                     outputStream.close();
                 }
 
@@ -57,19 +59,19 @@ public class Authenticate {
             try {
                 inputStream = connection.getInputStream();
                 len = inputStream.read(readData);
+            } finally {
+                if (inputStream != null) {
+                    {
+                        inputStream.close();
+                    }
+                }
             }
-            finally{
-                if(inputStream!=null){{
-                    inputStream.close();
-                }}
-            }
-
 
 
             connection.disconnect();
             String data = new String(readData, 0, len, "UTF-8");
             Log.i("LOOKHERE", "成功登陆");
-            i=0;
+            i = 0;
             return data;
         } catch (IOException e) {
             System.out.println(e);
@@ -77,4 +79,44 @@ public class Authenticate {
         return null;
     }
 
+    public static String disconnect() {
+        try {
+            String result = connectAndPost("action=logout");
+            ReturnData returnData;
+            String reply_message;
+            if(result!=null &&(returnData=new Gson().fromJson(result, ReturnData.class))!=null
+                    &&(reply_message=returnData.getReply_message())!=null){
+                return reply_message;
+            }
+            else{
+                return "注销失败";
+            }
+        } catch (InterruptedException e) {
+            Log.getStackTraceString(e);
+            return "注销失败";
+        }
+
+    }
+    public static String connect(String postdata) {
+        try {
+            String result = connectAndPost(postdata);
+            ReturnData returnData=null;
+            userinfo userinfo=null;
+            if(result!=null &&(returnData=new Gson().fromJson(result, ReturnData.class))!=null
+                    &&(userinfo=returnData.getUserinfo())!=null){
+                return userinfo.getFullname()+userinfo.getUsername()+ "\n" + returnData.getReply_message();
+            }
+            else{
+                if(returnData!=null&&userinfo==null){
+                    return returnData.getReply_message();
+                }
+                else{
+                    return "登陆失败";
+                }
+            }
+        }catch (InterruptedException e) {
+            Log.getStackTraceString(e);
+            return "登陆失败";
+        }
+    }
 }

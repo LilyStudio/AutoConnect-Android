@@ -15,8 +15,6 @@ import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
 public class MainActivity extends Activity {
     public static boolean allowed = true;
     EditText usernameEdit;
@@ -78,16 +76,46 @@ public class MainActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
+        final int id = item.getItemId();
         if (id == R.id.storePreference) {
             storeInfo();
             return true;
         }
-        if (id == R.id.connect) {
-            connectNow();
-            return true;
+        new Thread() {
+            @Override
+            public void run() {
+                try {
+                    switch (id) {
+                        case R.id.connect:
+                            connectNow();
+                            break;
+                        case R.id.disconnect:
+                            disconnectNow();
+                            break;
+                        default:
+
+                    }
+                } catch (Exception e) {
+                    Log.getStackTraceString(e);
+                    ShowOnMainActivity("无法连接");
+                }
+            }
+
+            ;
+        }.start();
+        return true;
+
+    }
+
+    /**
+     * 立即注销
+     */
+    public void disconnectNow() {
+        if (isConnectedtoWiFi()) {
+            ShowOnMainActivity(Authenticate.disconnect());
+        } else {
+            ShowOnMainActivity("没有连接WiFi");
         }
-        return super.onOptionsItemSelected(item);
     }
 
     /**
@@ -101,34 +129,8 @@ public class MainActivity extends Activity {
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 final String PostData = "action=login&username=" + username + "&password=" + password;
-                new Thread() {
-                    @Override
-                    public void run() {
-                        try {
-                            String result = Authenticate.connectAndPost(PostData);
-                            Gson gson = new Gson();
-                            ReturnData ReturnData = gson.fromJson(result, ReturnData.class);
-                            if (ReturnData != null) {
-                                if (ReturnData.getUserinfo() != null) {
-                                    final String userFullName = ReturnData.getUserinfo().getFullname();
-                                    final String userName = ReturnData.getUserinfo().getUsername();
-                                    ShowOnMainActivity(userFullName + userName + "\n" + ReturnData.getReply_message());
-                                } else {//用户名密码错误
-                                    final String reply_message = ReturnData.getReply_message();
-                                    ShowOnMainActivity(reply_message);
-                                }
-                            } else {
-                                Log.i("JSON", "gson解析返回null");
-                                ShowOnMainActivity("登录失败gson解析返回null");
-                            }
-                        } catch (InterruptedException e) {
-                            Log.getStackTraceString(e);
-                            ShowOnMainActivity("登录失败");
-                        }
-                    }
-                }.start();
-
-            }
+                ShowOnMainActivity(Authenticate.connect(PostData));
+     }
             //如果用户没有填写用户名密码
             else
                 ShowOnMainActivity("没有连接WiFi");
@@ -179,7 +181,6 @@ public class MainActivity extends Activity {
     }
 
     /**
-     *
      * @return 返回值表示是否开启了无线网连接
      */
     public boolean isConnectedtoWiFi() {
@@ -187,7 +188,4 @@ public class MainActivity extends Activity {
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return mWifi.isConnected();
     }
-
 }
-
-
