@@ -77,15 +77,18 @@ public class MainActivity extends Activity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         final int id = item.getItemId();
-        if (id == R.id.storePreference) {
+/*        if (id == R.id.storePreference) {
             storeInfo();
             return true;
-        }
+        }*/
         new Thread() {
             @Override
             public void run() {
                 try {
                     switch (id) {
+                        case R.id.storePreference:
+                            storeInfo();
+                            break;
                         case R.id.connect:
                             connectNow();
                             break;
@@ -96,6 +99,7 @@ public class MainActivity extends Activity {
 
                     }
                 } catch (Exception e) {
+                    System.out.println(e);
                     Log.getStackTraceString(e);
                     ShowOnMainActivity("无法连接");
                 }
@@ -135,7 +139,7 @@ public class MainActivity extends Activity {
             else
                 ShowOnMainActivity("没有连接WiFi");
         } else {
-            Toast.makeText(ctx, "未填写", Toast.LENGTH_SHORT).show();
+            ShowOnMainActivity("未填写");
         }
 
     }
@@ -157,9 +161,10 @@ public class MainActivity extends Activity {
             ctx.startService(new Intent(ctx, WiFiDetectService.class));
             Log.i("配置文件", "保存了用户名密码");
             Log.i("保存", " 保存后开启了服务");
-            Toast.makeText(ctx, "已保存", Toast.LENGTH_SHORT).show();
+            ShowOnMainActivity("已保存");
         } else
-            Toast.makeText(ctx, "未填写", Toast.LENGTH_SHORT).show();
+            ShowOnMainActivity("未填写");
+/*            Toast.makeText(ctx, "未填写", Toast.LENGTH_SHORT).show();*/
     }
 
     /**

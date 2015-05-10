@@ -38,11 +38,11 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                     try {
                                         String PostData=sharedPreferences.getString("PostData",null);
                                         if(PostData!=null){
-                                            for(int i=0;i<20;i++){
+                                            for(int i=0;i<40;i++){
                                                 if(Authenticate.connectAndPost(PostData)!=null)
                                                     break;
                                                 else
-                                                    Thread.sleep(200);
+                                                    Thread.sleep(50);
                                             }
                                         }
                                         else
