@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="logoWord">#ffdb7924</color>
+    <color name="loginButton">#ffd7dcdb</color>
+    <color name="ColorPrimary">#ff5d91ff</color>
+    <color name="ColorPrimaryDark">#ff587bff</color>
+    <color name="textcolor">#ff707070</color>
+</resources>

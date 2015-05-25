@@ -1,16 +1,34 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.padeoe.autoconnect.MainActivity">
     <item android:id="@+id/storePreference" android:title="@string/storePreference"
         android:orderInCategory="200"
         android:showAsAction="always"
-        />
+        android:icon="@drawable/save"
+        ></item>
     <item android:id="@+id/connect" android:title="@string/connectNow"
         android:orderInCategory="100"
         android:showAsAction="always"
-        />
-    <item android:id="@+id/disconnect" android:title="@string/disconnect"
+        android:icon="@drawable/login"
+        ></item>
+    <item
+        android:id="@+id/disconnect"
+        android:title="@string/disconnect"
         android:orderInCategory="50"
-        android:showAsAction="always"
-        />
+        android:icon="@drawable/disconnect"
+        android:showAsAction="ifRoom"
+        ></item>
+    <item
+        android:id="@+id/setting"
+        android:title="@string/action_settings"
+        android:orderInCategory="50"
+        android:showAsAction="never"
+        ></item>
+    <item
+        android:id="@+id/about"
+        android:title="@string/about"
+        android:orderInCategory="50"
+        android:showAsAction="never"
+        ></item>
 </menu>
