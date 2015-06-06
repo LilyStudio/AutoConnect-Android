@@ -21,8 +21,16 @@
     <string name="statistics_message">是否愿意发送统计数据给开发者？您可以随时在设置中关闭该选项</string>
     <string name="yes">愿意</string>
     <string name="no">不愿意</string>
+    <string name="prohibit_statics">禁止数据统计</string>
     <string name="feedback">问题反馈</string>
     <string name="like">点个赞</string>
-    <string name="version">2.1.7</string>
+    <string name="version">版本号:</string>
     <string name="author">作者:padeoe@gmail.com</string>
+    <string name="author_email">padeoe@gmail.com</string>
+    <string name="send_email">发送邮件给开发者?</string>
+    <string name="thankyou">已发送，谢谢！^_^</string>
+    <string name="have_allowed_statics">已启用数据统计</string>
+    <string name="have_prohibit_statics">已禁用数据统计</string>
+    <string name="complete">完成</string>
+    <string name="githubLink">Github开源项目</string>
 </resources>

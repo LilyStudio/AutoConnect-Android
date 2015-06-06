@@ -34,29 +34,9 @@
         android:layout_height="wrap_content"
         android:hint="@string/password"
         android:inputType="textPassword" />
-<!--    <Button
-        android:layout_below="@+id/password"
-        android:id="@+id/connect"
-        android:layout_marginTop="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="@string/connectNow"
-        />-->
-    <Switch
-        android:textSize="16dp"
-        android:layout_below="@+id/password"
-        android:layout_marginLeft="@dimen/activity_horizontal_margin"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="20dp"
-        android:id="@+id/switch1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/prohibit_boot_start"
-        android:layout_centerHorizontal="false" />
     <ListView xmlns:android="http://schemas.android.com/apk/res/android"
         android:textSize="16dp"
-        android:layout_below="@+id/switch1"
+        android:layout_below="@+id/password"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:id="@+id/listview"
         android:layout_width="fill_parent"

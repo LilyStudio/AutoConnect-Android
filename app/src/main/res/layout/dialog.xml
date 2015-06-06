@@ -30,19 +30,6 @@
         android:layout_below="@+id/appTitle"
         android:layout_marginTop="6dp"
         />
-<!--    <Button
-        android:id="@+id/author"
-        android:text="@string/author"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/ripple"
-        style="?android:attr/borderlessButtonStyle"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/install_color"
-        android:layout_below="@+id/version"
-        android:textSize="14dp"
-
-        />-->
     <TextView
         android:id="@+id/author"
         android:layout_width="wrap_content"
@@ -52,6 +39,16 @@
         android:textSize="14dp"
         android:layout_below="@+id/version"
         android:layout_marginTop="6dp"
-
+        />
+    <Button
+        android:onClick="linkGithub"
+        android:id="@+id/githubLink"
+        android:text="@string/githubLink"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/author"
+        android:textSize="14dp"
         />
 </RelativeLayout>

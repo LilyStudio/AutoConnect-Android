@@ -18,7 +18,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
-        versionName "2.1.7"
+        versionName "2.1.8"
     }
     buildTypes {
         release {
@@ -45,4 +45,5 @@ dependencies {
     compile files('libs/android-async-http-1.4.6.jar')
     //   compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:22.1.1'
+    compile 'com.android.support:appcompat-v7:21.0.3'
 }

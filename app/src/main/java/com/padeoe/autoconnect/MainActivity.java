@@ -1,6 +1,5 @@
 package com.padeoe.autoconnect;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -11,6 +10,8 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -18,7 +19,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
@@ -33,7 +33,7 @@ import java.util.List;
 
 
 
-public class MainActivity extends Activity{
+public class MainActivity extends ActionBarActivity {
     public static boolean allowed = true;
     EditText usernameEdit;
     EditText passwordEdit;
@@ -47,7 +47,6 @@ public class MainActivity extends Activity{
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
         //  AVOSCloud.initialize(this, "pq3sqjul4anoev3fhxc99736s72jl6w0euuovi0tzfy35src", "i9mnvkzb53btg8nk22bmthraxwsfq71jdbatas5tueaggznj");
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 /*        //获取toolbar对象，设置为ActionBar
@@ -62,8 +61,8 @@ public class MainActivity extends Activity{
         display.getSize(size);
         int width = size.x;
         int height = size.y;
-        Log.i("width",String.valueOf(width));
-        Log.i("height",String.valueOf(height));
+        Log.i("width", String.valueOf(width));
+        Log.i("height", String.valueOf(height));
 
         editor = sharedPreferences.edit();
         String username = sharedPreferences.getString("username", null);
@@ -75,36 +74,13 @@ public class MainActivity extends Activity{
         //显示现有配置
         usernameEdit = (EditText) findViewById(R.id.username);
         passwordEdit = (EditText) findViewById(R.id.password);
-        Switch switch1 = (Switch) findViewById(R.id.switch1);
-        switch1.setChecked(isAllowed);
         if (username != null) usernameEdit.setText(username);
-        if (password != null) passwordEdit.setText(password);
-        switch1.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-                    editor.putBoolean("isBanned", true);
-                    editor.commit();
-                    Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibited_boot_start), Toast.LENGTH_SHORT).show();
-                    AVAnalytics.onEvent(ctx, "允许开机自启用户-1");
-                    allowed = true;
-                } else {
-                    editor.putBoolean("isBanned", false);
-                    editor.commit();
-                    Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_boot_start), Toast.LENGTH_SHORT).show();
-                    AVAnalytics.onEvent(ctx, "允许开机自启用户+1");
-                    allowed = false;
-                }
-            }
-        });
         if (PostData != null) {
             this.startService(new Intent(this, WiFiDetectService.class));
         }
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[]{"在浏览器中打开p.nju.edu.cn", "github项目链接"};
+        String[] values = new String[]{"在浏览器中打开p.nju.edu.cn"};
 
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
@@ -126,13 +102,6 @@ public class MainActivity extends Activity{
                         i.setData(Uri.parse(url));
                         startActivity(i);
                         break;
-                    case 1:
-                        String url2 = "https://github.com/padeoe/AutoConnect";
-                        Intent i2 = new Intent(Intent.ACTION_VIEW);
-                        i2.setData(Uri.parse(url2));
-                        startActivity(i2);
-                        break;
-
                 }
             }
 
@@ -150,18 +119,12 @@ public class MainActivity extends Activity{
             // Add the buttons
             builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    // User clicked OK button
-                    editor.putBoolean("allow_statistics", true);
-                    editor.commit();
-                    AVAnalytics.onEvent(ctx, "启用数据统计");
+                    staticsButtonOnClicked(true);
                 }
             });
             builder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    // User cancelled the dialog
-                    editor.putBoolean("allow_statistics", false);
-                    editor.commit();
-                    AVAnalytics.onEvent(ctx, "禁用数据统计");
+                    staticsButtonOnClicked(false);
                 }
             });
             // Set other dialog properties
@@ -212,12 +175,15 @@ public class MainActivity extends Activity{
                             disconnectNow();
                             break;
                         case R.id.setting:
+                            FragmentManager fm1 = getSupportFragmentManager();
+                            new SettingDialogFragment().show(fm1,"s");
                             break;
                         case R.id.about:
-/*                            FragmentManager fm = Activity.getFragmentManager();
-                            new MyDialogFragment().show(fm,"s");*/
+                            FragmentManager fm = getSupportFragmentManager();
+                            new AboutDialogFragment().show(fm,"s");
                             break;
                         default:
+                            break;
 
                     }
                 } catch (Exception e) {
@@ -322,4 +288,53 @@ public class MainActivity extends Activity{
         NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
         return mWifi.isConnected();
     }
-}
+
+    private void toast(int id) {
+        Toast.makeText(this, id, Toast.LENGTH_SHORT).show();
+    }
+    public void autoRun(View view){
+        boolean isChecked=((Switch)view).isChecked();
+        switchOnClicked(isChecked);
+
+    }
+    public void switchOnClicked(boolean isChecked){
+        if (isChecked) {
+            editor.putBoolean("isBanned", true);
+            editor.commit();
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibited_boot_start), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(ctx, "允许开机自启用户-1");
+            allowed = true;
+        } else {
+            editor.putBoolean("isBanned", false);
+            editor.commit();
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_boot_start), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(ctx, "允许开机自启用户+1");
+            allowed = false;
+        }
+    }
+    public void allowStatics(View view){
+        boolean isChecked=((Switch)view).isChecked();
+        staticsButtonOnClicked(!isChecked);
+
+    }
+    public void staticsButtonOnClicked(boolean allow){
+        editor.putBoolean("allow_statistics", allow);
+        editor.commit();
+        if(allow){
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_statics), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(ctx, "启用数据统计");
+        }
+        else{
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibit_statics), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(ctx, "禁用数据统计");
+        }
+    }
+    public void linkGithub(View view){
+        String githubURL = "https://github.com/padeoe/AutoConnect";
+        Intent i2 = new Intent(Intent.ACTION_VIEW);
+        i2.setData(Uri.parse(githubURL));
+        startActivity(i2);
+    }
+};
+
+
