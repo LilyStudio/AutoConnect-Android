@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -63,6 +64,7 @@ public class MainActivity extends ActionBarActivity {
             //获取toolbar对象，设置为ActionBar
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
             toolbar.setPopupTheme(R.style.Dark_ActionBar_theme);
+            toolbar.setTitleTextColor(Color.WHITE);
             this.setSupportActionBar(toolbar);
 
         }
