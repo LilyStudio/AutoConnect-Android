@@ -29,6 +29,7 @@ import android.widget.Toast;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
+import com.avos.avoscloud.AVObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -341,11 +342,15 @@ public class MainActivity extends ActionBarActivity {
         editor.commit();
         if(allow){
             Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_statics), Toast.LENGTH_SHORT).show();
-            AVAnalytics.onEvent(ctx, "启用数据统计");
+            AVObject Like = new AVObject("AllowData");
+            Like.put("hello", "x");
+            Like.saveInBackground();
         }
         else{
             Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibit_statics), Toast.LENGTH_SHORT).show();
-            AVAnalytics.onEvent(ctx, "禁用数据统计");
+            AVObject Like = new AVObject("ProhibitsData");
+            Like.put("hello", "x");
+            Like.saveInBackground();
         }
     }
     public void linkGithub(View view){
@@ -358,14 +363,7 @@ public class MainActivity extends ActionBarActivity {
         boolean isChecked=((Switch)view).isChecked();
         editor.putBoolean("dark_theme", isChecked);
         editor.commit();
-/*        ViewGroup vg = (ViewGroup) findViewById (R.id.mainlayout);
-     //   vg.removeAllViews();
-        vg.refreshDrawableState();*/
         this.recreate();
-
-/*        ViewGroup vg = (ViewGroup )findViewById (R.id.mainlayout);
-
-        vg.invalidate();*/
     }
 };
 
