@@ -33,5 +33,5 @@
     <string name="have_prohibit_statics">prohibit statics collect success</string>
     <string name="complete">complete</string>
     <string name="githubLink">Project on Github</string>
-
+    <string name="dark_theme">dark theme</string>
 </resources>

@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -43,18 +45,28 @@ public class MainActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        ctx = MainActivity.this;
+        sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            setTheme(R.style.Dark_ActionBar_theme);
+        }
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
         //  AVOSCloud.initialize(this, "pq3sqjul4anoev3fhxc99736s72jl6w0euuovi0tzfy35src", "i9mnvkzb53btg8nk22bmthraxwsfq71jdbatas5tueaggznj");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-/*        //获取toolbar对象，设置为ActionBar
-        toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
-        this.setSupportActionBar(toolbar);*/
+        if (sharedPreferences.getBoolean("dark_theme", false)) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+            ((RelativeLayout)toolbar.getParent()).removeView(toolbar);
+        }
+        else{
+            //获取toolbar对象，设置为ActionBar
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+            this.setSupportActionBar(toolbar);
+        }
+
         //  this.getActionBar().bac
-        ctx = MainActivity.this;
-        sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
+
         //获取现有配置
         Display display = getWindowManager().getDefaultDisplay(); //Activity#getWindowManager()
         Point size = new Point();
@@ -75,6 +87,7 @@ public class MainActivity extends ActionBarActivity {
         usernameEdit = (EditText) findViewById(R.id.username);
         passwordEdit = (EditText) findViewById(R.id.password);
         if (username != null) usernameEdit.setText(username);
+        if (password != null) passwordEdit.setText(password);
         if (PostData != null) {
             this.startService(new Intent(this, WiFiDetectService.class));
         }
@@ -176,7 +189,8 @@ public class MainActivity extends ActionBarActivity {
                             break;
                         case R.id.setting:
                             FragmentManager fm1 = getSupportFragmentManager();
-                            new SettingDialogFragment().show(fm1,"s");
+                            SettingDialogFragment settingDialogFragment=new SettingDialogFragment();
+                            settingDialogFragment.show(fm1, "s");
                             break;
                         case R.id.about:
                             FragmentManager fm = getSupportFragmentManager();
@@ -334,6 +348,19 @@ public class MainActivity extends ActionBarActivity {
         Intent i2 = new Intent(Intent.ACTION_VIEW);
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
+    }
+    public void changeTheme(View view){
+        boolean isChecked=((Switch)view).isChecked();
+        editor.putBoolean("dark_theme", isChecked);
+        editor.commit();
+/*        ViewGroup vg = (ViewGroup) findViewById (R.id.mainlayout);
+     //   vg.removeAllViews();
+        vg.refreshDrawableState();*/
+        this.recreate();
+
+/*        ViewGroup vg = (ViewGroup )findViewById (R.id.mainlayout);
+
+        vg.invalidate();*/
     }
 };
 

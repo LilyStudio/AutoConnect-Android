@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "com.padeoe.autoconnect"
-        minSdkVersion 21
+        minSdkVersion 14
         targetSdkVersion 21
         versionCode 1
         versionName "2.1.8"
@@ -35,15 +35,9 @@ android {
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    //    apply plugin: 'java'
-    //    sourceCompatibility JavaVersion.VERSION_1_7
-    //  targetCompatibility JavaVersion.VERSION_1_7
-    //   compile 'com.android.support:appcompat-v7:21.0.3'
     compile files('src/gson-2.3.1.jar')
     compile files('libs/avoscloud-sdk-v3.1.5.jar')
-    compile files('libs/avoscloud-feedback-v3.1.5.jar')
     compile files('libs/android-async-http-1.4.6.jar')
-    //   compile 'com.android.support:appcompat-v7:21.0.3'
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.android.support:appcompat-v7:21.0.3'
 }
