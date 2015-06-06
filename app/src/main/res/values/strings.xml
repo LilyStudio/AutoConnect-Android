@@ -31,7 +31,7 @@
     <string name="thankyou">like sent,thank you！^_^</string>
     <string name="have_allowed_statics">allow statics collect success</string>
     <string name="have_prohibit_statics">prohibit statics collect success</string>
-    <string name="complete">complete</string>
+    <string name="complete">OK</string>
     <string name="githubLink">Project on Github</string>
     <string name="dark_theme">dark theme</string>
 </resources>

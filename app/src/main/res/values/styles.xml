@@ -4,6 +4,9 @@
     <style name="Light_MyActionBar_theme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:textColorPrimary">@color/whitetext</item>
+
+        <item name="android:actionMenuTextColor">@color/ColorPrimary</item>
     </style>
     <style name="Dark_ActionBar_theme" parent="Theme.AppCompat">
     </style>

@@ -62,7 +62,9 @@ public class MainActivity extends ActionBarActivity {
         else{
             //获取toolbar对象，设置为ActionBar
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+            toolbar.setPopupTheme(R.style.Dark_ActionBar_theme);
             this.setSupportActionBar(toolbar);
+
         }
 
         //  this.getActionBar().bac
