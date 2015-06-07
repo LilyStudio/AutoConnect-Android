@@ -55,7 +55,6 @@ public class MainActivity extends ActionBarActivity {
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (sharedPreferences.getBoolean("dark_theme", false)) {
@@ -99,7 +98,7 @@ public class MainActivity extends ActionBarActivity {
         }
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[]{"在浏览器中打开p.nju.edu.cn"};
+        String[] values = new String[]{(String)getResources().getText(R.string.open_pnju)};
 
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
@@ -341,13 +340,13 @@ public class MainActivity extends ActionBarActivity {
         editor.putBoolean("allow_statistics", allow);
         editor.commit();
         if(allow){
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_statics), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("AllowData");
             Like.put("hello", "x");
             Like.saveInBackground();
         }
         else{
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibit_statics), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibit_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("ProhibitsData");
             Like.put("hello", "x");
             Like.saveInBackground();
