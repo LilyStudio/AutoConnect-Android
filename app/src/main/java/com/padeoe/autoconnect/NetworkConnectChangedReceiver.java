@@ -42,7 +42,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                         String PostData = sharedPreferences.getString("PostData", null);
                                         if (PostData != null) {
                                             for (int i = 0; i < 5; i++) {
-                                                if (Authenticate.connectAndPost(PostData) != null) {
+                                                if (Authenticate.connectAndPost(PostData,Authenticate.LOGINURL) != null) {
                                                     if(sharedPreferences.getBoolean("allow_statistics",false)){
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }

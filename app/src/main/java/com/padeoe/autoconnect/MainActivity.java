@@ -242,11 +242,10 @@ public class MainActivity extends ActionBarActivity {
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
-                //    final String PostData = "";
-                final String PostData = "action=login&username=" + username + "&password=" + password;
-                ShowOnMainActivity(Authenticate.connect(PostData));
+                final String PostData = "username=" + username + "&password=" + password;
+                ShowOnMainActivity(Authenticate.connect(PostData,Authenticate.LOGINURL));
                 if (sharedPreferences.getBoolean("allow_statistics", false)) {
-                    AVAnalytics.onEvent(ctx, "立即登陆NJU-WLAN");
+                    AVAnalytics.onEvent(ctx, "立即登陆NJU-WLAtgN");
                 }
 
             }

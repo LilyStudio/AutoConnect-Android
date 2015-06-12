@@ -17,24 +17,23 @@ import java.net.URL;
  * @author yus
  */
 public class Authenticate {
-
-    private static final String AUTHENTICATE = "http://219.219.114.15/portal/portal_io.do";
-    /*    private static final String AUTHENTICATE = "http://p.nju.edu.cn/portal/portal_io.do";*/
+    public static final String LOGINURL="http://219.219.114.15/portal_io/login";
+    public static final String LOGOUTURL="http://219.219.114.15/portal_io/logout";
     public static int i = 0;
     public Authenticate(Context context){
 
     }
-    public static String connectAndPost(String postData) throws InterruptedException {
+    public static String connectAndPost(String postData,String URL) throws InterruptedException {
         try {
             byte[] postAsBytes = postData.getBytes("UTF-8");
-            URL url = new URL(AUTHENTICATE);
+            URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
-            connection.setConnectTimeout(1000);
+            connection.setConnectTimeout(5000);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
-            connection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
             connection.setRequestProperty("Content-Length", String.valueOf(postAsBytes.length));
             connection.connect();
 
@@ -85,7 +84,7 @@ public class Authenticate {
 
     public static String disconnect() {
         try {
-            String result = connectAndPost("action=logout");
+            String result = connectAndPost("",LOGOUTURL);
             ReturnData returnData;
             String reply_message;
             if (result != null && (returnData = new Gson().fromJson(result, ReturnData.class)) != null
@@ -101,9 +100,9 @@ public class Authenticate {
 
     }
 
-    public static String connect(String postdata) {
+    public static String connect(String postdata,String URL) {
         try {
-            String result = connectAndPost(postdata);
+            String result = connectAndPost(postdata,LOGINURL);
             ReturnData returnData = null;
             userinfo userinfo = null;
             if (result != null && (returnData = new Gson().fromJson(result, ReturnData.class)) != null

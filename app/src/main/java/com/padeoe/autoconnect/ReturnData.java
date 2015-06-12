@@ -12,7 +12,7 @@ import com.google.gson.annotations.SerializedName;
 public class ReturnData {
     @SerializedName("reply_code")
     private String reply_code;
-    @SerializedName("reply_message")
+    @SerializedName("reply_msg")
     private String reply_message;
     @SerializedName("userinfo")
     private userinfo userinfo;
