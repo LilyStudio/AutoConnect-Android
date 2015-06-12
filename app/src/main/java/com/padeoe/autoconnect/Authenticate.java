@@ -29,7 +29,7 @@ public class Authenticate {
             URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
-            connection.setConnectTimeout(5000);
+            connection.setConnectTimeout(1000);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
