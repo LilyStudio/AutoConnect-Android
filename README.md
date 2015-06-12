@@ -13,7 +13,7 @@ Android 4.0+
 
 <h2>截图</h2>
 ![Screenshot](screenshot_small.png)
-
+![Screenshot](http://1.bp.blogspot.com/-WDhEp0597Rc/VXVtdmrOWAI/AAAAAAAAAEw/clzG0CngG68/s1600/Screenshot_2015-06-08-18-22-26.png)
 <h2>功能说明</h2>
 在以下两种wifi状态转变时自动登陆校园网：
 
