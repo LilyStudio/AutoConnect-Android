@@ -26,6 +26,6 @@ Android 4.0+
 - **允许**开机自启+**填写**并**保存**了用户名密码后，**才**会开机自启，否则不会开机自启。
 
 <h2>下载</h2>
-- [apk(当前版本)](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)(765.86KB)
-- [apk(极简版)](https://raw.githubusercontent.com/padeoe/AutoConnect/master/app/app-release.apk)(68.9KB)
+- [apk(当前版本)](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)(773.86KB)
+- [apk(极简版)](https://raw.githubusercontent.com/padeoe/AutoConnect/master/app/Simple.apk)(298.67KB)
 - [源码](https://codeload.github.com/padeoe/AutoConnect/zip/master)(554.5KB)
