@@ -10,6 +10,7 @@ import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
@@ -26,6 +27,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
+
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
@@ -52,6 +54,10 @@ public class MainActivity extends ActionBarActivity {
         if (sharedPreferences.getBoolean("dark_theme", false)) {
             setTheme(R.style.Dark_ActionBar_theme);
         }
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
+        }
+
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 

@@ -27,8 +27,6 @@
             <action android:name="android.net.wifi.STATE_CHANGE" />
         </receiver>
 
-        <activity android:name="com.avos.avoscloud.feedback.ThreadActivity" >
-        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
