@@ -10,7 +10,7 @@
     <item android:id="@+id/connect" android:title="@string/connectNow"
         android:orderInCategory="100"
         app:showAsAction="always"
-        android:icon="@drawable/login"
+        android:icon="@drawable/connect"
         ></item>
     <item
         android:id="@+id/disconnect"
