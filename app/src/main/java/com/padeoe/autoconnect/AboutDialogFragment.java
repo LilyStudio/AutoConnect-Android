@@ -10,6 +10,9 @@ import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.avos.avoscloud.AVObject;
 
 //import com.avos.avoscloud.AVObject;
 
@@ -39,10 +42,10 @@ public class AboutDialogFragment extends DialogFragment {
                 })
                 .setNegativeButton(R.string.like, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-/*                        AVObject Like = new AVObject("Like");
+                        AVObject Like = new AVObject("Like");
                         Like.put("hello", "x");
                         Like.saveInBackground();
-                        Toast.makeText(getActivity(), (String) getResources().getText(R.string.thankyou), Toast.LENGTH_SHORT).show();*/
+                        Toast.makeText(getActivity(), (String) getResources().getText(R.string.thankyou), Toast.LENGTH_SHORT).show();
                     }
                 });
         TextView versionTextView=(TextView)view.findViewById(R.id.version);
