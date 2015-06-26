@@ -12,11 +12,11 @@ AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.
 Android 4.0+
 
 <h2>截图</h2>
-- v2.2截图:
-![Screenshot](screenshot1.png =378x672)
-![Screenshot](screenshot2.png =378x672)
-![Screenshot](screenshot3.png =378x672)
-![Screenshot](screenshot4.png =378x672)
+<img src="screenshot1.png" width="378" height="672">
+<img src="screenshot2.png" width="378" height="672">
+
+<img src="screenshot3.png" width="378" height="672">
+<img src="screenshot4.png" width="378" height="672">
 
 <h2>功能说明</h2>
 在以下两种wifi状态转变时自动登陆校园网：
