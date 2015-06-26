@@ -1,0 +1,40 @@
+<resources>
+    <string name="app_name">AutoConnect</string>
+    <string name="hello_world">请填写p.nju.edu.cn的账号信息</string>
+    <string name="action_settings">设置</string>
+    <string name="about">关于</string>
+    <string name="username">学号</string>
+    <string name="password">密码</string>
+    <string name="storePreference">保存</string>
+    <string name="connectNow">立即连接</string>
+    <string name="disconnect">下线</string>
+    <string name="blank_input">未填写</string>
+    <string name="prohibit_boot_start">禁止开机自启</string>
+    <string name="have_prohibited_boot_start">已禁止开机自启</string>
+    <string name="have_allowed_boot_start">已允许开机自启</string>
+    <string name="connect_fail">无法连接</string>
+    <string name="saved_success">已保存</string>
+    <string name="no_wifi">没有链接wifi</string>
+    <string name="login_fail">登陆失败</string>
+    <string name="disconnect_fail">注销失败</string>
+    <string name="statistics_title">数据反馈？</string>
+    <string name="statistics_message">是否愿意发送统计数据给开发者？您可以随时在设置中关闭该选项</string>
+    <string name="yes">愿意</string>
+    <string name="no">不愿意</string>
+    <string name="prohibit_statics">禁止数据统计</string>
+    <string name="feedback">问题反馈</string>
+    <string name="like">点个赞</string>
+    <string name="version">版本号:</string>
+    <string name="author">作者:padeoe@gmail.com</string>
+    <string name="author_email">padeoe@gmail.com</string>
+    <string name="send_email">发送邮件给开发者?</string>
+    <string name="thankyou">已发送，谢谢！^_^</string>
+    <string name="have_allowed_statistics">已启用数据统计</string>
+    <string name="have_prohibit_statistics">已禁用数据统计</string>
+    <string name="complete">完成</string>
+    <string name="githubLink">Github开源项目</string>
+    <string name="dark_theme">暗黑主题</string>
+    <string name="open_pnju">在浏览器中打开p.nju.edu.cn</string>
+
+
+</resources>
