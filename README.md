@@ -12,8 +12,12 @@ AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.
 Android 4.0+
 
 <h2>截图</h2>
-![Screenshot](screenshot_small.png)
-![Screenshot](http://1.bp.blogspot.com/-WDhEp0597Rc/VXVtdmrOWAI/AAAAAAAAAEw/clzG0CngG68/s1600/Screenshot_2015-06-08-18-22-26.png)
+- v2.2截图:
+![Screenshot](screenshot1.png =378x672)
+![Screenshot](screenshot2.png =378x672)
+![Screenshot](screenshot3.png =378x672)
+![Screenshot](screenshot4.png =378x672)
+
 <h2>功能说明</h2>
 在以下两种wifi状态转变时自动登陆校园网：
 
@@ -26,6 +30,6 @@ Android 4.0+
 - **允许**开机自启+**填写**并**保存**了用户名密码后，**才**会开机自启，否则不会开机自启。
 
 <h2>下载</h2>
-- [apk(当前版本)](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)(773.86KB)
+- [apk(v2.2.0)](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)(773.86KB)
 - [apk(极简版)](https://raw.githubusercontent.com/padeoe/AutoConnect/master/app/Simple.apk)(298.67KB)
 - [源码](https://codeload.github.com/padeoe/AutoConnect/zip/master)(554.5KB)

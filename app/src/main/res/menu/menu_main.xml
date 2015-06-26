@@ -3,21 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.padeoe.autoconnect.MainActivity">
     <item android:id="@+id/storePreference" android:title="@string/storePreference"
-        android:orderInCategory="200"
+        android:orderInCategory="50"
         app:showAsAction="always"
         android:icon="@drawable/save"
         ></item>
     <item android:id="@+id/connect" android:title="@string/connectNow"
-        android:orderInCategory="100"
+        android:orderInCategory="200"
         app:showAsAction="always"
         android:icon="@drawable/connect"
         ></item>
     <item
         android:id="@+id/disconnect"
         android:title="@string/disconnect"
-        android:orderInCategory="50"
+        android:orderInCategory="100"
         android:icon="@drawable/disconnect"
-        app:showAsAction="ifRoom"
+        app:showAsAction="always"
         ></item>
     <item
         android:id="@+id/setting"
