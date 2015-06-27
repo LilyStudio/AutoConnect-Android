@@ -32,13 +32,10 @@ public class SettingDialogFragment extends DialogFragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("DateFile", 0);
         boolean banAutoRun = sharedPreferences.getBoolean("isBanned", false);
         boolean allowStatics = sharedPreferences.getBoolean("allow_statistics", false);
-        boolean darkTheme = sharedPreferences.getBoolean("dark_theme", false);
         Switch autoRunswitch=(Switch)view.findViewById(R.id.autoRunswitch);
         Switch staticsSwitch=(Switch)view.findViewById(R.id.staticsSwitch);
-        Switch darkThemeSwitch=(Switch)view.findViewById(R.id.darkThemeSwitch);
         autoRunswitch.setChecked(banAutoRun);
         staticsSwitch.setChecked(!allowStatics);
-        darkThemeSwitch.setChecked(darkTheme);
         return builder.create();
     }
 

@@ -5,7 +5,8 @@
     tools:context=".MainActivity"
     android:focusable="true"
     android:focusableInTouchMode="true"
-    android:id="@+id/mainlayout">
+    android:id="@+id/mainlayout"
+    android:windowSoftInputMode="stateUnchanged">
 
     <include
         android:id="@+id/toolbar"
@@ -46,4 +47,17 @@
         android:id="@+id/listview"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content" />
+    <View
+        android:id="@+id/fakeView"
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:layout_centerInParent="true"
+         />
+    <ImageView
+        android:layout_width="330px"
+        android:layout_height="519px"
+        android:layout_below="@id/fakeView"
+        android:layout_marginTop="0dp"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/logo"/>
 </RelativeLayout>

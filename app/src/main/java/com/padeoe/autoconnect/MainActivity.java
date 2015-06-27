@@ -51,32 +51,19 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ctx = MainActivity.this;
         sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
-        if (sharedPreferences.getBoolean("dark_theme", false)) {
-            setTheme(R.style.Dark_ActionBar_theme);
-        }
-        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
-        }
 
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (sharedPreferences.getBoolean("dark_theme", false)) {
-            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
-            ((RelativeLayout)toolbar.getParent()).removeView(toolbar);
-        }
-        else{
             //获取toolbar对象，设置为ActionBar
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
             toolbar.setPopupTheme(R.style.Dark_ActionBar_theme);
             toolbar.setTitleTextColor(Color.WHITE);
             this.setSupportActionBar(toolbar);
-
-        }
-
-        //  this.getActionBar().bac
 
         //获取现有配置
         Display display = getWindowManager().getDefaultDisplay(); //Activity#getWindowManager()
@@ -363,11 +350,11 @@ public class MainActivity extends ActionBarActivity {
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
     }
-    public void changeTheme(View view){
+/*    public void changeTheme(View view){
         boolean isChecked=((Switch)view).isChecked();
         editor.putBoolean("dark_theme", isChecked);
         editor.commit();
         this.recreate();
-    }
+    }*/
 };
 
