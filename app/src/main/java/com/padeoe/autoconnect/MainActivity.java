@@ -46,6 +46,7 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //测试开发分支
         ctx = MainActivity.this;
         sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
 
