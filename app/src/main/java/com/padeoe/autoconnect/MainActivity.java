@@ -24,7 +24,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -350,11 +349,5 @@ public class MainActivity extends ActionBarActivity {
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
     }
-/*    public void changeTheme(View view){
-        boolean isChecked=((Switch)view).isChecked();
-        editor.putBoolean("dark_theme", isChecked);
-        editor.commit();
-        this.recreate();
-    }*/
 };
 
