@@ -36,6 +36,8 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:22.2.0'
-    compile files('libs/avoscloud-statistics-v3.1.5.jar')
-    compile files('src/gson-2.3.1.jar')
+    compile 'cn.leancloud.android:avoscloud-sdk:v3.3+'
+    compile 'cn.leancloud.android:Java-WebSocket:1.2.0-leancloud'
+    compile 'cn.leancloud.android:avoscloud-statistics:v3.3+@aar'
+    compile 'com.google.code.gson:gson:2.3.1'
 }
