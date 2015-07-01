@@ -43,16 +43,14 @@ public class MainActivity extends Activity {
     SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        //测试开发分支
-        sharedPreferences = App.context.getSharedPreferences("DateFile", MODE_PRIVATE);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
 
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
         //获取现有配置
+        sharedPreferences = App.context.getSharedPreferences("DateFile", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String username = sharedPreferences.getString("username", null);
         String password = sharedPreferences.getString("password", null);

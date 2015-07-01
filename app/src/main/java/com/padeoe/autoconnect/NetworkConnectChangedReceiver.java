@@ -30,7 +30,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());
                     if (wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("\"NJU-WLAN\"")) {
-                        Log.i("SSID","发现时NJU-WLAN");
                         if (i == 1) {
                             new Thread() {
                                 @Override
