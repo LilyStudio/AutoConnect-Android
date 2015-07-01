@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion "22.0.1"
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES'
@@ -15,7 +15,7 @@ android {
     }
     defaultConfig {
         applicationId "com.padeoe.autoconnect"
-        minSdkVersion 14
+        minSdkVersion 21
         targetSdkVersion 21
         versionCode 1
         versionName "2.2.0"
@@ -35,7 +35,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.0'
     compile 'cn.leancloud.android:avoscloud-sdk:v3.3+'
     compile 'cn.leancloud.android:Java-WebSocket:1.2.0-leancloud'
     compile 'cn.leancloud.android:avoscloud-statistics:v3.3+@aar'
