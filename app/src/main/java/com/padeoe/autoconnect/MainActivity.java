@@ -337,11 +337,5 @@ public class MainActivity extends Activity {
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
     }
-/*    public void changeTheme(View view){
-        boolean isChecked=((Switch)view).isChecked();
-        editor.putBoolean("dark_theme", isChecked);
-        editor.commit();
-        this.recreate();
-    }*/
 };
 

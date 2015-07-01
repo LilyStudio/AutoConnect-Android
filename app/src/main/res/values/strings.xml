@@ -33,6 +33,5 @@
     <string name="have_prohibit_statistics">prohibit statistics collect success</string>
     <string name="complete">OK</string>
     <string name="githubLink">Project on Github</string>
-    <string name="dark_theme">dark theme</string>
     <string name="open_pnju">open p.nju.edu.cn in browser</string>
 </resources>
