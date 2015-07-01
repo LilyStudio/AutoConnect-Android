@@ -31,8 +31,6 @@ Android 4.0+
 
 <h2>下载</h2>
 
-<h3>适用于android 5.0+</h3>
-
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
@@ -41,3 +39,4 @@ Android 4.0+
 <h2>更新日志</h2>
 
 - [查看更新日志](https://github.com/padeoe/AutoConnect/blob/newUI/UPDATE.md)
+
