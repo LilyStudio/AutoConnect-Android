@@ -52,10 +52,7 @@ public class MainActivity extends ActionBarActivity {
         sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
-
-        //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
-        AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
-
+        System.out.println("页面被初始化");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             //获取toolbar对象，设置为ActionBar
