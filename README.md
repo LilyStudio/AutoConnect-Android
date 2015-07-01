@@ -30,7 +30,6 @@ Android 4.0+
 - **允许**开机自启+**填写**并**保存**了用户名密码后，**才**会开机自启，否则不会开机自启。
 
 <h2>下载</h2>
-
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
