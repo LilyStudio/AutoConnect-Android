@@ -17,11 +17,9 @@ import java.net.URL;
  * @author yus
  */
 public class Authenticate {
-    public static final String LOGINURL="http://219.219.114.15/portal_io/login";
-    public static final String LOGOUTURL="http://219.219.114.15/portal_io/logout";
-    public static int i = 0;
+    Context context;
     public Authenticate(Context context){
-
+        this.context=context;
     }
     public static String connectAndPost(String postData,String URL) throws InterruptedException {
         try {
@@ -74,7 +72,6 @@ public class Authenticate {
             connection.disconnect();
             String data = new String(readData, 0, len, "UTF-8");
             Log.i("LOOKHERE", "成功登陆");
-            i = 0;
             return data;
         } catch (IOException e) {
             System.out.println(e);
@@ -84,40 +81,42 @@ public class Authenticate {
 
     public static String disconnect() {
         try {
-            String result = connectAndPost("",LOGOUTURL);
+            String result = connectAndPost("",App.LOGOUTURL);
             ReturnData returnData;
             String reply_message;
             if (result != null && (returnData = new Gson().fromJson(result, ReturnData.class)) != null
                     && (reply_message = returnData.getReply_message()) != null) {
                 return reply_message;
             } else {
-                return (String) MainActivity.ctx.getResources().getText(R.string.disconnect_fail);
+
+                return (String) App.context.getText(R.string.disconnect_fail);
             }
         } catch (InterruptedException e) {
             Log.getStackTraceString(e);
-            return (String) MainActivity.ctx.getResources().getText(R.string.disconnect_fail);
+            return (String) App.context.getResources().getText(R.string.disconnect_fail);
         }
 
     }
 
-    public static String connect(String postdata,String URL) {
+    public static ConnectResult connect(String postdata,String URL) {
         try {
-            String result = connectAndPost(postdata,LOGINURL);
+            String result = connectAndPost(postdata,App.LOGINURL);
+            System.out.println(result);
             ReturnData returnData = null;
             userinfo userinfo = null;
             if (result != null && (returnData = new Gson().fromJson(result, ReturnData.class)) != null
                     && (userinfo = returnData.getUserinfo()) != null) {
-                return userinfo.getFullname() + userinfo.getUsername() + "\n" + returnData.getReply_message();
+                return new ConnectResult(true,returnData.getReply_message(),userinfo.getFullname(),userinfo.getUsername());
             } else {
                 if (returnData != null && userinfo == null) {
-                    return returnData.getReply_message();
+                    return new ConnectResult(false,returnData.getReply_message(),null,null);
                 } else {
-                    return (String) MainActivity.ctx.getResources().getText(R.string.login_fail);
+                    return new ConnectResult(false,null,null,null);
                 }
             }
         } catch (InterruptedException e) {
             Log.getStackTraceString(e);
-            return (String) MainActivity.ctx.getResources().getText(R.string.login_fail);
+            return new ConnectResult(false,null,null,null);
         }
     }
 }

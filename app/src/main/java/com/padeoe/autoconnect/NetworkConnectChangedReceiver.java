@@ -3,7 +3,6 @@ package com.padeoe.autoconnect;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -16,10 +15,8 @@ import com.avos.avoscloud.AVAnalytics;
  * Created by padeoe on 4/20/15.
  */
 public class NetworkConnectChangedReceiver extends BroadcastReceiver {
-    int i = 0;
-
+    int i=0;
     public void onReceive(final Context context, Intent intent) {
-        final SharedPreferences sharedPreferences = context.getSharedPreferences("DateFile", 0);
         if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             Parcelable parcelableExtra = intent
                     .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
@@ -33,22 +30,21 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());
                     if (wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("\"NJU-WLAN\"")) {
-
                         if (i == 1) {
                             new Thread() {
                                 @Override
                                 public void run() {
                                     try {
-                                        String PostData = sharedPreferences.getString("PostData", null);
-                                        if (PostData != null) {
+                                        if (WiFiDetectService.postData != null) {
                                             for (int i = 0; i < 5; i++) {
-                                                if (Authenticate.connectAndPost(PostData,Authenticate.LOGINURL) != null) {
-                                                    if(sharedPreferences.getBoolean("allow_statistics",false)){
+                                                if (Authenticate.connectAndPost(WiFiDetectService.postData,App.LOGINURL) != null) {
+                                                    if(WiFiDetectService.allowStatisc){
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }
                                                     break;
-                                                } else
+                                                } else{
                                                     Thread.sleep(100);
+                                                }
                                             }
                                         } else
                                             Log.i("Error", "未设置用户名密码");
