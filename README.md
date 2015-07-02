@@ -1,5 +1,6 @@
 AutoConnect Android App
 ======================
+这是为Android 5.0及以上版本构建的分支，查看适用于Android4.0及以上的版本请访问[newUI主分支](https://github.com/padeoe/AutoConnect)
 
 AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
 
@@ -33,7 +34,7 @@ Android 4.0+
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
-| android 5.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |521KB|
+| android 5.0+          | 2.2.0   | [apk download](https://github.com/padeoe/AutoConnect/blob/minAPI21/app/app-release.apk)    |521KB|
 
 <h2>更新日志</h2>
 
