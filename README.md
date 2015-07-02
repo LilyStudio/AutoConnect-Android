@@ -39,3 +39,5 @@ Android 4.0+
 
 - [查看更新日志](https://github.com/padeoe/AutoConnect/blob/newUI/UPDATE.md)
 
+<h2>如何使用源代码构建并运行</h2>
+- [查看build instruction](https://github.com/padeoe/AutoConnect/blob/newUI/BUILDING.md)
