@@ -16,7 +16,7 @@ Android 4.0+
 + [Windows](https://github.com/miaoxw/Auto-p.nju)
 + [Mac](https://github.com/Cee/PNJU-TodayWidget)
 + [iOS &  Watch](https://github.com/Cee/PNJU-Watch)
-+ [Android](https://github.com/padeoe/AutoConnect)
++ [Alfred Workflow](https://github.com/Cee/PNJU-Workflow)
 
 <h2>截图</h2>
 <img src="screenshot1.png" width="355" height="631">
