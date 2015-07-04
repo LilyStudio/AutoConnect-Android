@@ -11,6 +11,13 @@ AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.
 <h2>适用平台</h2>
 Android 4.0+
 
+## See Also
+
++ [Windows](https://github.com/miaoxw/Auto-p.nju)
++ [Mac](https://github.com/Cee/PNJU-TodayWidget)
++ [iOS &  Watch](https://github.com/Cee/PNJU-Watch)
++ [Android](https://github.com/padeoe/AutoConnect)
+
 <h2>截图</h2>
 <img src="screenshot1.png" width="355" height="631">
 <img src="screenshot2.png" width="355" height="631">
