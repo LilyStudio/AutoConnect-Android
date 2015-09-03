@@ -3,6 +3,7 @@ package com.padeoe.autoconnect;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -25,11 +26,11 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                 NetworkInfo.State state = networkInfo.getState();
                 boolean isConnected2 = (state == NetworkInfo.State.CONNECTED);
                 if (isConnected2) {
-                    Log.i("NetworkConnectChanged", "网络连接已经建立");
                     WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());
                     if (wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("\"NJU-WLAN\"")) {
+                        Log.d("后台wifi连接检测","是目标wifi");
                         if (i == 1) {
                             new Thread() {
                                 @Override
@@ -43,7 +44,8 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                                     }
                                                     break;
                                                 } else{
-                                                    Thread.sleep(100);
+                                                    AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN失败");;
+                                                    Thread.sleep(200);
                                                 }
                                             }
                                         } else

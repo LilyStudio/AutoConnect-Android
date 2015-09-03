@@ -27,7 +27,7 @@ public class Authenticate {
             java.net.URL url = new URL(URL);
             HttpURLConnection connection = (HttpURLConnection) url
                     .openConnection();
-            connection.setConnectTimeout(1000);
+            connection.setConnectTimeout(200);
             connection.setDoOutput(true);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
@@ -74,7 +74,7 @@ public class Authenticate {
             Log.i("LOOKHERE", "成功登陆");
             return data;
         } catch (IOException e) {
-            System.out.println(e);
+            Log.i("Authenticate/Exception",e.toString());
         }
         return null;
     }

@@ -48,8 +48,8 @@
         android:layout_centerInParent="true"
          />
     <ImageView
-        android:layout_width="330px"
-        android:layout_height="519px"
+        android:layout_width="150dp"
+        android:layout_height="235dp"
         android:layout_below="@id/fakeView"
         android:layout_marginTop="0dp"
         android:layout_centerHorizontal="true"
