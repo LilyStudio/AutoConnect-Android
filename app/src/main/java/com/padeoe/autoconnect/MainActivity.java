@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
-
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
