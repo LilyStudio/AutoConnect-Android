@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
-import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -16,7 +15,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,7 +24,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Switch;
 import android.widget.Toast;
-
 
 import com.avos.avoscloud.AVAnalytics;
 import com.avos.avoscloud.AVOSCloud;
@@ -39,20 +36,15 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-    public static boolean allowed = true;
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
-    public static Context ctx;
     SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ctx = MainActivity.this;
-        sharedPreferences = ctx.getSharedPreferences("DateFile", MODE_PRIVATE);
+        sharedPreferences = App.context.getSharedPreferences("DataFile", MODE_PRIVATE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
-        System.out.println("页面被初始化");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             //获取toolbar对象，设置为ActionBar
@@ -65,21 +57,10 @@ public class MainActivity extends ActionBarActivity {
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
         //获取现有配置
-        Display display = getWindowManager().getDefaultDisplay(); //Activity#getWindowManager()
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
-        int height = size.y;
-        Log.i("width", String.valueOf(width));
-        Log.i("height", String.valueOf(height));
-
         editor = sharedPreferences.edit();
         String username = sharedPreferences.getString("username", null);
         String password = sharedPreferences.getString("password", null);
         String PostData = sharedPreferences.getString("PostData", null);
-        boolean isAllowed = sharedPreferences.getBoolean("isBanned", true);
-        boolean test = sharedPreferences.getBoolean("test", false);
-        System.out.println(test);
         //显示现有配置
         usernameEdit = (EditText) findViewById(R.id.username);
         passwordEdit = (EditText) findViewById(R.id.password);
@@ -217,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
         if (isConnectedtoWiFi()) {
             ShowOnMainActivity(Authenticate.disconnect());
             if (sharedPreferences.getBoolean("allow_statistics", false)) {
-                AVAnalytics.onEvent(ctx, "立即注销NJU-WLAN");
+                AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
             }
         } else {
             ShowOnMainActivity((String) getResources().getText(R.string.no_wifi));
@@ -235,9 +216,16 @@ public class MainActivity extends ActionBarActivity {
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 final String PostData = "username=" + username + "&password=" + password;
-                ShowOnMainActivity(Authenticate.connect(PostData,Authenticate.LOGINURL));
+                ConnectResult connectResult=Authenticate.connect(PostData, App.LOGINURL);
+                ShowOnMainActivity(connectResult.getShowResult());
+                if(connectResult.isConnected==true){
+                    App.context.startService(new Intent(App.context, WiFiDetectService.class));
+                    if(sharedPreferences.getString("username", null)==null){
+                        storeInfo();
+                    }
+                }
                 if (sharedPreferences.getBoolean("allow_statistics", false)) {
-                    AVAnalytics.onEvent(ctx, "立即登陆NJU-WLAtgN");
+                    AVAnalytics.onEvent(App.context, "立即登陆NJU-WLAtgN");
                 }
 
             }
@@ -256,7 +244,6 @@ public class MainActivity extends ActionBarActivity {
     public void storeInfo() {
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        editor.putBoolean("test", true);
         editor.putString("username", username);
         editor.putString("password", password);
         editor.commit();
@@ -264,7 +251,7 @@ public class MainActivity extends ActionBarActivity {
             String PostData = "action=login&username=" + username + "&password=" + password;
             editor.putString("PostData", PostData);
             editor.commit();
-            ctx.startService(new Intent(ctx, WiFiDetectService.class));
+            App.context.startService(new Intent(App.context, WiFiDetectService.class));
             Log.i("配置文件", "保存了用户名密码");
             Log.i("保存", " 保存后开启了服务");
             ShowOnMainActivity((String) getResources().getText(R.string.saved_success));
@@ -282,7 +269,7 @@ public class MainActivity extends ActionBarActivity {
         try {
             MainActivity.this.runOnUiThread(new Runnable() {
                 public void run() {
-                    Toast.makeText(ctx, string2, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(App.context, string2, Toast.LENGTH_SHORT).show();
                 }
             });
         } catch (Exception e1) {
@@ -311,15 +298,13 @@ public class MainActivity extends ActionBarActivity {
         if (isChecked) {
             editor.putBoolean("isBanned", true);
             editor.commit();
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibited_boot_start), Toast.LENGTH_SHORT).show();
-            AVAnalytics.onEvent(ctx, "允许开机自启用户-1");
-            allowed = true;
+            Toast.makeText(App.context, (String) getResources().getText(R.string.have_prohibited_boot_start), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(App.context, "允许开机自启用户-1");
         } else {
             editor.putBoolean("isBanned", false);
             editor.commit();
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_boot_start), Toast.LENGTH_SHORT).show();
-            AVAnalytics.onEvent(ctx, "允许开机自启用户+1");
-            allowed = false;
+            Toast.makeText(App.context, (String) getResources().getText(R.string.have_allowed_boot_start), Toast.LENGTH_SHORT).show();
+            AVAnalytics.onEvent(App.context, "允许开机自启用户+1");
         }
     }
     public void allowStatics(View view){
@@ -331,13 +316,13 @@ public class MainActivity extends ActionBarActivity {
         editor.putBoolean("allow_statistics", allow);
         editor.commit();
         if(allow){
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_allowed_statistics), Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.context, (String) getResources().getText(R.string.have_allowed_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("AllowData");
             Like.put("hello", "x");
             Like.saveInBackground();
         }
         else{
-            Toast.makeText(ctx, (String) getResources().getText(R.string.have_prohibit_statistics), Toast.LENGTH_SHORT).show();
+            Toast.makeText(App.context, (String) getResources().getText(R.string.have_prohibit_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("ProhibitsData");
             Like.put("hello", "x");
             Like.saveInBackground();

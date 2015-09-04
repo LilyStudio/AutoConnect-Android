@@ -26,21 +26,18 @@ Android 4.0+
 <img src="screenshot4.png" width="355" height="631">
 
 <h2>功能说明</h2>
-在以下两种wifi状态转变时自动登陆校园网：
-
-- 无连接->wifi连接上NJU-WLAN
-- 连接上别的wifi->连接上NJU-WLAN
+- 可以手动进行登陆，下线
+- 可以开启后台服务，将在连接上NJU-WLAN时自动登陆
 
 <h2>使用说明</h2>
 
-- 正确填写用户名密码后请点击保存。否则无法开启自动连接服务。
-- **允许**开机自启+**填写**并**保存**了用户名密码后，**才**会开机自启，否则不会开机自启。
+- 设置中选择允许开机自启后，才会开启后台自动登陆功能。
 
 <h2>下载</h2>
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
-| android 4.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
-| android 5.0+          | 2.2.0   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |521KB|
+| android 4.0+          | 2.2.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
+| android 5.0+          | 2.2.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |521KB|
 
 <h2>更新日志</h2>
 
