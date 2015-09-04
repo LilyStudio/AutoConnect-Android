@@ -39,7 +39,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                         if (WiFiDetectService.postData != null) {
                                             for (int i = 0; i < 5; i++) {
                                                 if (Authenticate.connectAndPost(WiFiDetectService.postData,App.LOGINURL) != null) {
-                                                    if(WiFiDetectService.allowStatisc){
+                                                    if(WiFiDetectService.allowStatistics){
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }
                                                     break;

@@ -17,9 +17,8 @@ import java.net.URL;
  * @author yus
  */
 public class Authenticate {
-    Context context;
     public Authenticate(Context context){
-        this.context=context;
+
     }
     public static String connectAndPost(String postData,String URL) throws InterruptedException {
         try {

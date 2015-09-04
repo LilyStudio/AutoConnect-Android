@@ -31,7 +31,7 @@ public class SettingDialogFragment extends DialogFragment {
 
                     }
                 });
-        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("DateFile", 0);
+        SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("DataFile", 0);
         boolean banAutoRun = sharedPreferences.getBoolean("isBanned", false);
         boolean allowStatics = sharedPreferences.getBoolean("allow_statistics", false);
         Switch autoRunswitch=(Switch)view.findViewById(R.id.autoRunswitch);
