@@ -50,7 +50,7 @@ public class MainActivity extends Activity {
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
         //获取现有配置
-        sharedPreferences = App.context.getSharedPreferences("DateFile", MODE_PRIVATE);
+        sharedPreferences = App.context.getSharedPreferences("DataFile", MODE_PRIVATE);
         editor = sharedPreferences.edit();
         String username = sharedPreferences.getString("username", null);
         String password = sharedPreferences.getString("password", null);
@@ -203,8 +203,6 @@ public class MainActivity extends Activity {
      * 立即登录
      */
     public void connectNow() {
-        usernameEdit = (EditText) findViewById(R.id.username);
-        passwordEdit = (EditText) findViewById(R.id.password);
         //获取用户名密码
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
@@ -238,8 +236,6 @@ public class MainActivity extends Activity {
      * 存储用户名密码
      */
     public void storeInfo() {
-        usernameEdit = (EditText) findViewById(R.id.username);
-        passwordEdit = (EditText) findViewById(R.id.password);
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
         editor.putString("username", username);

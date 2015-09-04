@@ -9,7 +9,7 @@ import android.os.IBinder;
 import android.util.Log;
 
 public class WiFiDetectService extends Service {
-    public static boolean allowStatisc;
+    public static boolean allowStatistics;
     public static String postData;
     @Override
     public IBinder onBind(Intent intent) {
@@ -21,9 +21,9 @@ public class WiFiDetectService extends Service {
     public void onCreate() {
         // TODO Auto-generated method stub
         super.onCreate();
-        final SharedPreferences sharedPreferences = App.context.getSharedPreferences("DateFile", 0);
+        final SharedPreferences sharedPreferences = App.context.getSharedPreferences("DataFile", 0);
         postData = sharedPreferences.getString("PostData", null);
-        sharedPreferences.getBoolean("allow_statistics", false);
+        allowStatistics=sharedPreferences.getBoolean("allow_statistics", false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
