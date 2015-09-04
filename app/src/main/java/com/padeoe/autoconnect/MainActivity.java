@@ -40,13 +40,11 @@ public class MainActivity extends ActionBarActivity {
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
     SharedPreferences sharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sharedPreferences = App.context.getSharedPreferences("DataFile", MODE_PRIVATE);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
-        System.out.println("页面被初始化");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
             //获取toolbar对象，设置为ActionBar
@@ -218,7 +216,14 @@ public class MainActivity extends ActionBarActivity {
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 final String PostData = "username=" + username + "&password=" + password;
-                ShowOnMainActivity(Authenticate.connect(PostData, App.LOGINURL));
+                ConnectResult connectResult=Authenticate.connect(PostData, App.LOGINURL);
+                ShowOnMainActivity(connectResult.getShowResult());
+                if(connectResult.isConnected==true){
+                    App.context.startService(new Intent(App.context, WiFiDetectService.class));
+                    if(sharedPreferences.getString("username", null)==null){
+                        storeInfo();
+                    }
+                }
                 if (sharedPreferences.getBoolean("allow_statistics", false)) {
                     AVAnalytics.onEvent(App.context, "立即登陆NJU-WLAtgN");
                 }
@@ -239,7 +244,6 @@ public class MainActivity extends ActionBarActivity {
     public void storeInfo() {
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        editor.putBoolean("test", true);
         editor.putString("username", username);
         editor.putString("password", password);
         editor.commit();

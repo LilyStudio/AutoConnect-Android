@@ -17,7 +17,6 @@ import java.net.URL;
  * @author yus
  */
 public class Authenticate {
-    public static int i = 0;
     public Authenticate(Context context){
 
     }
@@ -72,7 +71,6 @@ public class Authenticate {
             connection.disconnect();
             String data = new String(readData, 0, len, "UTF-8");
             Log.i("LOOKHERE", "成功登陆");
-            i = 0;
             return data;
         } catch (IOException e) {
             System.out.println(e);
@@ -98,24 +96,25 @@ public class Authenticate {
 
     }
 
-    public static String connect(String postdata,String URL) {
+    public static ConnectResult connect(String postdata,String URL) {
         try {
             String result = connectAndPost(postdata,App.LOGINURL);
+            System.out.println(result);
             ReturnData returnData = null;
             userinfo userinfo = null;
             if (result != null && (returnData = new Gson().fromJson(result, ReturnData.class)) != null
                     && (userinfo = returnData.getUserinfo()) != null) {
-                return userinfo.getFullname() + userinfo.getUsername() + "\n" + returnData.getReply_message();
+                return new ConnectResult(true,returnData.getReply_message(),userinfo.getFullname(),userinfo.getUsername());
             } else {
                 if (returnData != null && userinfo == null) {
-                    return returnData.getReply_message();
+                    return new ConnectResult(false,returnData.getReply_message(),null,null);
                 } else {
-                    return (String) App.context.getResources().getText(R.string.login_fail);
+                    return new ConnectResult(false,null,null,null);
                 }
             }
         } catch (InterruptedException e) {
             Log.getStackTraceString(e);
-            return (String) App.context.getResources().getText(R.string.login_fail);
+            return new ConnectResult(false,null,null,null);
         }
     }
 }
