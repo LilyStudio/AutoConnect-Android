@@ -12,6 +12,13 @@ AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.
 <h2>适用平台</h2>
 Android 4.0+
 
+## See Also
+
++ [Windows](https://github.com/miaoxw/Auto-p.nju)
++ [Mac](https://github.com/Cee/PNJU-TodayWidget)
++ [iOS &  Watch](https://github.com/Cee/PNJU-Watch)
++ [Alfred Workflow](https://github.com/Cee/PNJU-Workflow)
+
 <h2>截图</h2>
 <img src="screenshot1.png" width="355" height="631">
 <img src="screenshot2.png" width="355" height="631">
@@ -39,3 +46,32 @@ Android 4.0+
 
 <h2>如何使用源代码构建并运行</h2>
 - [查看build instruction](https://github.com/padeoe/AutoConnect/blob/newUI/BUILDING.md)
+
+
+<h2>许可证</h2>
+在最为宽松的MIT许可下开源
+
+```
+Copyright (c) 2012 padeoe
+padeoe@gmail.com
+The MIT License
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+```
