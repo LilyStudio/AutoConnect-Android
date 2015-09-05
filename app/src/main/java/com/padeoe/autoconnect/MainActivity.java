@@ -166,7 +166,12 @@ public class MainActivity extends Activity {
                             break;
                         case R.id.about:
                             FragmentManager fm =  MainActivity.this.getFragmentManager();
-                            new AboutDialogFragment().show(fm,"s");
+                            new AboutDialogFragment().show(fm, "s");
+                            break;
+                        case R.id.check_update:
+                            FragmentManager fm3 = getFragmentManager();
+                          //  new CheckUpdateFragment().show(fm3, "showNewVersion");
+                            new CheckUpdateFragment().checkUpdate(fm3);
                             break;
                         default:
                             break;

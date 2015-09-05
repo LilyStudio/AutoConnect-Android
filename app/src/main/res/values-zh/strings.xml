@@ -34,6 +34,8 @@
     <string name="complete">完成</string>
     <string name="githubLink">Github开源项目</string>
     <string name="open_pnju">在浏览器中打开p.nju.edu.cn</string>
-
-
+    <string name="check_update">检查更新</string>
+    <string name="isNewestVersion">已是最新版</string>
+    <string name="update_now">立即更新</string>
+    <string name="update_soon">暂不更新</string>
 </resources>

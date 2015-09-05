@@ -34,4 +34,8 @@
     <string name="complete">OK</string>
     <string name="githubLink">Project on Github</string>
     <string name="open_pnju">open p.nju.edu.cn in browser</string>
+    <string name="check_update">check update</string>
+    <string name="isNewestVersion">is up to date</string>
+    <string name="update_now">update</string>
+    <string name="update_soon">not update</string>
 </resources>

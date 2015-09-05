@@ -26,6 +26,12 @@
         android:showAsAction="never"
         ></item>
     <item
+        android:id="@+id/check_update"
+        android:title="@string/check_update"
+        android:orderInCategory="50"
+        android:showAsAction="never"
+        ></item>
+    <item
         android:id="@+id/about"
         android:title="@string/about"
         android:orderInCategory="50"
