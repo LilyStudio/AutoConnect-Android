@@ -1,5 +1,6 @@
 package com.padeoe.autoconnect;
 
+import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DownloadManager;
@@ -10,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,6 +19,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Display;
 import android.view.Menu;
@@ -31,8 +34,11 @@ import android.widget.Toast;
 
 
 import com.avos.avoscloud.AVAnalytics;
+import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
+import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.GetCallback;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -41,11 +47,12 @@ import java.util.List;
 
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements ActivityCompat.OnRequestPermissionsResultCallback{
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
     SharedPreferences sharedPreferences;
+    CheckUpdateFragment checkUpdateFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,9 +182,7 @@ public class MainActivity extends Activity {
                             new AboutDialogFragment().show(fm, "s");
                             break;
                         case R.id.check_update:
-                            FragmentManager fm3 = getFragmentManager();
-                          //  new CheckUpdateFragment().show(fm3, "showNewVersion");
-                            new CheckUpdateFragment().checkUpdate(fm3);
+                            checkUpdate();
                             break;
                         default:
                             break;
@@ -339,5 +344,91 @@ public class MainActivity extends Activity {
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
     }
+    /**
+     * 下载
+     */
+    public void downloadNewVersionApp() {
+        if (ActivityCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+                // Explain to the user why we need to read the contacts
+            }
+
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
+            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+            // app-defined int constant
+
+        }
+        else{
+            downloadNow();
+        }
+    }
+
+    private void downloadNow() {
+        Log.i("请求权限","获得了权限");
+        // permission was granted, yay! do the
+        // calendar task you need to do.
+        DownloadManager downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(checkUpdateFragment.url));
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
+        long downloadId = downloadManager.enqueue(request);
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           String permissions[], int[] grantResults) {
+        Log.i("请求权限","即将获取权限");
+        Log.i("请求权限", "requestCode" + requestCode);
+        switch (requestCode) {
+
+            case 1: {
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    downloadNow();
+
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+                }
+                return;
+            }
+
+            // other 'switch' lines to check for other
+            // permissions this app might request
+        }
+    }
+    public void checkUpdate() {
+        Log.i("检查更新", "即将开始检查更新");
+        AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
+        query.getInBackground("55e9a7c960b2617119a7fb51", new GetCallback<AVObject>() {
+            public void done(AVObject newestVersion, AVException e) {
+                if (e == null) {
+                    String installedVersionName = CheckUpdateFragment.getInstalledVersion();
+                    if (installedVersionName != null) {
+                        if (true) {
+                            //   if(!installedVersion.equals(newestVersion.getString("versionName"))){
+                            String url = newestVersion.getString("url");
+                            String newVersionName = newestVersion.getString("versionName");
+                            String apkSize = newestVersion.getString("size");
+                            checkUpdateFragment=new CheckUpdateFragment();
+                            checkUpdateFragment.showDownloadDialog(url, newVersionName, apkSize, MainActivity.this.getFragmentManager(), MainActivity.this);
+                        } else {
+                            Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
+                            Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Log.i("获取本地程序版本号", "程序版本号获取失败");
+                    }
+                } else {
+                    Log.i("检查更新", e.getMessage());
+                    Toast.makeText(App.context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
 };
 

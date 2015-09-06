@@ -1,5 +1,6 @@
 package com.padeoe.autoconnect;
 
+import android.Manifest;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
@@ -32,15 +33,17 @@ import java.io.File;
 /**
  * Created by padeoe on 2015/9/4.
  */
-public class CheckUpdateFragment extends DialogFragment {
-    CheckUpdateFragment checkUpdateFragment;
+public class CheckUpdateFragment extends DialogFragment{
     String url;
     String newVersionName;
-    String installedVersionName;
     String apkSize;
-    FragmentManager fm;
-    DownloadManager downloadManager;
+    MainActivity mainActivity;
+    public CheckUpdateFragment(){
 
+    }
+/*    CheckUpdateFragment(MainActivity mainActivity){
+        this.mainActivity=mainActivity;
+    }*/
     @Override
     public void onStart() {
         super.onStart();
@@ -56,7 +59,7 @@ public class CheckUpdateFragment extends DialogFragment {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         App.context.startService(new Intent(App.context, DownloadService.class));
-                        downloadNewVersionApp();
+                        mainActivity.downloadNewVersionApp();
                     }
                 })
                 .setNegativeButton(R.string.update_soon, new DialogInterface.OnClickListener() {
@@ -64,9 +67,9 @@ public class CheckUpdateFragment extends DialogFragment {
 
                     }
                 })
-        .setTitle((String)getResources().getText(R.string.find_new_version)+newVersionName);
-        TextView filesize=(TextView)view.findViewById(R.id.filesize);
-        filesize.setText(getResources().getString(R.string.apk_size)+apkSize);
+                .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName);
+        TextView filesize = (TextView) view.findViewById(R.id.filesize);
+        filesize.setText(getResources().getString(R.string.apk_size) + apkSize);
         return builder.create();
     }
 
@@ -76,7 +79,7 @@ public class CheckUpdateFragment extends DialogFragment {
      *
      * @return
      */
-    private static String getInstalledVersion() {
+    public static String getInstalledVersion() {
         try {
             return App.context.getPackageManager()
                     .getPackageInfo(App.context.getPackageName(), 0).versionName;
@@ -86,51 +89,11 @@ public class CheckUpdateFragment extends DialogFragment {
         }
     }
 
-    /**
-     * 下载
-     */
-    public void downloadNewVersionApp() {
-        downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
-        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
-        long downloadId = downloadManager.enqueue(request);
 
 
-
-
-    }
-
-    public void checkUpdate(FragmentManager fm) {
-        this.fm = fm;
-        Log.i("检查更新", "即将开始检查更新");
-        AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
-        query.getInBackground("55e9a7c960b2617119a7fb51", new GetCallback<AVObject>() {
-            public void done(AVObject newestVersion, AVException e) {
-                if (e == null) {
-                    installedVersionName = getInstalledVersion();
-                    if (installedVersionName != null) {
-                        if (true) {
-                            //   if(!installedVersion.equals(newestVersion.getString("versionName"))){
-                            url = newestVersion.getString("url");
-                            newVersionName = newestVersion.getString("versionName");
-                            apkSize= newestVersion.getString("size");
-                            showDownloadDialog();
-                        } else {
-                            Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
-                            Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Log.i("获取本地程序版本号","程序版本号获取失败");
-                    }
-                } else {
-                    Log.i("检查更新", e.getMessage());
-                    Toast.makeText(App.context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }
-
-    public void showDownloadDialog() {
+    public void showDownloadDialog(String url,String newVersionName,String apkSize,FragmentManager fm,MainActivity mainActivity) {
+        this.url=url;this.newVersionName=newVersionName;this.apkSize=apkSize;
+        this.mainActivity=mainActivity;
         this.show(fm, "showNewVersion");
         Log.i("downloadApk", "即将下载" + url);
     }
