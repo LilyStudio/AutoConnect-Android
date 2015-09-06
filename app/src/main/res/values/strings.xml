@@ -38,4 +38,6 @@
     <string name="isNewestVersion">is up to date</string>
     <string name="update_now">update</string>
     <string name="update_soon">not update</string>
+    <string name="find_new_version">New Version: </string>
+    <string name="apk_size">Apk size:</string>
 </resources>

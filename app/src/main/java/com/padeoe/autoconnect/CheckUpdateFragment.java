@@ -5,19 +5,29 @@ import android.app.Dialog;
 import android.app.DialogFragment;
 import android.app.DownloadManager;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.GetCallback;
+
+import java.io.File;
 
 /**
  * Created by padeoe on 2015/9/4.
@@ -27,11 +37,17 @@ public class CheckUpdateFragment extends DialogFragment {
     String url;
     String newVersionName;
     String installedVersionName;
+    String apkSize;
     FragmentManager fm;
+    DownloadManager downloadManager;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        downloadNewVersionApp();
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
         View view = inflater.inflate(R.layout.update_dialog, null);
@@ -39,14 +55,18 @@ public class CheckUpdateFragment extends DialogFragment {
                 .setPositiveButton(R.string.update_now, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
+                        App.context.startService(new Intent(App.context, DownloadService.class));
+                        downloadNewVersionApp();
                     }
                 })
                 .setNegativeButton(R.string.update_soon, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
 
                     }
-                });
+                })
+        .setTitle((String)getResources().getText(R.string.find_new_version)+newVersionName);
+        TextView filesize=(TextView)view.findViewById(R.id.filesize);
+        filesize.setText(getResources().getString(R.string.apk_size)+apkSize);
         return builder.create();
     }
 
@@ -70,10 +90,14 @@ public class CheckUpdateFragment extends DialogFragment {
      * 下载
      */
     public void downloadNewVersionApp() {
-            DownloadManager downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
-            DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
-            request.setDestinationInExternalPublicDir("Download", "AutoConnect.apk");
-            long downloadId = downloadManager.enqueue(request);
+        downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
+        DownloadManager.Request request = new DownloadManager.Request(Uri.parse(url));
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
+        long downloadId = downloadManager.enqueue(request);
+
+
+
+
     }
 
     public void checkUpdate(FragmentManager fm) {
@@ -89,6 +113,7 @@ public class CheckUpdateFragment extends DialogFragment {
                             //   if(!installedVersion.equals(newestVersion.getString("versionName"))){
                             url = newestVersion.getString("url");
                             newVersionName = newestVersion.getString("versionName");
+                            apkSize= newestVersion.getString("size");
                             showDownloadDialog();
                         } else {
                             Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
