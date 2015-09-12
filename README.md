@@ -35,6 +35,7 @@ Android 4.0+
 - 设置中选择允许开机自启后，才会开启后台自动登陆功能。
 
 <h2>下载</h2>
+由于操作失误，发布的2.2.1版本下载链接链接到了某调试版本，现已更正2.2.1版下载链接
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.2.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
