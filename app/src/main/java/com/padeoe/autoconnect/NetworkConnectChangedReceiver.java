@@ -18,14 +18,17 @@ import com.avos.avoscloud.AVAnalytics;
 public class NetworkConnectChangedReceiver extends BroadcastReceiver {
     int i=0;
     public void onReceive(final Context context, Intent intent) {
-        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
+        if (WifiManager.EXTRA_SUPPLICANT_CONNECTED.equals(intent.getAction())) {
+        //    intent.getBooleanExtra();
+        //    Log.i("NETWORK_STATE_CHANGED", "NETWORK_STATE_CHANGED_ACTION");
+            Log.i("CONNECTED","EXTRA_SUPPLICANT_CONNECTED");
             Parcelable parcelableExtra = intent
                     .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             NetworkInfo networkInfo = (NetworkInfo) parcelableExtra;
             if (networkInfo != null) {
                 NetworkInfo.State state = networkInfo.getState();
-                boolean isConnected2 = (state == NetworkInfo.State.CONNECTED);
-                if (isConnected2) {
+                boolean isConnected = (state == NetworkInfo.State.CONNECTED);
+                if (isConnected) {
                     WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());

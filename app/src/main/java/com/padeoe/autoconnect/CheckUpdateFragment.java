@@ -38,12 +38,6 @@ public class CheckUpdateFragment extends DialogFragment{
     String newVersionName;
     String apkSize;
     MainActivity mainActivity;
-    public CheckUpdateFragment(){
-
-    }
-/*    CheckUpdateFragment(MainActivity mainActivity){
-        this.mainActivity=mainActivity;
-    }*/
     @Override
     public void onStart() {
         super.onStart();

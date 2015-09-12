@@ -19,7 +19,8 @@ import java.io.File;
  * Created by padeoe on 2015/9/6.
  */
 public class  DownloadService extends Service {
-    BroadcastReceiver receiver;
+    BroadcastReceiver downloadCompleteReceiver;
+    BroadcastReceiver downloadPaunseReceiver;
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -27,7 +28,7 @@ public class  DownloadService extends Service {
     @Override
     public void onCreate() {
         super.onCreate();
-         receiver = new BroadcastReceiver() {
+        downloadCompleteReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 File apk=new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOWNLOADS+"/AutoConnect.apk");
@@ -40,13 +41,23 @@ public class  DownloadService extends Service {
                 stopSelf();
             }
         };
-        registerReceiver(receiver, new IntentFilter(
+        downloadPaunseReceiver=new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                //终止下载
+
+                stopSelf();
+            }
+        };
+/*        downloadNotificationClickReceiver=new
+        registerReceiver(downloadCompleteReceiver, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
+        ACTION_NOTIFICATION_CLICKED*/
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(receiver);
+        unregisterReceiver(downloadCompleteReceiver);
     }
 }
