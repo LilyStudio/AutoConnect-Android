@@ -18,10 +18,7 @@ import com.avos.avoscloud.AVAnalytics;
 public class NetworkConnectChangedReceiver extends BroadcastReceiver {
     int i=0;
     public void onReceive(final Context context, Intent intent) {
-        if (WifiManager.EXTRA_SUPPLICANT_CONNECTED.equals(intent.getAction())) {
-        //    intent.getBooleanExtra();
-        //    Log.i("NETWORK_STATE_CHANGED", "NETWORK_STATE_CHANGED_ACTION");
-            Log.i("CONNECTED","EXTRA_SUPPLICANT_CONNECTED");
+        if (WifiManager.NETWORK_STATE_CHANGED_ACTION.equals(intent.getAction())) {
             Parcelable parcelableExtra = intent
                     .getParcelableExtra(WifiManager.EXTRA_NETWORK_INFO);
             NetworkInfo networkInfo = (NetworkInfo) parcelableExtra;
@@ -33,7 +30,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
                     Log.d("wifiInfo:", wifiInfo.getSSID());
                     if (wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("\"NJU-WLAN\"")) {
-                        Log.d("后台wifi连接检测","是目标wifi");
+                        Log.d("后台wifi连接检测", "是目标wifi");
                         if (i == 1) {
                             new Thread() {
                                 @Override
