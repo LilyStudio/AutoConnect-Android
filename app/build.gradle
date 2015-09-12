@@ -16,7 +16,7 @@ android {
     defaultConfig {
         applicationId "com.padeoe.autoconnect"
         minSdkVersion 14
-        targetSdkVersion 23
+        targetSdkVersion 21
         versionCode 1
         versionName "2.2.1"
     }
