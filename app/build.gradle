@@ -39,4 +39,5 @@ dependencies {
     compile 'cn.leancloud.android:avoscloud-sdk:v3.3+'
     compile 'cn.leancloud.android:Java-WebSocket:1.2.0-leancloud'
     compile 'cn.leancloud.android:avoscloud-statistics:v3.3+@aar'
+    compile 'com.android.support:support-v4:23.0.0'
 }
