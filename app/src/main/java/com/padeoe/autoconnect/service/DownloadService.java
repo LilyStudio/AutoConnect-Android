@@ -53,6 +53,7 @@ public class  DownloadService extends Service {
         registerReceiver(downloadCompleteReceiver, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         ACTION_NOTIFICATION_CLICKED*/
+        registerReceiver(downloadCompleteReceiver,new IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE));
     }
 
     @Override
