@@ -3,6 +3,7 @@ package com.padeoe.autoconnect.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.DownloadManager;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -33,6 +34,8 @@ import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.GetCallback;
+import com.padeoe.autoconnect.service.InstallService;
+import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
 import com.padeoe.autoconnect.util.NetworkUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
@@ -43,13 +46,14 @@ import com.padeoe.nicservice.njuwlan.ConnectPNJU;
 import com.padeoe.nicservice.njuwlan.ReturnData;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
 
-public class MainActivity extends Activity{
+public class MainActivity extends Activity implements CheckUpdateFragment.UpdateListener{
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
@@ -61,7 +65,6 @@ public class MainActivity extends Activity{
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
@@ -135,6 +138,15 @@ public class MainActivity extends Activity{
             dialog.show();
         }
 
+    }
+
+    @Override
+    public void updateClick(DialogFragment dialog) {
+        Log.i("回调函数", "回调函数：你点击了更新");
+        Intent installIntent=new Intent(App.context, InstallService.class);
+        installIntent.putExtra("apkName","AutoConnect-"+checkUpdateFragment.newVersionName +".apk");
+        App.context.startService(installIntent);
+        downloadNewVersionApp();
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
@@ -342,9 +354,9 @@ public class MainActivity extends Activity{
     }
     public void linkGithub(View view){
         String githubURL = "https://github.com/padeoe/AutoConnect";
-        Intent i2 = new Intent(Intent.ACTION_VIEW);
-        i2.setData(Uri.parse(githubURL));
-        startActivity(i2);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(githubURL));
+        startActivity(intent);
     }
     /**
      * 下载
@@ -355,6 +367,10 @@ public class MainActivity extends Activity{
             // Should we show an explanation?
             if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Explain to the user why we need to read the contacts
+                Log.i("权限","解释权限");
+                FragmentManager fm =  MainActivity.this.getFragmentManager();
+                new ExplainPermissionFragment().show(fm, "s");
+
             }
 
             requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
@@ -373,7 +389,12 @@ public class MainActivity extends Activity{
         // calendar task you need to do.
         DownloadManager downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(checkUpdateFragment.url));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
+        String apkName="AutoConnect-"+checkUpdateFragment.newVersionName+".apk";
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, apkName);
+        File newApk=new File(Environment.DIRECTORY_DOWNLOADS, apkName);
+        if(newApk.exists()){
+            newApk.delete();
+        }
         long downloadId = downloadManager.enqueue(request);
     }
 

@@ -41,4 +41,5 @@
     <string name="find_new_version">发现新版本: </string>
     <string name="apk_size">安装包大小:</string>
     <string name="unknownfault">未知错误</string>
+    <string name="explain_storage_permission">下载文件存储到本地</string>
 </resources>

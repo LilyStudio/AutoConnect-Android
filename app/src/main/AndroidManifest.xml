@@ -53,7 +53,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".service.DownloadService"
+            android:name=".service.InstallService"
             android:enabled="true"
             android:exported="true" >
         </service>
