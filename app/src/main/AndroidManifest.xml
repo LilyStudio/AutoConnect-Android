@@ -9,18 +9,18 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
-        android:name=".App"
+        android:name=".activity.App"
         android:allowBackup="true"
         android:icon="@mipmap/wifi"
         android:label="@string/app_name"
         android:theme="@style/Light_MyActionBar_theme" >
         <!-- 注册系统广播接收器 -->
-        <receiver android:name=".BootReceiver" >
+        <receiver android:name=".receiver.BootReceiver" >
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
-        <receiver android:name=".NetworkConnectChangedReceiver" >
+        <receiver android:name=".receiver.NetworkConnectChangedReceiver" >
             <action android:name="android.intent.action.MAIN" />
             <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />
@@ -28,7 +28,7 @@
         </receiver>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:label="@string/app_name"
             android:windowSoftInputMode="stateUnchanged|adjustPan">
             <intent-filter>
@@ -42,7 +42,7 @@
         </activity>
 
         <service
-            android:name=".WiFiDetectService"
+            android:name=".service.WiFiDetectService"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>
@@ -53,7 +53,7 @@
             </intent-filter>
         </service>
         <service
-            android:name=".DownloadService"
+            android:name=".service.DownloadService"
             android:enabled="true"
             android:exported="true" >
         </service>

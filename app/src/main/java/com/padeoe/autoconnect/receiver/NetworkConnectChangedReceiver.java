@@ -1,9 +1,8 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -11,6 +10,8 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.avos.avoscloud.AVAnalytics;
+import com.padeoe.autoconnect.service.WiFiDetectService;
+import com.padeoe.nicservice.njuwlan.ConnectPNJU;
 
 /**
  * Created by padeoe on 4/20/15.
@@ -36,9 +37,9 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                 @Override
                                 public void run() {
                                     try {
-                                        if (WiFiDetectService.postData != null) {
+                                        if (WiFiDetectService.username != null&WiFiDetectService.password != null) {
                                             for (int i = 0; i < 5; i++) {
-                                                if (Authenticate.connectAndPost(WiFiDetectService.postData,App.LOGINURL) != null) {
+                                                if (ConnectPNJU.connect(WiFiDetectService.username, WiFiDetectService.password, 200)!=null) {
                                                     if(WiFiDetectService.allowStatistics){
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }

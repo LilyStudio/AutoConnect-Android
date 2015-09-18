@@ -1,4 +1,4 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.service;
 
 import android.app.Service;
 import android.content.Intent;
@@ -6,11 +6,14 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.wifi.WifiManager;
 import android.os.IBinder;
-import android.util.Log;
+
+import com.padeoe.autoconnect.activity.App;
+import com.padeoe.autoconnect.receiver.NetworkConnectChangedReceiver;
 
 public class WiFiDetectService extends Service {
     public static boolean allowStatistics;
-    public static String postData;
+    public static String username;
+    public static String password;
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -22,7 +25,8 @@ public class WiFiDetectService extends Service {
         // TODO Auto-generated method stub
         super.onCreate();
         final SharedPreferences sharedPreferences = App.context.getSharedPreferences("DataFile", 0);
-        postData = sharedPreferences.getString("PostData", null);
+        username = sharedPreferences.getString("username", null);
+        password = sharedPreferences.getString("password", null);
         allowStatistics=sharedPreferences.getBoolean("allow_statistics", false);
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);

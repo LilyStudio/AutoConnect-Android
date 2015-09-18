@@ -1,4 +1,4 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.service;
 
 import android.app.DownloadManager;
 import android.app.Service;
@@ -49,7 +49,7 @@ public class  DownloadService extends Service {
                 stopSelf();
             }
         };
-/*        downloadNotificationClickReceiver=new
+      /*  downloadNotificationClickReceiver=new
         registerReceiver(downloadCompleteReceiver, new IntentFilter(
                 DownloadManager.ACTION_DOWNLOAD_COMPLETE));
         ACTION_NOTIFICATION_CLICKED*/

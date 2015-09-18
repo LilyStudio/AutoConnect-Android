@@ -14,7 +14,7 @@
     <string name="have_allowed_boot_start">已允许开机自启</string>
     <string name="connect_fail">无法连接</string>
     <string name="saved_success">已保存</string>
-    <string name="no_wifi">没有链接wifi</string>
+    <string name="no_wifi">没有连接wifi</string>
     <string name="login_fail">登陆失败</string>
     <string name="disconnect_fail">注销失败</string>
     <string name="statistics_title">数据反馈？</string>
@@ -40,4 +40,5 @@
     <string name="update_soon">暂不更新</string>
     <string name="find_new_version">发现新版本: </string>
     <string name="apk_size">安装包大小:</string>
+    <string name="unknownfault">未知错误</string>
 </resources>
