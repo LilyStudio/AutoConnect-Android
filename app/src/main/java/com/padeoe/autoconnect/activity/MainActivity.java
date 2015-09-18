@@ -15,6 +15,7 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,8 +49,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-
-public class MainActivity extends Activity{
+public class MainActivity extends Activity {
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
@@ -75,12 +75,12 @@ public class MainActivity extends Activity{
         passwordEdit = (EditText) findViewById(R.id.password);
         if (username != null) usernameEdit.setText(username);
         if (password != null) passwordEdit.setText(password);
-        if (username != null&password!=null) {
+        if (username != null & password != null) {
             this.startService(new Intent(this, WiFiDetectService.class));
         }
 
         final ListView listview = (ListView) findViewById(R.id.listview);
-        String[] values = new String[]{(String)getResources().getText(R.string.open_pnju)};
+        String[] values = new String[]{(String) getResources().getText(R.string.open_pnju)};
 
         final ArrayList<String> list = new ArrayList<String>();
         for (int i = 0; i < values.length; ++i) {
@@ -163,36 +163,37 @@ public class MainActivity extends Activity{
         new Thread() {
             @Override
             public void run() {
-                    switch (id) {
-                        case R.id.storePreference:
-                            storeInfo();
-                            break;
-                        case R.id.connect:
-                            connectNow();
+                switch (id) {
+                    case R.id.storePreference:
+                        storeInfo();
+                        break;
+                    case R.id.connect:
+                        connectNow();
 /*                            PackageManager p = getPackageManager();
                             ComponentName componentName = new ComponentName(App.context, com.padeoe.autoconnect.activity.MainActivity.class); // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
                             p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);*/
-                            break;
-                        case R.id.disconnect:
-                            disconnectNow();
-                            break;
-                        case R.id.setting:
-                            FragmentManager fm1 = MainActivity.this.getFragmentManager();
-                            SettingDialogFragment settingDialogFragment=new SettingDialogFragment();
-                            settingDialogFragment.show(fm1, "s");
-                            break;
-                        case R.id.about:
-                            FragmentManager fm =  MainActivity.this.getFragmentManager();
-                            new AboutDialogFragment().show(fm, "s");
-                            break;
-                        case R.id.check_update:
-                            checkUpdate();
-                            break;
-                        default:
-                            break;
+                        break;
+                    case R.id.disconnect:
+                        disconnectNow();
+                        break;
+                    case R.id.setting:
+                        FragmentManager fm1 = MainActivity.this.getFragmentManager();
+                        SettingDialogFragment settingDialogFragment = new SettingDialogFragment();
+                        settingDialogFragment.show(fm1, "s");
+                        break;
+                    case R.id.about:
+                        FragmentManager fm = MainActivity.this.getFragmentManager();
+                        new AboutDialogFragment().show(fm, "s");
+                        break;
+                    case R.id.check_update:
+                        checkUpdate();
+                        break;
+                    default:
+                        break;
 
-                    }
+                }
             }
+
             ;
         }.start();
         return true;
@@ -223,18 +224,17 @@ public class MainActivity extends Activity{
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
-                String connectResult= ConnectPNJU.connect(username, password, 200);
+                String connectResult = ConnectPNJU.connect(username, password, 200);
                 ShowOnMainActivity(NetworkUtils.getShowResult(connectResult, true));
-                ReturnData returnData=null;
-                try{
-                    returnData= NetworkUtils.getReturnDataObject(connectResult);
-                }
-                catch(Exception e){
+                ReturnData returnData = null;
+                try {
+                    returnData = NetworkUtils.getReturnDataObject(connectResult);
+                } catch (Exception e) {
 
                 }
-                if(returnData!=null&&returnData.getReply_message().equals("登录成功!")){
+                if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
                     App.context.startService(new Intent(App.context, WiFiDetectService.class));
-                    if(sharedPreferences.getString("username", null)==null){
+                    if (sharedPreferences.getString("username", null) == null) {
                         storeInfo();
                     }
                 }
@@ -301,12 +301,13 @@ public class MainActivity extends Activity{
     }
 
 
-    public void autoRun(View view){
-        boolean isChecked=((Switch)view).isChecked();
+    public void autoRun(View view) {
+        boolean isChecked = ((Switch) view).isChecked();
         switchOnClicked(isChecked);
 
     }
-    public void switchOnClicked(boolean isChecked){
+
+    public void switchOnClicked(boolean isChecked) {
         if (isChecked) {
             editor.putBoolean("isBanned", true);
             editor.commit();
@@ -319,58 +320,59 @@ public class MainActivity extends Activity{
             AVAnalytics.onEvent(App.context, "允许开机自启用户+1");
         }
     }
-    public void allowStatics(View view){
-        boolean isChecked=((Switch)view).isChecked();
+
+    public void allowStatics(View view) {
+        boolean isChecked = ((Switch) view).isChecked();
         staticsButtonOnClicked(!isChecked);
 
     }
-    public void staticsButtonOnClicked(boolean allow){
+
+    public void staticsButtonOnClicked(boolean allow) {
         editor.putBoolean("allow_statistics", allow);
         editor.commit();
-        if(allow){
+        if (allow) {
             Toast.makeText(App.context, (String) getResources().getText(R.string.have_allowed_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("AllowData");
             Like.put("hello", "x");
             Like.saveInBackground();
-        }
-        else{
+        } else {
             Toast.makeText(App.context, (String) getResources().getText(R.string.have_prohibit_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("ProhibitsData");
             Like.put("hello", "x");
             Like.saveInBackground();
         }
     }
-    public void linkGithub(View view){
+
+    public void linkGithub(View view) {
         String githubURL = "https://github.com/padeoe/AutoConnect";
         Intent i2 = new Intent(Intent.ACTION_VIEW);
         i2.setData(Uri.parse(githubURL));
         startActivity(i2);
     }
+
     /**
      * 下载
      */
     public void downloadNewVersionApp() {
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-            if (shouldShowRequestPermissionRationale(Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Explain to the user why we need to read the contacts
             }
 
-            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    1);
             // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
             // app-defined int constant
 
-        }
-        else{
+        } else {
             downloadNow();
         }
     }
 
     private void downloadNow() {
-        Log.i("请求权限","获得了权限");
-        // permission was granted, yay! do the
-        // calendar task you need to do.
         DownloadManager downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(checkUpdateFragment.url));
         request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
@@ -380,7 +382,7 @@ public class MainActivity extends Activity{
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        Log.i("请求权限","即将获取权限");
+        Log.i("请求权限", "即将获取权限");
         Log.i("请求权限", "requestCode" + requestCode);
         switch (requestCode) {
 
@@ -395,6 +397,7 @@ public class MainActivity extends Activity{
             }
         }
     }
+
     public void checkUpdate() {
         Log.i("检查更新", "即将开始检查更新");
         AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
@@ -408,7 +411,7 @@ public class MainActivity extends Activity{
                             String url = newestVersion.getString("url");
                             String newVersionName = newestVersion.getString("versionName");
                             String apkSize = newestVersion.getString("size");
-                            checkUpdateFragment=new CheckUpdateFragment();
+                            checkUpdateFragment = new CheckUpdateFragment();
                             checkUpdateFragment.showDownloadDialog(url, newVersionName, apkSize, MainActivity.this.getFragmentManager(), MainActivity.this);
                         } else {
                             Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
