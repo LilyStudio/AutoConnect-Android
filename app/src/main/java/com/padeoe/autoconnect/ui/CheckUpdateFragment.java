@@ -23,9 +23,10 @@ import com.padeoe.autoconnect.R;
 public class CheckUpdateFragment extends DialogFragment{
     public String url;
     public String newVersionName;
+    public String installedVersionName;
     public String apkSize;
-    MainActivity mainActivity;
     UpdateListener mListener;
+
     @Override
     public void onStart() {
         super.onStart();
@@ -44,8 +45,6 @@ public class CheckUpdateFragment extends DialogFragment{
                 .setPositiveButton(R.string.update_now, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-
-                      /*  mainActivity.downloadNewVersionApp();*/
                         mListener.updateClick(CheckUpdateFragment.this);
                     }
                 })
@@ -55,9 +54,10 @@ public class CheckUpdateFragment extends DialogFragment{
 
                     }
                 })
-                .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName);
-        TextView filesize = (TextView) view.findViewById(R.id.filesize);
-        filesize.setText(getResources().getString(R.string.apk_size) + apkSize);
+                .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName)
+        .setMessage(getResources().getString(R.string.apk_size) + apkSize);
+      //  TextView filesize = (TextView) view.findViewById(R.id.filesize);
+     //   filesize.setText(getResources().getString(R.string.apk_size) + apkSize);
         return builder.create();
     }
 
@@ -79,9 +79,8 @@ public class CheckUpdateFragment extends DialogFragment{
 
 
 
-    public void showDownloadDialog(String url,String newVersionName,String apkSize,FragmentManager fm,MainActivity mainActivity) {
-        this.url=url;this.newVersionName=newVersionName;this.apkSize=apkSize;
-        this.mainActivity=mainActivity;
+    public void showDownloadDialog(String url,String newVersionName,String installedVersionName,String apkSize,FragmentManager fm) {
+        this.url=url;this.newVersionName=newVersionName;this.installedVersionName=installedVersionName;this.apkSize=apkSize;
         this.show(fm, "showNewVersion");
         Log.i("downloadApk", "即将下载" + url);
     }
