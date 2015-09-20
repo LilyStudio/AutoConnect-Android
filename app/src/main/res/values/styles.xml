@@ -1,8 +1,9 @@
 <resources>
-    <style name="Light_MyActionBar_theme" parent="Theme.AppCompat.Light.NoActionBar">
-        <item name="colorPrimary">@color/ColorPrimary</item>
-        <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
-    </style>
-    <style name="Dark_ActionBar_theme" parent="Theme.AppCompat">
+
+    <!-- Base application theme. -->
+    <style name="Light_MyActionBar_theme" parent="android:Theme.Material.Light.DarkActionBar">
+        <item name="android:colorPrimary">@color/ColorPrimary</item>
+        <item name="android:colorPrimaryDark">@color/ColorPrimaryDark</item>
+        <item name="android:navigationBarColor">@color/ColorPrimary</item>
     </style>
 </resources>

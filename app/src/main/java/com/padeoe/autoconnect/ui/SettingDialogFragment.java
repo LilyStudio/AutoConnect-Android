@@ -1,14 +1,16 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Switch;
+
+import com.padeoe.autoconnect.R;
 
 /**
  * Created by Kangkang on 2015/6/6.

@@ -1,4 +1,4 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.activity;
 
 import android.app.Application;
 import android.content.Context;
@@ -15,4 +15,5 @@ public class App extends Application {
         super.onCreate();
         context=getApplicationContext();
     }
+
 }
