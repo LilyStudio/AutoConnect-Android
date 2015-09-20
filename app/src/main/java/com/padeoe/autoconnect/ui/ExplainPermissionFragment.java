@@ -21,9 +21,11 @@ import com.padeoe.autoconnect.R;
  */
 public class ExplainPermissionFragment extends DialogFragment {
     ExplainPermissionListener mListener;
+
     public interface ExplainPermissionListener {
         public void explainOverClick(DialogFragment dialog);
     }
+
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -36,10 +38,11 @@ public class ExplainPermissionFragment extends DialogFragment {
                         mListener.explainOverClick(ExplainPermissionFragment.this);
                     }
                 })
-        .setTitle(R.string.permission_tips_title)
-        .setMessage(R.string.explain_storage_permission);
+                .setTitle(R.string.permission_tips_title)
+                .setMessage(R.string.explain_storage_permission);
         return builder.create();
     }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);

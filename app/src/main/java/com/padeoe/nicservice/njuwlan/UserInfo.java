@@ -8,26 +8,26 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 
 /**
- * p.nju.edu.cn
+ * p.nju.edu.cn返回的JSON对象中UserInfo子对象
  */
 public class UserInfo {
-    @JSONField(name="username")
+    @JSONField(name = "username")
     private String username;
-    @JSONField(name="fullname")
+    @JSONField(name = "fullname")
     private String fullname;
-    @JSONField(name="service_name")
+    @JSONField(name = "service_name")
     private String service_name;
-    @JSONField(name="area_name")
+    @JSONField(name = "area_name")
     private String area_name;
-    @JSONField(name="acctstarttime")
+    @JSONField(name = "acctstarttime")
     private String acctstarttime;
-    @JSONField(name="balance")
+    @JSONField(name = "balance")
     private String balance;
-    @JSONField(name="useripv4")
+    @JSONField(name = "useripv4")
     private String useripv4;
-    @JSONField(name="useripv6")
+    @JSONField(name = "useripv6")
     private String useripv6;
-    @JSONField(name="mac")
+    @JSONField(name = "mac")
     private String mac;
 
     public String getUsername() {

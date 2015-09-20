@@ -85,14 +85,11 @@ public class ConnectPNJU {
             return data;
         } catch (UnsupportedEncodingException e) {
             return e.getMessage();
-        }
-        catch (MalformedURLException malformedURLException){
+        } catch (MalformedURLException malformedURLException) {
             return malformedURLException.getMessage();
-        }
-        catch(ProtocolException protocolException){
+        } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
-        }
-        catch (IOException ioException){
+        } catch (IOException ioException) {
             return ioException.getMessage();
         }
     }
