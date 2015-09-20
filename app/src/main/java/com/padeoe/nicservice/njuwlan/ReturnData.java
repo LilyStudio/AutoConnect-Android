@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * p.nju.edu.cn
+ * p.nju.edu.cn返回的JSON对象
  */
 public class ReturnData {
     @JSONField(name = "reply_code")
@@ -17,18 +17,22 @@ public class ReturnData {
     private String reply_message;
     @JSONField(name = "userinfo")
     private UserInfo userInfo;
-    public ReturnData(){
+
+    public ReturnData() {
 
     }
-    public ReturnData(String reply_code,String reply_message, UserInfo userInfo){
-        this.reply_code=reply_code;
-        this.reply_message=reply_message;
+
+    public ReturnData(String reply_code, String reply_message, UserInfo userInfo) {
+        this.reply_code = reply_code;
+        this.reply_message = reply_message;
         this.userInfo = userInfo;
     }
-    public static ReturnData getFromJson(String jsonobject){
+
+    public static ReturnData getFromJson(String jsonobject) {
         return JSON.parseObject(jsonobject, ReturnData.class);
-      //  return new Gson().fromJson(jsonobject,ReturnData.class);
+        //  return new Gson().fromJson(jsonobject,ReturnData.class);
     }
+
     public void setReply_code(String reply_code) {
         this.reply_code = reply_code;
     }

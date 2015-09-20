@@ -26,6 +26,7 @@ public class InstallService extends Service {
     BroadcastReceiver downloadCompleteReceiver;
     BroadcastReceiver downloadPaunseReceiver;
     String apkName;
+
     @Override
     public IBinder onBind(Intent intent) {
         return null;
@@ -34,13 +35,11 @@ public class InstallService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Bundle extras = intent.getExtras();
-        if(extras == null){
+        if (extras == null) {
             Log.d("InstallService", "can't get apkName");
             Toast.makeText(App.context, "程序出错", Toast.LENGTH_SHORT).show();
             stopSelf();
-        }
-        else
-        {
+        } else {
             apkName = (String) extras.get("apkName");
         }
         return super.onStartCommand(intent, flags, startId);
@@ -52,7 +51,7 @@ public class InstallService extends Service {
         downloadCompleteReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                File apk=new File(Environment.getExternalStorageDirectory()+"/"+Environment.DIRECTORY_DOWNLOADS+"/"+apkName);
+                File apk = new File(Environment.getExternalStorageDirectory() + "/" + Environment.DIRECTORY_DOWNLOADS + "/" + apkName);
                 Log.i("apk路径", apk.getPath());
                 Uri path = Uri.fromFile(apk);
                 Intent install = new Intent(Intent.ACTION_VIEW);
@@ -62,7 +61,7 @@ public class InstallService extends Service {
                 stopSelf();
             }
         };
-        downloadPaunseReceiver=new BroadcastReceiver() {
+        downloadPaunseReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 //终止下载
@@ -71,7 +70,7 @@ public class InstallService extends Service {
         };
         IntentFilter filterDownloadStall = new IntentFilter();
         filterDownloadStall.addAction(DownloadManager.ACTION_DOWNLOAD_COMPLETE);
-        registerReceiver(downloadCompleteReceiver,new IntentFilter(filterDownloadStall));
+        registerReceiver(downloadCompleteReceiver, new IntentFilter(filterDownloadStall));
     }
 
     @Override
