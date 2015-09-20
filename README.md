@@ -38,7 +38,7 @@ Android 4.0+
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
-| android 5.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |512KB|
+| android 5.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |572KB|
 | android 6.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI23/app/app-release.apk)    |479KB|
 
 <h2>更新日志</h2>

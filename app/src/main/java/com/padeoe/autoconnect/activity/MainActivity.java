@@ -420,6 +420,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
         if (newApk.exists()) {
             newApk.delete();
         }
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         long downloadId = downloadManager.enqueue(request);
     }
 
@@ -469,24 +470,27 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
             public void done(List<AVObject> avObjects, AVException e) {
                 if (e == null) {
                     Log.d("成功", "查询到" + avObjects.size() + " 条符合条件的数据");
-                    AVObject newestVersionObject = avObjects.get(0);
-                    String url = newestVersionObject.getString("url");
-                    String apkSize = newestVersionObject.getString("size");
-                    String newVersionName = newestVersionObject.getString("versionName");
-                    if (url != null && apkSize != null && newVersionName != null) {
-                        String installedVersionName = CheckUpdateFragment.getInstalledVersion();
-                        if (installedVersionName != null) {
-                            if (!installedVersionName.equals(newVersionName)) {
-                                checkUpdateFragment = new CheckUpdateFragment();
-                                checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
+                    if (avObjects.size() > 0) {
+                        AVObject newestVersionObject = avObjects.get(0);
+                        String url = newestVersionObject.getString("url");
+                        String apkSize = newestVersionObject.getString("size");
+                        String newVersionName = newestVersionObject.getString("versionName");
+                        if (url != null && apkSize != null && newVersionName != null) {
+                            String installedVersionName = CheckUpdateFragment.getInstalledVersion();
+                            if (installedVersionName != null) {
+                                if (!installedVersionName.equals(newVersionName)) {
+                                    checkUpdateFragment = new CheckUpdateFragment();
+                                    checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
+                                } else {
+                                    Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
+                                    Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                                }
                             } else {
-                                Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
-                                Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(App.context, App.context.getString(R.string.get_local_version_error), Toast.LENGTH_SHORT).show();
                             }
                         } else {
-                            Toast.makeText(App.context, App.context.getString(R.string.get_local_version_error), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
                         }
-
                     } else {
                         Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
                     }
