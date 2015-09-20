@@ -1,7 +1,6 @@
 package com.padeoe.autoconnect.activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.DownloadManager;
@@ -39,7 +38,6 @@ import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
-import com.avos.avoscloud.GetCallback;
 import com.padeoe.autoconnect.service.InstallService;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
 import com.padeoe.autoconnect.util.NetworkUtils;
@@ -67,7 +65,6 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -100,7 +97,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         final ListView listview = (ListView) findViewById(R.id.listview);
         String[] values = new String[]{(String) getResources().getText(R.string.open_pnju)};
 
-        final ArrayList<String> list = new ArrayList<String>();
+        final ArrayList<String> list = new ArrayList<>();
         for (int i = 0; i < values.length; ++i) {
             list.add(values[i]);
         }
@@ -173,7 +170,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
      */
     @Override
     public void explainOverClick(DialogFragment dialog) {
-        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
@@ -408,7 +405,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Explain to the user why we need to read the contacts
                 Log.i("权限", "解释权限");
                 FragmentManager fm = MainActivity.this.getFragmentManager();
@@ -463,34 +460,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
             }
         }
     }
-/*    public void checkUpdate() {
-        newcheckUpdate();
-        AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
-        query.getInBackground("55e9a7c960b2617119a7fb51", new GetCallback<AVObject>() {
-            public void done(AVObject newestVersion, AVException e) {
-                if (e == null) {
-                    String installedVersionName = CheckUpdateFragment.getInstalledVersion();
-                    if (installedVersionName != null) {
-                        if (!installedVersionName.equals(newestVersion.getString("versionName"))) {
-                            String url = newestVersion.getString("url");
-                            String newVersionName = newestVersion.getString("versionName");
-                            String apkSize = newestVersion.getString("size");
-                            checkUpdateFragment = new CheckUpdateFragment();
-                            checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
-                        } else {
-                            Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
-                            Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
-                        }
-                    } else {
-                        Log.i("获取本地程序版本号", "程序版本号获取失败");
-                    }
-                } else {
-                    Log.i("检查更新", e.getMessage());
-                    Toast.makeText(App.context, e.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-    }*/
+
     /**
      * 检查更新
      */
@@ -506,10 +476,9 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
                 apkminAPI = "14";
             }
         }
-        AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
+        AVQuery<AVObject> query = new AVQuery<>("NewestVersion");
         query.orderByDescending("updatedAt");
         query.whereEqualTo("minSDK", apkminAPI);
-        Log.i("检查更新", "查询条件:minAPI=" + apkminAPI);
         query.findInBackground(new FindCallback<AVObject>() {
             public void done(List<AVObject> avObjects, AVException e) {
                 if (e == null) {
@@ -539,7 +508,6 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
                     } else {
                         Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
                     }
-
                 } else {
                     Log.d("失败", "查询错误: " + e.getMessage());
                 }

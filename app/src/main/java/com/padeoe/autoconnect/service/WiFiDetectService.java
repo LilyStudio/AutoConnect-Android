@@ -14,6 +14,8 @@ public class WiFiDetectService extends Service {
     public static boolean allowStatistics;
     public static String username;
     public static String password;
+    public static String targetSSID;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
@@ -27,7 +29,8 @@ public class WiFiDetectService extends Service {
         final SharedPreferences sharedPreferences = App.context.getSharedPreferences("DataFile", 0);
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
-        allowStatistics=sharedPreferences.getBoolean("allow_statistics", false);
+        allowStatistics = sharedPreferences.getBoolean("allow_statistics", false);
+        targetSSID=sharedPreferences.getString("target_SSID", null);
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);

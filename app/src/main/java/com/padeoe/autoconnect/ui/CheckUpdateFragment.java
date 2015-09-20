@@ -20,7 +20,7 @@ import com.padeoe.autoconnect.R;
 /**
  * Created by padeoe on 2015/9/4.
  */
-public class CheckUpdateFragment extends DialogFragment{
+public class CheckUpdateFragment extends DialogFragment {
     public String url;
     public String newVersionName;
     public String installedVersionName;
@@ -55,9 +55,7 @@ public class CheckUpdateFragment extends DialogFragment{
                     }
                 })
                 .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName)
-        .setMessage(getResources().getString(R.string.apk_size) + apkSize);
-      //  TextView filesize = (TextView) view.findViewById(R.id.filesize);
-     //   filesize.setText(getResources().getString(R.string.apk_size) + apkSize);
+                .setMessage(getResources().getString(R.string.apk_size) + apkSize);
         return builder.create();
     }
 
@@ -78,13 +76,14 @@ public class CheckUpdateFragment extends DialogFragment{
     }
 
 
-
-    public void showDownloadDialog(String url,String newVersionName,String installedVersionName,String apkSize,FragmentManager fm) {
-        this.url=url;this.newVersionName=newVersionName;this.installedVersionName=installedVersionName;this.apkSize=apkSize;
+    public void showDownloadDialog(String url, String newVersionName, String installedVersionName, String apkSize, FragmentManager fm) {
+        this.url = url;
+        this.newVersionName = newVersionName;
+        this.installedVersionName = installedVersionName;
+        this.apkSize = apkSize;
         this.show(fm, "showNewVersion");
         Log.i("downloadApk", "即将下载" + url);
     }
-
 
 
     @Override

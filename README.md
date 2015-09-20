@@ -36,8 +36,9 @@ Android 4.0+
 <h2>下载</h2>
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
-| android 4.0+          | 2.2.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1145KB|
-| android 5.0+          | 2.2.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |521KB|
+| android 4.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1128KB|
+| android 5.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |572KB|
+| android 6.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI23/app/app-release.apk)    |479KB|
 
 <h2>更新日志</h2>
 
@@ -53,7 +54,6 @@ Android 4.0+
 ```
 Copyright (c) 2015 padeoe
 padeoe@gmail.com
-
 The MIT License
 
 Permission is hereby granted, free of charge, to any person obtaining
