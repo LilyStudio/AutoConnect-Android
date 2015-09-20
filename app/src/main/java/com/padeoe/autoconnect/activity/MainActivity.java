@@ -3,6 +3,7 @@ package com.padeoe.autoconnect.activity;
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.DialogFragment;
 import android.app.DownloadManager;
 import android.app.FragmentManager;
 import android.content.Context;
@@ -13,6 +14,7 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
@@ -33,7 +35,10 @@ import com.avos.avoscloud.AVException;
 import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
+import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
+import com.padeoe.autoconnect.service.InstallService;
+import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
 import com.padeoe.autoconnect.util.NetworkUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
@@ -44,12 +49,13 @@ import com.padeoe.nicservice.njuwlan.ConnectPNJU;
 import com.padeoe.nicservice.njuwlan.ReturnData;
 
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements CheckUpdateFragment.UpdateListener, ExplainPermissionFragment.ExplainPermissionListener {
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
@@ -61,7 +67,6 @@ public class MainActivity extends Activity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
@@ -107,8 +112,6 @@ public class MainActivity extends Activity {
 
         });
 
-//
-
 
         boolean isFirstInstall = sharedPreferences.getBoolean("isFirstInstall", true);
         //do something
@@ -135,6 +138,29 @@ public class MainActivity extends Activity {
             dialog.show();
         }
 
+    }
+
+    /**
+     * {@link CheckUpdateFragment}请求更新的回调函数
+     *
+     * @param dialog
+     */
+    @Override
+    public void updateClick(DialogFragment dialog) {
+        Intent installIntent = new Intent(App.context, InstallService.class);
+        installIntent.putExtra("apkName", "AutoConnect-" + checkUpdateFragment.newVersionName + ".apk");
+        App.context.startService(installIntent);
+        downloadNewVersionApp();
+    }
+
+    /**
+     * {@link ExplainPermissionFragment}权限说明阅读结束的回调函数
+     *
+     * @param dialog
+     */
+    @Override
+    public void explainOverClick(DialogFragment dialog) {
+        ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
@@ -190,7 +216,6 @@ public class MainActivity extends Activity {
                         break;
                     default:
                         break;
-
                 }
             }
 
@@ -301,12 +326,21 @@ public class MainActivity extends Activity {
     }
 
 
+    /**
+     * {@link SettingDialogFragment}中Switch开关的事件响应
+     *
+     * @param view
+     */
     public void autoRun(View view) {
         boolean isChecked = ((Switch) view).isChecked();
         switchOnClicked(isChecked);
-
     }
 
+    /**
+     * {@link SettingDialogFragment}中Switch开关的事件响应
+     *
+     * @param isChecked
+     */
     public void switchOnClicked(boolean isChecked) {
         if (isChecked) {
             editor.putBoolean("isBanned", true);
@@ -324,7 +358,6 @@ public class MainActivity extends Activity {
     public void allowStatics(View view) {
         boolean isChecked = ((Switch) view).isChecked();
         staticsButtonOnClicked(!isChecked);
-
     }
 
     public void staticsButtonOnClicked(boolean allow) {
@@ -343,11 +376,16 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * ListView事件响应：浏览器中打开github项目
+     *
+     * @param view
+     */
     public void linkGithub(View view) {
         String githubURL = "https://github.com/padeoe/AutoConnect";
-        Intent i2 = new Intent(Intent.ACTION_VIEW);
-        i2.setData(Uri.parse(githubURL));
-        startActivity(i2);
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(githubURL));
+        startActivity(intent);
     }
 
     /**
@@ -357,13 +395,13 @@ public class MainActivity extends Activity {
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 != PackageManager.PERMISSION_GRANTED) {
             // Should we show an explanation?
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
-                    Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                 // Explain to the user why we need to read the contacts
-            }
+                Log.i("权限", "解释权限");
+                FragmentManager fm = MainActivity.this.getFragmentManager();
+                new ExplainPermissionFragment().show(fm, "s");
 
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    1);
+            }
             // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
             // app-defined int constant
 
@@ -372,20 +410,35 @@ public class MainActivity extends Activity {
         }
     }
 
+    /**
+     * 获得权限后下载文件
+     */
     private void downloadNow() {
         DownloadManager downloadManager = (DownloadManager) App.context.getSystemService(App.context.DOWNLOAD_SERVICE);
         DownloadManager.Request request = new DownloadManager.Request(Uri.parse(checkUpdateFragment.url));
-        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "AutoConnect.apk");
+        String apkName = "AutoConnect-" + checkUpdateFragment.newVersionName + ".apk";
+        request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, apkName);
+        File path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        File newApk = new File(path, apkName);
+        if (newApk.exists()) {
+            newApk.delete();
+        }
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
         long downloadId = downloadManager.enqueue(request);
     }
 
+    /**
+     * {@link CheckUpdateFragment}请求下载后在{@link MainActivity}中请求权限
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
-        Log.i("请求权限", "即将获取权限");
         Log.i("请求权限", "requestCode" + requestCode);
         switch (requestCode) {
-
             case 1: {
                 if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     downloadNow();
@@ -397,22 +450,20 @@ public class MainActivity extends Activity {
             }
         }
     }
-
-    public void checkUpdate() {
-        Log.i("检查更新", "即将开始检查更新");
+/*    public void checkUpdate() {
+        newcheckUpdate();
         AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
         query.getInBackground("55e9a7c960b2617119a7fb51", new GetCallback<AVObject>() {
             public void done(AVObject newestVersion, AVException e) {
                 if (e == null) {
                     String installedVersionName = CheckUpdateFragment.getInstalledVersion();
                     if (installedVersionName != null) {
-                        if (true) {
-                            //   if(!installedVersion.equals(newestVersion.getString("versionName"))){
+                        if (!installedVersionName.equals(newestVersion.getString("versionName"))) {
                             String url = newestVersion.getString("url");
                             String newVersionName = newestVersion.getString("versionName");
                             String apkSize = newestVersion.getString("size");
                             checkUpdateFragment = new CheckUpdateFragment();
-                            checkUpdateFragment.showDownloadDialog(url, newVersionName, apkSize, MainActivity.this.getFragmentManager(), MainActivity.this);
+                            checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
                         } else {
                             Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
                             Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
@@ -423,6 +474,61 @@ public class MainActivity extends Activity {
                 } else {
                     Log.i("检查更新", e.getMessage());
                     Toast.makeText(App.context, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }*/
+    /**
+     * 检查更新
+     */
+    public void checkUpdate() {
+        int loaclSdkVersion = Build.VERSION.SDK_INT;
+        String apkminAPI = "14";
+        if (Build.VERSION.SDK_INT >= 23) {
+            apkminAPI = "23";
+        } else {
+            if (Build.VERSION.SDK_INT >= 21) {
+                apkminAPI = "21";
+            } else {
+                apkminAPI = "14";
+            }
+        }
+        AVQuery<AVObject> query = new AVQuery<AVObject>("NewestVersion");
+        query.orderByDescending("updatedAt");
+        query.whereEqualTo("minSDK", apkminAPI);
+        Log.i("检查更新", "查询条件:minAPI=" + apkminAPI);
+        query.findInBackground(new FindCallback<AVObject>() {
+            public void done(List<AVObject> avObjects, AVException e) {
+                if (e == null) {
+                    Log.d("成功", "查询到" + avObjects.size() + " 条符合条件的数据");
+                    if (avObjects.size() > 0) {
+                        AVObject newestVersionObject = avObjects.get(0);
+                        String url = newestVersionObject.getString("url");
+                        String apkSize = newestVersionObject.getString("size");
+                        String newVersionName = newestVersionObject.getString("versionName");
+                        if (url != null && apkSize != null && newVersionName != null) {
+                            String installedVersionName = CheckUpdateFragment.getInstalledVersion();
+                            if (installedVersionName != null) {
+                                if (!installedVersionName.equals(newVersionName)) {
+                                    checkUpdateFragment = new CheckUpdateFragment();
+                                    checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
+                                } else {
+                                    Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
+                                    Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(App.context, App.context.getString(R.string.get_local_version_error), Toast.LENGTH_SHORT).show();
+                            }
+
+                        } else {
+                            Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
+                        }
+                    } else {
+                        Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Log.d("失败", "查询错误: " + e.getMessage());
                 }
             }
         });
