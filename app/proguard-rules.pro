@@ -1,4 +1,5 @@
 # proguard.cfg
+-keep class com.padeoe.nicservice.njuwlan.** { *;}
 
 -keepattributes Signature
 -dontwarn com.jcraft.jzlib.**

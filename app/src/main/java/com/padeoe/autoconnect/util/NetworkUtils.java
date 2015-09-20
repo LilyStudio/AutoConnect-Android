@@ -25,6 +25,9 @@ public class NetworkUtils {
         if (isLogin & returnData.getUserInfo() != null) {
             return returnData.getUserInfo().getFullname() + returnData.getUserInfo().getUsername() + returnData.getReply_message();
         }
+        if (isLogin & returnData.getUserInfo() == null) {
+            return returnData.getReply_message();
+        }
         if (!isLogin) {
             return returnData.getReply_message();
         }
