@@ -7,7 +7,12 @@
     android:focusableInTouchMode="true"
     android:id="@+id/mainlayout"
     >
+
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar"/>
     <TextView android:text="@string/hello_world"
+        android:layout_below="@+id/toolbar"
         android:textSize="16dp"
         android:layout_marginTop="@dimen/activity_vertical_margin"
         android:layout_marginLeft="@dimen/activity_horizontal_margin"

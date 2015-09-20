@@ -51,7 +51,7 @@ Android 4.0+
 在最为宽松的MIT许可下开源
 
 ```
-Copyright (c) 2012 padeoe
+Copyright (c) 2015 padeoe
 padeoe@gmail.com
 
 The MIT License

@@ -11,6 +11,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -18,6 +19,8 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -55,7 +58,7 @@ import java.util.HashMap;
 import java.util.List;
 
 
-public class MainActivity extends Activity implements CheckUpdateFragment.UpdateListener, ExplainPermissionFragment.ExplainPermissionListener {
+public class MainActivity extends ActionBarActivity implements CheckUpdateFragment.UpdateListener, ExplainPermissionFragment.ExplainPermissionListener {
     EditText usernameEdit;
     EditText passwordEdit;
     SharedPreferences.Editor editor = null;
@@ -67,6 +70,16 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //获取toolbar对象，设置为ActionBar
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar); // Attaching the layout to the toolbar object
+        toolbar.setPopupTheme(R.style.Dark_ActionBar_theme);
+        toolbar.setTitleTextColor(Color.WHITE);
+        this.setSupportActionBar(toolbar);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+            this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
+
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
         AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
