@@ -41,4 +41,10 @@
     <string name="find_new_version">发现新版本: </string>
     <string name="apk_size">安装包大小:</string>
     <string name="unknownfault">未知错误</string>
+    <string name="explain_storage_permission">下载新版本存储到本地需要外置存储权限，请在接下来的系统对话框里允许该权限</string>
+    <string name="understand_permission">我知道了</string>
+    <string name="permission_tips_title">权限要求</string>
+    <string name="local_version">当前版本号</string>
+    <string name="check_update_error">服务器出错</string>
+    <string name="get_local_version_error">读取当前版本号失败</string>
 </resources>

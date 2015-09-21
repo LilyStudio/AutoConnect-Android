@@ -41,4 +41,10 @@
     <string name="find_new_version">New Version: </string>
     <string name="apk_size">Apk size:</string>
     <string name="unknownfault">Unknown fault</string>
+    <string name="explain_storage_permission">Download new version into external storage needs permission,please allow it in next system dialog</string>
+    <string name="understand_permission">I understand</string>
+    <string name="permission_tips_title">permission requirement</string>
+    <string name="local_version">current version</string>
+    <string name="check_update_error">server error</string>
+    <string name="get_local_version_error">get current version fail</string>
 </resources>
