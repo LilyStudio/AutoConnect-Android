@@ -1,34 +1,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.padeoe.autoconnect.MainActivity">
-    <item android:id="@+id/storePreference" android:title="@string/storePreference"
-        android:orderInCategory="50"
-        app:showAsAction="always"
+    tools:context="com.padeoe.autoconnect.activity.MainActivity">
+    <item
+        android:id="@+id/storePreference"
         android:icon="@drawable/save"
-        ></item>
-    <item android:id="@+id/connect" android:title="@string/connectNow"
-        android:orderInCategory="200"
-        app:showAsAction="always"
+        android:orderInCategory="50"
+        android:title="@string/storePreference"
+        app:showAsAction="always"></item>
+    <item
+        android:id="@+id/connect"
         android:icon="@drawable/connect"
-        ></item>
+        android:orderInCategory="200"
+        android:title="@string/connectNow"
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/disconnect"
-        android:title="@string/disconnect"
-        android:orderInCategory="100"
         android:icon="@drawable/disconnect"
-        app:showAsAction="always"
-        ></item>
+        android:orderInCategory="100"
+        android:title="@string/disconnect"
+        app:showAsAction="always"></item>
     <item
         android:id="@+id/setting"
-        android:title="@string/action_settings"
         android:orderInCategory="50"
-        app:showAsAction="never"
-        ></item>
+        android:title="@string/action_settings"
+        app:showAsAction="never"></item>
+    <item
+        android:id="@+id/check_update"
+        android:orderInCategory="50"
+        android:title="@string/check_update"
+        app:showAsAction="never"></item>
     <item
         android:id="@+id/about"
-        android:title="@string/about"
         android:orderInCategory="50"
-        app:showAsAction="never"
-        ></item>
+        android:title="@string/about"
+        app:showAsAction="never"></item>
 </menu>

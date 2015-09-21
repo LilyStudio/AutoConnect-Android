@@ -3,6 +3,6 @@
         <item name="colorPrimary">@color/ColorPrimary</item>
         <item name="colorPrimaryDark">@color/ColorPrimaryDark</item>
     </style>
-    <style name="Dark_ActionBar_theme" parent="Theme.AppCompat">
+    <style name="Dark_ActionBar_theme" parent="Theme.AppCompat.Light">
     </style>
 </resources>

@@ -1,18 +1,19 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.avos.avoscloud.AVObject;
+import com.padeoe.autoconnect.R;
 
 //import com.avos.avoscloud.AVObject;
 

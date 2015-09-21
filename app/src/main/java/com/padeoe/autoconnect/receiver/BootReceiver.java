@@ -1,9 +1,11 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.receiver;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+
+import com.padeoe.autoconnect.service.WiFiDetectService;
 
 public class BootReceiver extends BroadcastReceiver {
     @Override
