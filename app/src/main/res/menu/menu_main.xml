@@ -1,34 +1,38 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context="com.padeoe.autoconnect.MainActivity">
-    <item android:id="@+id/storePreference" android:title="@string/storePreference"
+    tools:context="com.padeoe.autoconnect.activity.MainActivity">
+    <item
+        android:id="@+id/storePreference"
+        android:icon="@drawable/save"
         android:orderInCategory="50"
         android:showAsAction="always"
-        android:icon="@drawable/save"
-        ></item>
-    <item android:id="@+id/connect" android:title="@string/connectNow"
+        android:title="@string/storePreference"></item>
+    <item
+        android:id="@+id/connect"
+        android:icon="@drawable/connect"
         android:orderInCategory="200"
         android:showAsAction="always"
-        android:icon="@drawable/connect"
-        ></item>
+        android:title="@string/connectNow"></item>
     <item
         android:id="@+id/disconnect"
-        android:title="@string/disconnect"
-        android:orderInCategory="100"
         android:icon="@drawable/disconnect"
+        android:orderInCategory="100"
         android:showAsAction="always"
-        ></item>
+        android:title="@string/disconnect"></item>
     <item
         android:id="@+id/setting"
-        android:title="@string/action_settings"
         android:orderInCategory="50"
         android:showAsAction="never"
-        ></item>
+        android:title="@string/action_settings"></item>
+    <item
+        android:id="@+id/check_update"
+        android:orderInCategory="50"
+        android:showAsAction="never"
+        android:title="@string/check_update"></item>
     <item
         android:id="@+id/about"
-        android:title="@string/about"
         android:orderInCategory="50"
         android:showAsAction="never"
-        ></item>
+        android:title="@string/about"></item>
 </menu>

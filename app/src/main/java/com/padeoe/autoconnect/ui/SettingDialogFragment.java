@@ -1,4 +1,4 @@
-package com.padeoe.autoconnect;
+package com.padeoe.autoconnect.ui;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -9,6 +9,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Switch;
+
+import com.padeoe.autoconnect.R;
 
 /**
  * Created by Kangkang on 2015/6/6.
@@ -23,7 +25,7 @@ public class SettingDialogFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view=inflater.inflate(R.layout.setting_dialog, null);
+        View view = inflater.inflate(R.layout.setting_dialog, null);
         builder.setView(view)
                 .setPositiveButton(R.string.complete, new DialogInterface.OnClickListener() {
                     @Override
@@ -34,8 +36,8 @@ public class SettingDialogFragment extends DialogFragment {
         SharedPreferences sharedPreferences = this.getActivity().getSharedPreferences("DataFile", 0);
         boolean banAutoRun = sharedPreferences.getBoolean("isBanned", false);
         boolean allowStatics = sharedPreferences.getBoolean("allow_statistics", false);
-        Switch autoRunswitch=(Switch)view.findViewById(R.id.autoRunswitch);
-        Switch staticsSwitch=(Switch)view.findViewById(R.id.staticsSwitch);
+        Switch autoRunswitch = (Switch) view.findViewById(R.id.autoRunswitch);
+        Switch staticsSwitch = (Switch) view.findViewById(R.id.staticsSwitch);
         autoRunswitch.setChecked(banAutoRun);
         staticsSwitch.setChecked(!allowStatics);
         return builder.create();
