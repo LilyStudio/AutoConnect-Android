@@ -5,6 +5,15 @@ import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.activity.App;
 import com.padeoe.nicservice.njuwlan.ReturnData;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+
 /**
  * Created by padeoe on 2015/9/17.
  */
@@ -39,5 +48,11 @@ public class NetworkUtils {
             return null;
         }
         return ReturnData.getFromJson(connectResult);
+    }
+    public static boolean isLoginSuccess(String result){
+        if(result.startsWith("\"reply_code\":1")||result.startsWith("\"reply_code\":6")){
+            return true;
+        }
+        return false;
     }
 }

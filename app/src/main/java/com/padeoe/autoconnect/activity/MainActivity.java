@@ -192,9 +192,6 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                         break;
                     case R.id.connect:
                         connectNow();
-/*                            PackageManager p = getPackageManager();
-                            ComponentName componentName = new ComponentName(App.context, com.padeoe.autoconnect.activity.MainActivity.class); // activity which is first time open in manifiest file which is declare as <category android:name="android.intent.category.LAUNCHER" />
-                            p.setComponentEnabledSetting(componentName, PackageManager.COMPONENT_ENABLED_STATE_DISABLED, PackageManager.DONT_KILL_APP);*/
                         break;
                     case R.id.disconnect:
                         disconnectNow();
