@@ -40,14 +40,14 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.padeoe.autoconnect.service.InstallService;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
-import com.padeoe.autoconnect.util.NetworkUtils;
+import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
 import com.padeoe.nicservice.njuwlan.ConnectPNJU;
-import com.padeoe.nicservice.njuwlan.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.ReturnData;
 
 
 import java.io.File;
@@ -237,7 +237,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(NetworkUtils.getShowResult(ConnectPNJU.disconnect(200), false));
+            ShowOnMainActivity(ResultUtils.getShowResult(ConnectPNJU.disconnect(200), false));
             if (sharedPreferences.getBoolean("allow_statistics", false)) {
                 AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
             }
@@ -257,10 +257,10 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 String connectResult = ConnectPNJU.connect(username, password, 200);
-                ShowOnMainActivity(NetworkUtils.getShowResult(connectResult, true));
+                ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 ReturnData returnData = null;
                 try {
-                    returnData = NetworkUtils.getReturnDataObject(connectResult);
+                    returnData = ReturnData.getFromJson(connectResult);
                 } catch (Exception e) {
 
                 }
