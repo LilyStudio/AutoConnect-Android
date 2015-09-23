@@ -3,11 +3,6 @@ AutoConnect Android App
 
 AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
 
-<h2>特色</h2>
-
-- 极简：功能简单，操作简单，代码简洁。
-- 不流氓：不要求多余权限，用户可决定是否开机自启，占用资源小。
-
 <h2>适用平台</h2>
 Android 4.0+
 
@@ -26,12 +21,8 @@ Android 4.0+
 <img src="screenshot4.png" width="355" height="631">
 
 <h2>功能说明</h2>
-- 可以手动进行登陆，下线
-- 可以开启后台服务，将在连接上NJU-WLAN时自动登陆
-
-<h2>使用说明</h2>
-
-- 设置中选择允许开机自启后，才会开启后台自动登陆功能。
+- 可手动进行登陆，下线
+- 默认开启后台服务，将在连接上NJU-WLAN时自动登陆
 
 <h2>下载</h2>
 | 系统要求  |  版本号 | 下载链接 |文件大小|
@@ -39,6 +30,13 @@ Android 4.0+
 | android 4.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1128KB|
 | android 5.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |572KB|
 | android 6.0+          | 2.3   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI23/app/app-release.apk)    |479KB|
+
+<h2>To Do</h2>
+- [x] 数据加密传输
+- [ ] 数据加密存储
+- [ ] 显示登陆，账单，等详单列表
+- [ ] 免费获得账号使用
+- [ ] 账号共享
 
 <h2>更新日志</h2>
 

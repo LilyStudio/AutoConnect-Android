@@ -68,7 +68,7 @@ public class DetailQuery {
      * @return
      */
     public static String getBasicInfo() {
-        String result = NetworkUtils.connectAndPost("", "http://p.nju.edu.cn/portal_io/selfservice/volume/getlist", 200);
+        String result = NetworkUtils.connectAndPost("", "http://219.219.114.15/portal_io/selfservice/volume/getlist", 200);
         return result;
     }
 
@@ -94,7 +94,7 @@ public class DetailQuery {
      * @return
      */
     public static String getAuthLog(int page, int row, boolean order, int timeout) {
-        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://p.nju.edu.cn/portal_io/selfservice/authlog/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://219.219.114.15/portal_io/selfservice/authlog/getlist", timeout);
         return result;
     }
 
@@ -120,7 +120,7 @@ public class DetailQuery {
      * @return
      */
     public static String getAcct(int page, int row, boolean order, int timeout) {
-        String result = NetworkUtils.connectAndPost("sort=acctstoptime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://p.nju.edu.cn/portal_io/selfservice/acct/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=acctstoptime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://219.219.114.15/portal_io/selfservice/acct/getlist", timeout);
         return result;
     }
 
@@ -146,7 +146,7 @@ public class DetailQuery {
      * @return
      */
     public static String getBills(int page, int row, boolean order, int timeout) {
-        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://p.nju.edu.cn/portal_io/selfservice/bill/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://219.219.114.15/portal_io/selfservice/bill/getlist", timeout);
         return result;
     }
 
@@ -172,7 +172,7 @@ public class DetailQuery {
      * @return
      */
     public static String getRecharge(int page, int row, boolean order, int timeout) {
-        String result = NetworkUtils.connectAndPost("sort=id&desc=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://p.nju.edu.cn/portal_io/selfservice/recharge/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&desc=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://219.219.114.15/portal_io/selfservice/recharge/getlist", timeout);
         return result;
     }
 

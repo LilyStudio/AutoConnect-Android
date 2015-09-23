@@ -28,7 +28,7 @@ public class ConnectPNJU {
      * @return challenge，null时失败
      */
     public static String getChallenge() {
-        String result = NetworkUtils.connectAndPost("", "http://p.nju.edu.cn/portal_io/getchallenge", 200);
+        String result = NetworkUtils.connectAndPost("", "http://219.219.114.15/portal_io/getchallenge", 200);
         if (result != null && result.startsWith("{\"reply_msg\":\"操作成功\"")) {
             return result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\""));
         }
@@ -61,9 +61,15 @@ public class ConnectPNJU {
      */
     public static String connect(String username, String password, int timeout) {
         String challenge = getChallenge();
-        String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge) + "&challenge=" + challenge;
-        String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
-        return result;
+        if(challenge!=null){
+            String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge) + "&challenge=" + challenge;
+            String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
+            return result;
+        }
+        else{
+            String result=oldConnect(username, password, timeout);
+            return result;
+        }
     }
 
     /**
