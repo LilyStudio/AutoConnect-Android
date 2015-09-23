@@ -1,4 +1,4 @@
-package com.padeoe.nicservice.njuwlan;
+package com.padeoe.nicservice.njuwlan.object;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -8,7 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 
 /**
- * p.nju.edu.cn返回的JSON对象中UserInfo子对象
+ * p.nju.edu.cn的返回信息对象中关于用户的信息
  */
 public class UserInfo {
     @JSONField(name = "username")

@@ -37,14 +37,14 @@ import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.padeoe.autoconnect.service.InstallService;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
-import com.padeoe.autoconnect.util.NetworkUtils;
+import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
 import com.padeoe.nicservice.njuwlan.ConnectPNJU;
-import com.padeoe.nicservice.njuwlan.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.ReturnData;
 
 
 import java.io.File;
@@ -62,6 +62,17 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //如下代码应该在发布是被删除
+        new Thread() {
+            @Override
+            public void run() {
+                String result=ConnectPNJU.getChallenge();
+                Log.i("getChallenge",result);
+            }
+        }.start();
+
+        //测试代码开始
+        //测试代码结束
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
@@ -224,7 +235,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(NetworkUtils.getShowResult(ConnectPNJU.disconnect(200), false));
+            ShowOnMainActivity(ResultUtils.getShowResult(ConnectPNJU.disconnect(200), false));
             if (sharedPreferences.getBoolean("allow_statistics", false)) {
                 AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
             }
@@ -244,13 +255,9 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 String connectResult = ConnectPNJU.connect(username, password, 200);
-                ShowOnMainActivity(NetworkUtils.getShowResult(connectResult, true));
+                ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 ReturnData returnData = null;
-                try {
-                    returnData = NetworkUtils.getReturnDataObject(connectResult);
-                } catch (Exception e) {
-
-                }
+                returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
                     App.context.startService(new Intent(App.context, WiFiDetectService.class));
                     if (sharedPreferences.getString("username", null) == null) {
@@ -428,6 +435,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      * @param permissions
      * @param grantResults
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
