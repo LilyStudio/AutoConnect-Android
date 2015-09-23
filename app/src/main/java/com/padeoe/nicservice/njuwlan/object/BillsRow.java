@@ -3,6 +3,10 @@ package com.padeoe.nicservice.njuwlan.object;
 /**
  * Created by padeoe on 2015/9/23.
  */
+
+/**
+ * 当前登录基本信息的行
+ */
 public class BillsRow {
     private String createtime;
 

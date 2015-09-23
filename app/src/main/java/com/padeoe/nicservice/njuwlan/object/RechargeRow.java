@@ -3,6 +3,10 @@ package com.padeoe.nicservice.njuwlan.object;
 /**
  * Created by padeoe on 2015/9/23.
  */
+
+/**
+ * 充值信息的行
+ */
 public class RechargeRow {
     private String id;
 

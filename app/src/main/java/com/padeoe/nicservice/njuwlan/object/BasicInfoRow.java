@@ -3,6 +3,10 @@ package com.padeoe.nicservice.njuwlan.object;
 /**
  * Created by padeoe on 2015/9/23.
  */
+
+/**
+ * 当前登录的基本信息
+ */
 public class BasicInfoRow {
     private String total_time;
 

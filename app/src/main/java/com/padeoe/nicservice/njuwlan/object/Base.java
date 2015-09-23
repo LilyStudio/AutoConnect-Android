@@ -5,6 +5,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Created by padeoe on 2015/9/23.
  */
+
+/**
+ * 基类
+ */
 public class Base {
     protected String total;
 

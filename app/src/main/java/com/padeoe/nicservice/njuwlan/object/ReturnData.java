@@ -8,7 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 
 /**
- * p.nju.edu.cn的返回信息对象
+ * 登陆返回信息
  */
 public class ReturnData {
     @JSONField(name = "reply_code")

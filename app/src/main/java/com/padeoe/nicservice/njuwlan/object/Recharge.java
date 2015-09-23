@@ -5,6 +5,10 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * Created by padeoe on 2015/9/23.
  */
+
+/**
+ * 充值信息
+ */
 public class Recharge extends Base {
     @JSONField(name = "rows")
     private RechargeRow[] rechargeRows;

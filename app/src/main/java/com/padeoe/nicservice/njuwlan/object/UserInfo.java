@@ -8,7 +8,7 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 
 /**
- * p.nju.edu.cn的返回信息对象中关于用户的信息
+ * 用户信息
  */
 public class UserInfo {
     @JSONField(name = "username")
