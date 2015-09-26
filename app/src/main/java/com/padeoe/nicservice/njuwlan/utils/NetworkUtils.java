@@ -7,7 +7,6 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
-import java.util.List;
 
 /**
  * Created by padeoe on 2015/9/23.
@@ -80,9 +79,7 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            System.out.println("连接出现IO Exception："+ioException.getMessage());
-            /*System.out.println("连接出现IO Exception，即将重置IP");
-            resetPortalIP();*/
+            resetPortalIP();
             return ioException.getMessage();
         }
     }
@@ -119,7 +116,7 @@ public class NetworkUtils {
             }
 
             //读取10KB返回数据
-            byte[] readData = new byte[102400];
+            byte[] readData = new byte[20480];
             int len = 0;
             int wholelen = 0;
 /*          java 1.6 do not support
@@ -157,7 +154,6 @@ public class NetworkUtils {
             return protocolException.getMessage();
         } catch (IOException ioException) {
             //   System.out.println(ioException.getSuppressed());
-            System.out.println("连接出现IO Exception，即将重置IP");
             resetBrasIP();
             return ioException.getMessage();
 
@@ -234,7 +230,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return new String[]{protocolException.getMessage(), null};
         } catch (IOException ioException) {
-            System.out.println("连接出现IO Exception，即将重置IP");
             resetBrasIP();
             return new String[]{ioException.getMessage(), null};
         }
