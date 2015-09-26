@@ -3,7 +3,7 @@ package com.padeoe.autoconnect.util;
 
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.activity.App;
-import com.padeoe.nicservice.njuwlan.object.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
 
 /**
  * Created by padeoe on 2015/9/17.

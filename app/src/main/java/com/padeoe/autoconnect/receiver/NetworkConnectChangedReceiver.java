@@ -11,8 +11,7 @@ import android.util.Log;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.padeoe.autoconnect.service.WiFiDetectService;
-import com.padeoe.autoconnect.util.ResultUtils;
-import com.padeoe.nicservice.njuwlan.ConnectPNJU;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 /**
  * Created by padeoe on 4/20/15.
@@ -41,14 +40,15 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                     try {
                                         if (WiFiDetectService.username != null & WiFiDetectService.password != null) {
                                             for (int i = 0; i < 5; i++) {
-                                                if (ConnectPNJU.isLoginSuccess(ConnectPNJU.connect(WiFiDetectService.username, WiFiDetectService.password, 200))) {
+                                                Log.i("后台登陆","第"+i+"次尝试");
+                                                if (LoginService.getInstance().isLoginSuccess(LoginService.getInstance().connect(WiFiDetectService.username, WiFiDetectService.password))) {
                                                     Log.i("aa","aaaaaa");
                                                     if (WiFiDetectService.allowStatistics) {
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }
                                                     break;
                                                 } else {
-                                                    AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN失败");
+                                                    Log.i("后台登陆","后台登陆失败");
                                                     Thread.sleep(200);
                                                 }
                                             }
