@@ -11,8 +11,7 @@ import android.util.Log;
 
 import com.avos.avoscloud.AVAnalytics;
 import com.padeoe.autoconnect.service.WiFiDetectService;
-import com.padeoe.autoconnect.util.NetworkUtils;
-import com.padeoe.nicservice.njuwlan.ConnectPNJU;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 /**
  * Created by padeoe on 4/20/15.
@@ -40,20 +39,22 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                 public void run() {
                                     try {
                                         if (WiFiDetectService.username != null & WiFiDetectService.password != null) {
+                                            Thread.sleep(200);
                                             for (int i = 0; i < 5; i++) {
-                                                String result=ConnectPNJU.connect(WiFiDetectService.username, WiFiDetectService.password, 200);
-                                                if (NetworkUtils.isLoginSuccess(result)) {
+                                                Log.i("后台登陆","第"+i+"次尝试");
+                                                if (LoginService.getInstance().isLoginSuccess(LoginService.getInstance().connect(WiFiDetectService.username, WiFiDetectService.password))) {
+                                                    Log.i("后台登陆","后台登陆成功");
                                                     if (WiFiDetectService.allowStatistics) {
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }
                                                     break;
                                                 } else {
-                                                    Log.i("后台登陆", "后台自动登陆NJU-WLAN失败"+result);
+                                                    Log.e("后台登陆","后台登陆失败");
                                                     Thread.sleep(200);
                                                 }
                                             }
                                         } else
-                                            Log.i("Error", "未设置用户名密码");
+                                            Log.e("Error", "未设置用户名密码");
                                     } catch (InterruptedException e) {
                                         e.printStackTrace();
                                     }
