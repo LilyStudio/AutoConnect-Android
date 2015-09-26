@@ -41,13 +41,14 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                                     try {
                                         if (WiFiDetectService.username != null & WiFiDetectService.password != null) {
                                             for (int i = 0; i < 5; i++) {
-                                                if (NetworkUtils.isLoginSuccess(ConnectPNJU.connect(WiFiDetectService.username, WiFiDetectService.password, 200))) {
+                                                String result=ConnectPNJU.connect(WiFiDetectService.username, WiFiDetectService.password, 200);
+                                                if (NetworkUtils.isLoginSuccess(result)) {
                                                     if (WiFiDetectService.allowStatistics) {
                                                         AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                     }
                                                     break;
                                                 } else {
-                                                    AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN失败");
+                                                    Log.i("后台登陆", "后台自动登陆NJU-WLAN失败"+result);
                                                     Thread.sleep(200);
                                                 }
                                             }

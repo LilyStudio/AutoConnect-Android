@@ -41,8 +41,8 @@ public class NetworkUtils {
         return ReturnData.getFromJson(connectResult);
     }
 
-    public static boolean isLoginSuccess(String result){
-        if(result.startsWith("\"reply_code\":1")||result.startsWith("\"reply_code\":6")){
+    public static boolean isLoginSuccess(String result) {
+        if (result.startsWith("{\"reply_code\":1") || result.startsWith("{\"reply_code\":6")) {
             return true;
         }
         return false;
