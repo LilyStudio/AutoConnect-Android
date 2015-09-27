@@ -46,8 +46,8 @@ import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
-import com.padeoe.nicservice.njuwlan.ConnectPNJU;
-import com.padeoe.nicservice.njuwlan.object.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 
 import java.io.File;
@@ -237,7 +237,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(ResultUtils.getShowResult(ConnectPNJU.disconnect(200), false));
+            ShowOnMainActivity(ResultUtils.getShowResult(LoginService.getInstance().disconnect(), false));
             if (sharedPreferences.getBoolean("allow_statistics", false)) {
                 AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
             }
@@ -256,14 +256,10 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
-                String connectResult = ConnectPNJU.connect(username, password, 200);
+                String connectResult = LoginService.getInstance().connect(username, password);
                 ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 ReturnData returnData = null;
-                try {
-                    returnData = ReturnData.getFromJson(connectResult);
-                } catch (Exception e) {
-
-                }
+                returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
                     App.context.startService(new Intent(App.context, WiFiDetectService.class));
                     if (sharedPreferences.getString("username", null) == null) {

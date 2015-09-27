@@ -1,4 +1,4 @@
-package com.padeoe.nicservice.njuwlan;
+package com.padeoe.nicservice.njuwlan.service;
 
 import com.padeoe.nicservice.njuwlan.utils.NetworkUtils;
 
@@ -12,14 +12,23 @@ import java.security.NoSuchAlgorithmException;
  *
  * @author yus, padeoe
  */
-public class ConnectPNJU {
-    private static final String LOGINURL = "http://219.219.114.15/portal_io/login";
-    private static final String LOGOUTURL = "http://219.219.114.15/portal_io/logout";
-
+public class LoginService {
+    private static LoginService loginService;
+    private static String LOGINURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/login";
+    private static String LOGOUTURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/logout";
+    private int timeout=200;
     /**
      * 防止类被实例化
      */
-    private ConnectPNJU() {
+    private LoginService() {
+    }
+
+    public static LoginService getInstance(){
+        System.out.println("获取实例");
+        if(loginService ==null){
+            loginService =new LoginService();
+        }
+        return loginService;
     }
 
     /**
@@ -27,8 +36,8 @@ public class ConnectPNJU {
      *
      * @return challenge，null时失败
      */
-    public static String getChallenge() {
-        String result = NetworkUtils.connectAndPost("", "http://p.nju.edu.cn/portal_io/getchallenge", 200);
+    private String getChallenge() {
+        String result = NetworkUtils.connectAndPost("", "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/getchallenge", timeout);
         if (result != null && result.startsWith("{\"reply_msg\":\"操作成功\"")) {
             return result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\""));
         }
@@ -56,14 +65,19 @@ public class ConnectPNJU {
      *
      * @param username
      * @param password
-     * @param timeout
      * @return
      */
-    public static String connect(String username, String password, int timeout) {
+    public String connect(String username, String password) {
         String challenge = getChallenge();
-        String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge) + "&challenge=" + challenge;
-        String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
-        return result;
+        if(challenge!=null){
+            String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge) + "&challenge=" + challenge;
+            String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
+            return result;
+        }
+        else{
+            return oldConnect(username, password, timeout);
+        }
+
     }
 
     /**
@@ -71,7 +85,7 @@ public class ConnectPNJU {
      *
      * @return 是否成功
      */
-    public static String disconnect(int timeout) {
+    public String disconnect() {
         String result = NetworkUtils.connectAndPost("", LOGOUTURL, timeout);
         return result;
     }
@@ -152,6 +166,17 @@ public class ConnectPNJU {
         return false;
     }
 
+    public static boolean isPortalOnline(){
+        String result=NetworkUtils.connectAndPost("","http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/getinfo",200);
+        if(result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n")){
+            return true;
+        }
+        return false;
+    }
 
+    public static void resetIP(){
+        LOGINURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/login";
+        LOGOUTURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/logout";
+    }
 }
 

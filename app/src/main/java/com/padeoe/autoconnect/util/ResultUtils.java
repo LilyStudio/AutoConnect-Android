@@ -3,7 +3,7 @@ package com.padeoe.autoconnect.util;
 
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.activity.App;
-import com.padeoe.nicservice.njuwlan.object.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
 
 /**
  * Created by padeoe on 2015/9/17.
@@ -34,4 +34,16 @@ public class ResultUtils {
         return connectResult;
     }
 
+/*    public static ReturnData getReturnDataObject(String connectResult) {
+        if (connectResult == null) {
+            return null;
+        }
+        return ReturnData.getFromJson(connectResult);
+    }
+    public static boolean isLoginSuccess(String result){
+        if(result.startsWith("{\"reply_code\":1")||result.startsWith("{\"reply_code\":6")){
+            return true;
+        }
+        return false;
+    }*/
 }
