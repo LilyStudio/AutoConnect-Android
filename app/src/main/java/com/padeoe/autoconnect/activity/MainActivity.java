@@ -392,8 +392,11 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                 new ExplainPermissionFragment().show(fm, "s");
 
             }
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant
+            else{
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
 
         } else {
             downloadNow();
