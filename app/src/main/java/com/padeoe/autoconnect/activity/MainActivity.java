@@ -405,8 +405,11 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
                 new ExplainPermissionFragment().show(fm, "s");
 
             }
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant
+            else{
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
 
         } else {
             downloadNow();
