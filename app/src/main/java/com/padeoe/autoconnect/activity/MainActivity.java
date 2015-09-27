@@ -39,14 +39,14 @@ import com.avos.avoscloud.FindCallback;
 import com.avos.avoscloud.GetCallback;
 import com.padeoe.autoconnect.service.InstallService;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
-import com.padeoe.autoconnect.util.NetworkUtils;
+import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
-import com.padeoe.nicservice.njuwlan.ConnectPNJU;
-import com.padeoe.nicservice.njuwlan.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 
 import java.io.File;
@@ -159,7 +159,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      */
     @Override
     public void explainOverClick(DialogFragment dialog) {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+        requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
     }
 
     private class StableArrayAdapter extends ArrayAdapter<String> {
@@ -226,7 +226,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(NetworkUtils.getShowResult(ConnectPNJU.disconnect(200), false));
+            ShowOnMainActivity(ResultUtils.getShowResult(LoginService.getInstance().disconnect(), false));
             if (sharedPreferences.getBoolean("allow_statistics", false)) {
                 AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
             }
@@ -245,14 +245,10 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
-                String connectResult = ConnectPNJU.connect(username, password, 200);
-                ShowOnMainActivity(NetworkUtils.getShowResult(connectResult, true));
+                String connectResult = LoginService.getInstance().connect(username, password);
+                ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 ReturnData returnData = null;
-                try {
-                    returnData = NetworkUtils.getReturnDataObject(connectResult);
-                } catch (Exception e) {
-
-                }
+                returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
                     App.context.startService(new Intent(App.context, WiFiDetectService.class));
                     if (sharedPreferences.getString("username", null) == null) {
@@ -398,8 +394,11 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                 new ExplainPermissionFragment().show(fm, "s");
 
             }
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant
+            else{
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            }
 
         } else {
             downloadNow();
@@ -430,6 +429,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      * @param permissions
      * @param grantResults
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -487,7 +487,6 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                             } else {
                                 Toast.makeText(App.context, App.context.getString(R.string.get_local_version_error), Toast.LENGTH_SHORT).show();
                             }
-
                         } else {
                             Toast.makeText(App.context, App.context.getString(R.string.check_update_error), Toast.LENGTH_SHORT).show();
                         }
