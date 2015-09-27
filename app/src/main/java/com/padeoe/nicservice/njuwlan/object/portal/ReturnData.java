@@ -1,4 +1,4 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.portal;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;

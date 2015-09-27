@@ -1,11 +1,11 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.portal.row;
 
 /**
  * Created by padeoe on 2015/9/23.
  */
 
 /**
- * 登录信息的行
+ * 当前登陆信息的行
  */
 public class BasicInfoRow {
     private String total_time;

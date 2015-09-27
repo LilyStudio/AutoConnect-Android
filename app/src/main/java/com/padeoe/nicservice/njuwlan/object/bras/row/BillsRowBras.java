@@ -1,4 +1,4 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.bras.row;
 
 /**
  * Created by padeoe on 2015/9/23.
@@ -7,24 +7,24 @@ package com.padeoe.nicservice.njuwlan.object;
 /**
  * 账单信息的行
  */
-public class BillsRow {
-    private String createtime;
+public class BillsRowBras {
+    protected String createtime;
 
-    private String id;
+    protected String id;
 
-    private String beginning_balance;
+    protected String beginning_balance;
 
-    private String startdate;
+    protected String startdate;
 
-    private String recharge_amount;
+    protected String recharge_amount;
 
-    private String ending_balance;
+    protected String ending_balance;
 
-    private String enddate;
+    protected String enddate;
 
-    private String costs_amount;
+    protected String costs_amount;
 
-    private String account_no;
+    protected String account_no;
 
     public String getCreatetime() {
         return createtime;

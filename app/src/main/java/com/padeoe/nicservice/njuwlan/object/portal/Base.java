@@ -1,4 +1,4 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.portal;
 
 /**
  * Created by padeoe on 2015/9/23.

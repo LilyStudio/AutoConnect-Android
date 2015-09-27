@@ -34,6 +34,7 @@ Android 4.0+
 <h2>To Do</h2>
 - [x] 数据加密传输
 - [ ] 数据加密存储
+- [ ] widget小组件
 - [ ] 显示登陆，账单，等详单列表
 - [ ] 免费获得账号使用
 - [ ] 账号共享
@@ -45,6 +46,8 @@ Android 4.0+
 <h2>如何使用源代码构建并运行</h2>
 - [查看build instruction](https://github.com/padeoe/AutoConnect/blob/newUI/BUILDING.md)
 
+<h2>特别感谢</h2>
+- 技术顾问[@Nifury](https://github.com/Nifury)
 
 <h2>许可证</h2>
 在最为宽松的MIT许可下开源

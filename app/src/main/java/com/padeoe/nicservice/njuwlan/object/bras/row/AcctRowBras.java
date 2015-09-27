@@ -1,6 +1,6 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.bras.row;
 
-import com.alibaba.fastjson.annotation.JSONField;
+import com.padeoe.nicservice.njuwlan.object.portal.row.AcctRow;
 
 /**
  * Created by padeoe on 2015/9/23.
@@ -9,69 +9,38 @@ import com.alibaba.fastjson.annotation.JSONField;
 /**
  * 详单信息的行
  */
-public class AcctRow {
-    @JSONField(name = "pvlan")
-    private String pvlan;
-    @JSONField(name = "service_id")
-    private String service_id;
-    @JSONField(name = "area_id")
-    private String area_id;
-    @JSONField(name = "acctsessiontime")
-    private String acctsessiontime;
-    @JSONField(name = "mac")
-    private String mac;
-    @JSONField(name = "service_name")
-    private String service_name;
-    @JSONField(name = "ap_id")
-    private String ap_id;
-    @JSONField(name = "area_type")
-    private String area_type;
-    @JSONField(name = "id")
-    private String id;
-    @JSONField(name = "username")
-    private String username;
-    @JSONField(name = "acctstarttime")
-    private String acctstarttime;
-    @JSONField(name = "area_name")
-    private String area_name;
-    @JSONField(name = "user_id")
-    private String user_id;
-    @JSONField(name = "acctoutputoctets_ipv4")
-    private String acctoutputoctets_ipv4;
-    @JSONField(name = "user_ipv4")
-    private String user_ipv4;
-    @JSONField(name = "refer_ipv6")
-    private String refer_ipv6;
-    @JSONField(name = "fullname")
-    private String fullname;
-    @JSONField(name = "acctoutputoctets_ipv6")
-    private String acctoutputoctets_ipv6;
-    @JSONField(name = "user_ipv6")
-    private String user_ipv6;
-    @JSONField(name = "refer_ipv4")
-    private String refer_ipv4;
-    @JSONField(name = "acctinputoctets_ipv6")
-    private String acctinputoctets_ipv6;
-    @JSONField(name = "acctinputoctets_ipv4")
-    private String acctinputoctets_ipv4;
-    @JSONField(name = "subport")
-    private String subport;
-    @JSONField(name = "acctsessionid")
-    private String acctsessionid;
-    @JSONField(name = "amount_ipv6")
-    private String amount_ipv6;
-    @JSONField(name = "acctstoptime")
-    private String acctstoptime;
-    @JSONField(name = "amount_ipv4")
-    private String amount_ipv4;
-    @JSONField(name = "svlan")
-    private String svlan;
-    @JSONField(name = "acctterminatecause")
-    private String acctterminatecause;
-    @JSONField(name = "src_ip")
-    private String src_ip;
-    @JSONField(name = "nas_ip")
-    private String nas_ip;
+public class AcctRowBras {
+    protected String pvlan;
+    protected String service_id;
+    protected String area_id;
+    protected String acctsessiontime;
+    protected String mac;
+    protected String service_name;
+    protected String ap_id;
+    protected String area_type;
+    protected String id;
+    protected String username;
+    protected String acctstarttime;
+    protected String area_name;
+    protected String user_id;
+    protected String acctoutputoctets_ipv4;
+    protected String user_ipv4;
+    protected String refer_ipv6;
+    protected String fullname;
+    protected String acctoutputoctets_ipv6;
+    protected String user_ipv6;
+    protected String refer_ipv4;
+    protected String acctinputoctets_ipv6;
+    protected String acctinputoctets_ipv4;
+    protected String subport;
+    protected String acctsessionid;
+    protected String amount_ipv6;
+    protected String acctstoptime;
+    protected String amount_ipv4;
+    protected String svlan;
+    protected String acctterminatecause;
+    protected String src_ip;
+    protected String nas_ip;
 
     public String getPvlan() {
         return pvlan;
@@ -326,3 +295,4 @@ public class AcctRow {
         return "ClassPojo [pvlan = " + pvlan + ", service_id = " + service_id + ", area_id = " + area_id + ", acctsessiontime = " + acctsessiontime + ", mac = " + mac + ", service_name = " + service_name + ", ap_id = " + ap_id + ", area_type = " + area_type + ", id = " + id + ", username = " + username + ", acctstarttime = " + acctstarttime + ", area_name = " + area_name + ", user_id = " + user_id + ", acctoutputoctets_ipv4 = " + acctoutputoctets_ipv4 + ", user_ipv4 = " + user_ipv4 + ", refer_ipv6 = " + refer_ipv6 + ", fullname = " + fullname + ", acctoutputoctets_ipv6 = " + acctoutputoctets_ipv6 + ", user_ipv6 = " + user_ipv6 + ", refer_ipv4 = " + refer_ipv4 + ", acctinputoctets_ipv6 = " + acctinputoctets_ipv6 + ", acctinputoctets_ipv4 = " + acctinputoctets_ipv4 + ", subport = " + subport + ", acctsessionid = " + acctsessionid + ", amount_ipv6 = " + amount_ipv6 + ", acctstoptime = " + acctstoptime + ", amount_ipv4 = " + amount_ipv4 + ", svlan = " + svlan + ", acctterminatecause = " + acctterminatecause + ", src_ip = " + src_ip + ", nas_ip = " + nas_ip + "]";
     }
 }
+

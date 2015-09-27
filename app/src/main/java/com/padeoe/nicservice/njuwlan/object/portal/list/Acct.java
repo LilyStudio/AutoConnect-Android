@@ -1,7 +1,9 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.portal.list;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.padeoe.nicservice.njuwlan.object.portal.Base;
+import com.padeoe.nicservice.njuwlan.object.portal.row.AcctRow;
 
 /**
  * Created by padeoe on 2015/9/23.
@@ -35,8 +37,13 @@ public class Acct extends Base {
     }
 
     @Override
-    public String toString() {
-        return "ClassPojo [total = " + total + ", reply_code = " + reply_code + ", rows = " + acctRows + ", reply_msg = " + reply_msg + "]";
+    public String toString()
+    {
+        return "Acct:[\n" +
+                "total = "+total+",\n" +
+                "reply_code = "+reply_code+",\n" +
+                "reply_msg = "+reply_msg+",\n"+
+                acctRows.toString()+",\n]\n";
     }
 }
 

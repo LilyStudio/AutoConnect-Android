@@ -1,34 +1,28 @@
-package com.padeoe.nicservice.njuwlan.object;
+package com.padeoe.nicservice.njuwlan.object.bras.row;
 
 /**
  * Created by padeoe on 2015/9/23.
  */
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 /**
  * 充值信息的行
  */
-public class RechargeRow {
-    private String id;
+public class RechargeRowBras {
 
-    private String amount;
+    protected String amount;
 
-    private String remark;
+    protected String remark;
 
-    private String oper_time;
+    protected String oper_time;
 
-    private String oper_username;
+    protected String oper_id;
 
-    private String oper_id;
+    protected String account_no;
 
-    private String account_no;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
+    @JSONField(name = "oper_name")
+    protected String oper_username;
 
     public String getAmount() {
         return amount;
@@ -54,14 +48,6 @@ public class RechargeRow {
         this.oper_time = oper_time;
     }
 
-    public String getOper_username() {
-        return oper_username;
-    }
-
-    public void setOper_username(String oper_username) {
-        this.oper_username = oper_username;
-    }
-
     public String getOper_id() {
         return oper_id;
     }
@@ -78,8 +64,15 @@ public class RechargeRow {
         this.account_no = account_no;
     }
 
+    public String getOper_username() {
+        return oper_username;
+    }
+
+    public void setOper_username(String oper_username) {
+        this.oper_username = oper_username;
+    }
     @Override
     public String toString() {
-        return "ClassPojo [id = " + id + ", amount = " + amount + ", remark = " + remark + ", oper_time = " + oper_time + ", oper_username = " + oper_username + ", oper_id = " + oper_id + ", account_no = " + account_no + "]";
+        return "ClassPojo " + ", amount = " + amount + ", remark = " + remark + ", oper_time = " + oper_time + ", oper_id = " + oper_id + ", account_no = " + account_no + "]";
     }
 }
