@@ -14,6 +14,7 @@ import java.net.*;
 public class NetworkUtils {
     private static String portalIP = null;
     private static String brasIP = null;
+
     /**
      * Post请求
      *
@@ -153,7 +154,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            //   System.out.println(ioException.getSuppressed());
             resetBrasIP();
             return ioException.getMessage();
 
@@ -213,12 +213,6 @@ public class NetworkUtils {
 
             cookie = connection.getHeaderField("Set-Cookie");
             cookie = cookie.substring(0, cookie.indexOf(";"));
-/*            CookieStore cookieJar = manager.getCookieStore();
-            List<HttpCookie> cookies =
-                    cookieJar.getCookies();
-            if (cookies.size() > 0 && cookies.get(0) != null) {
-                cookie = cookies.get(0).toString();
-            }*/
             connection.disconnect();
             String data = new String(readData, 0, len, "UTF-8");
             return new String[]{data, cookie};
@@ -248,18 +242,11 @@ public class NetworkUtils {
         try {
             System.out.println("请求DNS解析");
             inetAddresses = InetAddress.getAllByName("p.nju.edu.cn");
-            for (InetAddress e : inetAddresses) {
-                String result = NetworkUtils.connectAndPost("", "http://" + e.getHostAddress() + "/portal_io/getinfo", 200);
-                if (result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n") || result.startsWith("{\"reply_code\":2")) {
-                    portalIP= e.getHostAddress();
-                    System.out.println("DNS解析成功");
-                }
-            }
-            portalIP="210.28.129.9";
+            portalIP = inetAddresses[0].getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
             System.out.println("DNS无法解析，将使用默认IP");
-            portalIP="210.28.129.9";
+            portalIP = "210.28.129.9";
         }
         LoginService.resetIP();
     }
@@ -277,18 +264,11 @@ public class NetworkUtils {
         try {
             System.out.println("请求DNS解析");
             inetAddresses = InetAddress.getAllByName("bras.nju.edu.cn");
-            for (InetAddress e : inetAddresses) {
-                String result = NetworkUtils.connectAndPost("", "http://"+e.getHostAddress()+":8080/manage/self/userinfo/getinfo", 200);
-                if (result.endsWith("\"reply_code\":8}\n")) {
-                    brasIP= e.getHostAddress();
-                    System.out.println("DNS解析成功");
-                }
-            }
-            brasIP="219.219.114.254";
+            brasIP = inetAddresses[0].getHostAddress();
         } catch (UnknownHostException e) {
             e.printStackTrace();
             System.out.println("DNS无法解析，将使用默认IP");
-            brasIP="219.219.114.254";
+            brasIP = "219.219.114.254";
         }
     }
 

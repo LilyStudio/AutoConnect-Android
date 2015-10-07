@@ -12,7 +12,10 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.net.NetworkInfo;
+import android.net.NetworkRequest;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -255,7 +258,12 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         String password = passwordEdit.getText().toString();
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
-            if (isConnectedtoWiFi()) {
+            ConnectivityManager.NetworkCallback networkCallback=new NetworkchageCallBack();
+            ConnectivityManager connectivityManager=(ConnectivityManager)App.context.getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkRequest.Builder builder=new NetworkRequest.Builder();
+            NetworkRequest networkRequest=builder.addTransportType(NetworkCapabilities.TRANSPORT_CELLULAR).build();
+            connectivityManager.requestNetwork(networkRequest,networkCallback);
+            /*if (isConnectedtoWiFi()) {*/
                 String connectResult = LoginService.getInstance().connect(username, password);
                 ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 ReturnData returnData = null;
@@ -270,7 +278,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
                     AVAnalytics.onEvent(App.context, "立即登陆NJU-WLAtgN");
                 }
 
-            }
+            /*}*/
             //如果用户没有填写用户名密码
             else
                 ShowOnMainActivity((String) getResources().getText(R.string.no_wifi));
@@ -324,8 +332,13 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
      */
     public boolean isConnectedtoWiFi() {
         ConnectivityManager connManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo mWifi = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
-        return mWifi.isConnected();
+        Network[] network=connManager.getAllNetworks();
+        for(Network n:network){
+            if(connManager.getNetworkInfo(n).getType()==connManager.TYPE_WIFI){
+                return true;
+            }
+        }
+        return false;
     }
 
 
@@ -408,7 +421,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
             else{
                 // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
                 // app-defined int constant
-                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+                ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
 
         } else {
