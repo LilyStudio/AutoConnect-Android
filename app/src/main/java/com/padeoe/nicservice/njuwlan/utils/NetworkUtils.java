@@ -1,19 +1,16 @@
 package com.padeoe.nicservice.njuwlan.utils;
 
-import com.padeoe.nicservice.njuwlan.service.LoginService;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.concurrent.*;
 
 /**
  * Created by padeoe on 2015/9/23.
  */
 public class NetworkUtils {
-    private static String portalIP = null;
-    private static String brasIP = null;
 
     /**
      * Post请求
@@ -80,7 +77,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            resetPortalIP();
             return ioException.getMessage();
         }
     }
@@ -154,7 +150,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            resetBrasIP();
             return ioException.getMessage();
 
         }
@@ -224,53 +219,49 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return new String[]{protocolException.getMessage(), null};
         } catch (IOException ioException) {
-            resetBrasIP();
             return new String[]{ioException.getMessage(), null};
         }
     }
 
+
     public static String getCurrentPortalIP() {
-        if (portalIP == null) {
-            System.out.println("即将初始化IP");
-            resetPortalIP();
-        }
-        return portalIP;
+        return DNS("p.nju.edu.cn","210.28.129.9",200);
     }
 
-    public static void resetPortalIP() {
-        InetAddress[] inetAddresses;
-        try {
-            System.out.println("请求DNS解析");
-            inetAddresses = InetAddress.getAllByName("p.nju.edu.cn");
-            portalIP = inetAddresses[0].getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.out.println("DNS无法解析，将使用默认IP");
-            portalIP = "210.28.129.9";
-        }
-        LoginService.resetIP();
-    }
 
     public static String getCurrentBrasIP() {
-        if (brasIP == null) {
-            System.out.println("即将初始化bras IP");
-            resetBrasIP();
-        }
-        return brasIP;
+        return DNS("bras.nju.edu.cn","219.219.114.254",200);
     }
 
-    public static void resetBrasIP() {
-        InetAddress[] inetAddresses;
+
+    private static String DNS(final String URL,final String defaultIP,int timeout){
+        class Task implements Callable<String> {
+            @Override
+            public String call() throws Exception {
+                InetAddress[] inetAddresses;
+                try{
+                    inetAddresses = InetAddress.getAllByName(URL);
+                    return inetAddresses[0].getHostAddress();
+                }catch(UnknownHostException e){
+                    System.out.println("未知的域名");
+                    return defaultIP;
+                }
+            }
+        }
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(new Task());
+
         try {
-            System.out.println("请求DNS解析");
-            inetAddresses = InetAddress.getAllByName("bras.nju.edu.cn");
-            brasIP = inetAddresses[0].getHostAddress();
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.out.println("DNS无法解析，将使用默认IP");
-            brasIP = "219.219.114.254";
+            System.out.println("开始解析DNS");
+            String result=future.get(timeout, TimeUnit.MILLISECONDS);
+            executor.shutdownNow();
+            return result;
+        } catch (Exception e) {
+            future.cancel(true);
+            System.out.println("解析被终止");
+            executor.shutdownNow();
+            return defaultIP;
         }
     }
-
 
 }

@@ -18,6 +18,7 @@ public class OfflineQueryService implements DetailQuery{
     public static final int ACCT = 3;
     public static final int BILLS = 4;
     public static final int RECHARGE = 5;
+    private String cachedBrasIP=null;
     private OfflineQueryService(String username, String password){
         System.out.println("构造函数");
         authkey="username="+username+"&password="+password;
@@ -75,10 +76,10 @@ public class OfflineQueryService implements DetailQuery{
         if(cookie==null){
             resetCookie(authkey);
         }
-        String result=NetworkUtils.postWithCookie("page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/online/getlist",timeout);
+        String result=NetworkUtils.postWithCookie("page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/online/getlist",timeout);
         if(isCookieInvalid(result)){
             resetCookie(authkey);
-            result=NetworkUtils.postWithCookie("page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/online/getlist",timeout);
+            result=NetworkUtils.postWithCookie("page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/online/getlist",timeout);
         }
         return result;
     }
@@ -88,10 +89,10 @@ public class OfflineQueryService implements DetailQuery{
         if(cookie==null){
             resetCookie(authkey);
         }
-        String result=NetworkUtils.postWithCookie("sort=datetime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/authlog/getlist",timeout);
+        String result=NetworkUtils.postWithCookie("sort=datetime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/authlog/getlist",timeout);
         if(isCookieInvalid(result)) {
             resetCookie(authkey);
-            result=NetworkUtils.postWithCookie("sort=datetime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/authlog/getlist",timeout);
+            result=NetworkUtils.postWithCookie("sort=datetime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/authlog/getlist",timeout);
         }
         return result;
     }
@@ -110,10 +111,10 @@ public class OfflineQueryService implements DetailQuery{
         if(cookie==null){
             resetCookie(authkey);
         }
-        String result=NetworkUtils.postWithCookie("month="+month+"&sort=acctstarttime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/detail/getlist",timeout);
+        String result=NetworkUtils.postWithCookie("month="+month+"&sort=acctstarttime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/detail/getlist",timeout);
         if(isCookieInvalid(result)) {
             resetCookie(authkey);
-            result=NetworkUtils.postWithCookie("month="+month+"&sort=acctstarttime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/detail/getlist",timeout);
+            result=NetworkUtils.postWithCookie("month="+month+"&sort=acctstarttime&order="+(order?"desc":"asc")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/detail/getlist",timeout);
         }
         return result;
     }
@@ -126,10 +127,10 @@ public class OfflineQueryService implements DetailQuery{
         if(cookie==null){
             resetCookie(authkey);
         }
-        String result=NetworkUtils.postWithCookie("sort=createtime&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/bill/getlist",timeout);
+        String result=NetworkUtils.postWithCookie("sort=createtime&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/bill/getlist",timeout);
         if(isCookieInvalid(result)) {
             resetCookie(authkey);
-            result=NetworkUtils.postWithCookie("sort=createtime&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/bill/getlist",timeout);
+            result=NetworkUtils.postWithCookie("sort=createtime&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/bill/getlist",timeout);
         }
         return result;
     }
@@ -143,10 +144,10 @@ public class OfflineQueryService implements DetailQuery{
         if(cookie==null){
             resetCookie(authkey);
         }
-        String result=NetworkUtils.postWithCookie("sort=oper_time&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/recharge/getlist",timeout);
+        String result=NetworkUtils.postWithCookie("sort=oper_time&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/recharge/getlist",timeout);
         if(isCookieInvalid(result)) {
             resetCookie(authkey);
-            result=NetworkUtils.postWithCookie("sort=oper_time&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/recharge/getlist",timeout);
+            result=NetworkUtils.postWithCookie("sort=oper_time&order="+(order?"DESC":"ASC")+"&page="+page+"&rows="+row,cookie,"http://"+getCachedBrasIP()+":8080/manage/self/recharge/getlist",timeout);
         }
         return result;
     }
@@ -164,7 +165,7 @@ public class OfflineQueryService implements DetailQuery{
     }
 
     public String resetCookie(String authkey){
-        String[] result= NetworkUtils.postAndGetCookie(authkey, "http://"+NetworkUtils.getCurrentBrasIP()+":8080/manage/self/auth/login",timeout);
+        String[] result= NetworkUtils.postAndGetCookie(authkey, "http://"+getCachedBrasIP()+":8080/manage/self/auth/login",timeout);
         System.out.println("试图登录:"+result[0]);
         if(isLoginSuccess(result[0])){
             System.out.println("试图登录:cookie:"+result[1]);
@@ -219,6 +220,13 @@ public class OfflineQueryService implements DetailQuery{
                 return false;
         }
         return false;
+    }
+    private String getCachedBrasIP(){
+        if(cachedBrasIP==null){
+            return cachedBrasIP=NetworkUtils.getCurrentBrasIP();
+        }
+        System.out.println("获得缓存IP:"+cachedBrasIP);
+        return cachedBrasIP;
     }
 
 
