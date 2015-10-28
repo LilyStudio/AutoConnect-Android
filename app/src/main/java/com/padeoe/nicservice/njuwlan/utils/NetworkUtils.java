@@ -1,6 +1,7 @@
 package com.padeoe.nicservice.njuwlan.utils;
 
-import android.util.Log;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
+import javafx.concurrent.Task;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -43,7 +44,6 @@ public class NetworkUtils {
             try (OutputStream outputStream = connection.getOutputStream()) {
                 outputStream.write(postAsBytes);
             }*/
-
             OutputStream outputStream = null;
             try {
                 outputStream = connection.getOutputStream();
@@ -54,8 +54,6 @@ public class NetworkUtils {
                 }
 
             }
-
-
 
             //读取10KB返回数据
             byte[] readData = new byte[10240];
@@ -75,7 +73,6 @@ public class NetworkUtils {
                     }
                     wholelen += len;
                 }
-
             } finally {
                 if (inputStream != null) {
                     {
@@ -89,7 +86,6 @@ public class NetworkUtils {
             }
             connection.disconnect();
             String data = new String(readData, 0, wholelen, "UTF-8");
-            Log.e("hahahha", data);
             return data;
         } catch (UnsupportedEncodingException e) {
             return e.getMessage();
