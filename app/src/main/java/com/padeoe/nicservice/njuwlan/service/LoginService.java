@@ -14,19 +14,21 @@ import java.security.NoSuchAlgorithmException;
  */
 public class LoginService {
     private static LoginService loginService;
-    private static String LOGINURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/login";
-    private static String LOGOUTURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/logout";
-    private int timeout=200;
+    private static String cachedPortalIP=null;
+/*    private static String LOGINURL = "http://" + NetworkUtils.getCurrentPortalIP() + "/portal_io/login";
+    private static String LOGOUTURL = "http://" + NetworkUtils.getCurrentPortalIP() + "/portal_io/logout";*/
+    private int timeout = 200;
+
     /**
      * 防止类被实例化
      */
     private LoginService() {
     }
 
-    public static LoginService getInstance(){
+    public static LoginService getInstance() {
         System.out.println("获取实例");
-        if(loginService ==null){
-            loginService =new LoginService();
+        if (loginService == null) {
+            loginService = new LoginService();
         }
         return loginService;
     }
@@ -36,12 +38,13 @@ public class LoginService {
      *
      * @return challenge，null时失败
      */
-    private String getChallenge() {
-        String result = NetworkUtils.connectAndPost("", "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/getchallenge", timeout);
+    private String[] getChallenge() {
+        System.out.println("正在获取Challenge");
+        String result = NetworkUtils.connectAndPost("", "http://" + getCachedPortalIP() + "/portal_io/getchallenge", timeout);
         if (result != null && result.startsWith("{\"reply_msg\":\"操作成功\"")) {
-            return result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\""));
+            return new String[]{result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\"")),result};
         }
-        return null;
+        return new String[]{null,result};
     }
 
 
@@ -56,7 +59,7 @@ public class LoginService {
     @Deprecated
     public static String oldConnect(String username, String password, int timeout) {
         String postdata = "action=login&username=" + username + "&password=" + password;
-        String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
+        String result = NetworkUtils.connectAndPost(postdata, "http://" + getCachedPortalIP() + "/portal_io/login", timeout);
         return result;
     }
 
@@ -68,14 +71,13 @@ public class LoginService {
      * @return
      */
     public String connect(String username, String password) {
-        String challenge = getChallenge();
-        if(challenge!=null){
-            String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge) + "&challenge=" + challenge;
-            String result = NetworkUtils.connectAndPost(postdata, LOGINURL, timeout);
+        String challenge[] = getChallenge();
+        if (challenge[0] != null) {
+            String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge[0]) + "&challenge=" + challenge[0];
+            String result = NetworkUtils.connectAndPost(postdata, "http://" + getCachedPortalIP() + "/portal_io/login", timeout);
             return result;
-        }
-        else{
-            return oldConnect(username, password, timeout);
+        } else {
+            return challenge[1];
         }
 
     }
@@ -86,7 +88,7 @@ public class LoginService {
      * @return 是否成功
      */
     public String disconnect() {
-        String result = NetworkUtils.connectAndPost("", LOGOUTURL, timeout);
+        String result = NetworkUtils.connectAndPost("", "http://" + getCachedPortalIP() + "/portal_io/logout", timeout);
         return result;
     }
 
@@ -166,17 +168,24 @@ public class LoginService {
         return false;
     }
 
-    public static boolean isPortalOnline(){
-        String result=NetworkUtils.connectAndPost("","http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/getinfo",200);
-        if(result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n")){
+    public static boolean isPortalOnline() {
+        String result = NetworkUtils.connectAndPost("", "http://" + getCachedPortalIP() + "/portal_io/getinfo", 200);
+        if (result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n")) {
             return true;
         }
         return false;
     }
 
-    public static void resetIP(){
-        LOGINURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/login";
-        LOGOUTURL = "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/logout";
+/*    public static void resetIP() {
+        LOGINURL = "http://" + NetworkUtils.getCurrentPortalIP() + "/portal_io/login";
+        LOGOUTURL = "http://" + NetworkUtils.getCurrentPortalIP() + "/portal_io/logout";
+    }*/
+    private static String getCachedPortalIP(){
+        if(cachedPortalIP==null){
+            return cachedPortalIP=NetworkUtils.getCurrentPortalIP();
+        }
+        System.out.println("获得缓存IP:"+cachedPortalIP);
+        return cachedPortalIP;
     }
 }
 
