@@ -13,7 +13,7 @@
     <string name="have_prohibited_boot_start">prohibit auto run success</string>
     <string name="have_allowed_boot_start">allow auto run success</string>
     <string name="connect_fail">cannot connect</string>
-    <string name="saved_success">save success</string>
+    <string name="saved_success">password saved</string>
     <string name="no_wifi">no wifi connection</string>
     <string name="login_fail">login fail</string>
     <string name="disconnect_fail">log out fail</string>
@@ -47,4 +47,9 @@
     <string name="local_version">current version</string>
     <string name="check_update_error">server error</string>
     <string name="get_local_version_error">get current version fail</string>
+    <string name="sign_in_portal">Sign in to Wi-Wi network</string>
+    <string name="ok">OK</string>
+    <string name="nop">no</string>
+    <string name="is_portal_network">You are connected to captive portal network</string>
+    <string name="installed_are_newer">The version code of the app is newer than that in server</string>
 </resources>

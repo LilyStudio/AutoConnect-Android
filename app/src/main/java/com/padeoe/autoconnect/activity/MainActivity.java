@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,15 +38,16 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.padeoe.autoconnect.service.InstallService;
+import com.padeoe.autoconnect.ui.CaptivePortalLoginFragment;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
-import com.padeoe.autoconnect.util.NetworkUtils;
+import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
 import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
-import com.padeoe.nicservice.njuwlan.ConnectPNJU;
-import com.padeoe.nicservice.njuwlan.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
+import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 
 import java.io.File;
@@ -224,10 +227,13 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(NetworkUtils.getShowResult(ConnectPNJU.disconnect(200), false));
-            if (sharedPreferences.getBoolean("allow_statistics", false)) {
-                AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
+            String disconnectResult = LoginService.getInstance().disconnect();
+            if (disconnectResult.trim().startsWith("http")) {
+                ShowOnMainActivity((String) getResources().getText(R.string.is_portal_network));
+            } else {
+                ShowOnMainActivity(ResultUtils.getShowResult(disconnectResult, false));
             }
+
         } else {
             ShowOnMainActivity((String) getResources().getText(R.string.no_wifi));
         }
@@ -243,14 +249,20 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
         //判断用户是否填写了用户名密码
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
-                String connectResult = ConnectPNJU.connect(username, password, 200);
-                ShowOnMainActivity(NetworkUtils.getShowResult(connectResult, true));
-                ReturnData returnData = null;
-                try {
-                    returnData = NetworkUtils.getReturnDataObject(connectResult);
-                } catch (Exception e) {
-
+                String connectResult = LoginService.getInstance().connect(username, password);
+                if (connectResult.trim().startsWith("http")) {
+                    CaptivePortalLoginFragment captivePortalLoginFragment = new CaptivePortalLoginFragment();
+                    WifiManager mWifi = (WifiManager) App.context.getSystemService(Context.WIFI_SERVICE);
+                    WifiInfo wifiInfo = mWifi.getConnectionInfo();
+                    captivePortalLoginFragment.setSSID(wifiInfo.getSSID());
+                    captivePortalLoginFragment.setUrl(connectResult);
+                    captivePortalLoginFragment.showDialog(this.getFragmentManager());
+                } else {
+                    ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
                 }
+
+                ReturnData returnData = null;
+                returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
                     App.context.startService(new Intent(App.context, WiFiDetectService.class));
                     if (sharedPreferences.getString("username", null) == null) {
@@ -395,9 +407,11 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                 FragmentManager fm = MainActivity.this.getFragmentManager();
                 new ExplainPermissionFragment().show(fm, "s");
 
+            } else {
+                // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                // app-defined int constant
+                requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
             }
-            // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-            // app-defined int constant
 
         } else {
             downloadNow();
@@ -428,6 +442,7 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      * @param permissions
      * @param grantResults
      */
+
     @Override
     public void onRequestPermissionsResult(int requestCode,
                                            String permissions[], int[] grantResults) {
@@ -449,7 +464,6 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      * 检查更新
      */
     public void checkUpdate() {
-        int loaclSdkVersion = Build.VERSION.SDK_INT;
         String apkminAPI = "14";
         if (Build.VERSION.SDK_INT >= 23) {
             apkminAPI = "23";
@@ -471,16 +485,27 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
                         AVObject newestVersionObject = avObjects.get(0);
                         String url = newestVersionObject.getString("url");
                         String apkSize = newestVersionObject.getString("size");
+                        String log = newestVersionObject.getString("log");
                         String newVersionName = newestVersionObject.getString("versionName");
                         if (url != null && apkSize != null && newVersionName != null) {
                             String installedVersionName = CheckUpdateFragment.getInstalledVersion();
                             if (installedVersionName != null) {
-                                if (!installedVersionName.equals(newVersionName)) {
+                                if (CheckUpdateFragment.isNewer(newVersionName, installedVersionName)) {
                                     checkUpdateFragment = new CheckUpdateFragment();
-                                    checkUpdateFragment.showDownloadDialog(url, newVersionName, installedVersionName, apkSize, MainActivity.this.getFragmentManager());
+                                    checkUpdateFragment.setUrl(url);
+                                    checkUpdateFragment.setApkSize(apkSize);
+                                    checkUpdateFragment.setInstalledVersionName(installedVersionName);
+                                    checkUpdateFragment.setLog(log);
+                                    checkUpdateFragment.setNewVersionName(newVersionName);
+                                    checkUpdateFragment.showDownloadDialog(MainActivity.this.getFragmentManager());
                                 } else {
-                                    Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
-                                    Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                                    if (installedVersionName.equals(newVersionName)) {
+                                        Log.i("检查更新", (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName);
+                                        Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.isNewestVersion) + installedVersionName, Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Log.i("异常", "已安装版本新于服务器最新版本");
+                                        Toast.makeText(App.context, (String) App.context.getResources().getText(R.string.installed_are_newer), Toast.LENGTH_SHORT).show();
+                                    }
                                 }
                             } else {
                                 Toast.makeText(App.context, App.context.getString(R.string.get_local_version_error), Toast.LENGTH_SHORT).show();
