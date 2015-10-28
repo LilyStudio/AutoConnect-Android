@@ -98,6 +98,71 @@ public class CheckUpdateFragment extends DialogFragment {
                     + " must implement UpdateListener");
         }
     }
+
+    /**
+     * 判断版本号是否更新
+     * @param versionName1
+     * @param versionName2
+     * @return versionName1新于versionName2则返回true
+     */
+    public static boolean isNewer(String versionName1,String versionName2){
+        String []version1=versionName1.split("\\.|-");
+        String []version2=versionName2.split("\\.|-");
+        for(int i=0;i<Math.min(version1.length,version2.length);i++){
+            if(getCodeNumber(version1[i])>getCodeNumber(version2[i])){
+                return true;
+            }else{
+                if(getCodeNumber(version1[i])<getCodeNumber(version2[i])){
+                    return false;
+                }
+            }
+        }
+        if(version1.length==version2.length){
+            return false;
+        }
+        else{
+            if(version1.length>version2.length){
+                if(getCodeNumber(version1[Math.min(version1.length,version2.length)])>0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+                if(getCodeNumber(version2[Math.min(version1.length,version2.length)])<0){
+                    return true;
+                }
+                else{
+                    return false;
+                }
+            }
+        }
+    }
+
+    /**
+     * 获取版本号分段标识码
+     * @param codeString
+     * @return
+     */
+    private static double getCodeNumber(String codeString){
+        int n=codeString.charAt(0);
+        if(n>=48&&n<=57){
+            return n-48;
+        }
+        else{
+            switch(codeString){
+                case"beta":
+                    return -0.1;
+                case"debug":
+                    return -0.2;
+                case"dev":
+                    return -0.3;
+                default:
+                    return -1;
+            }
+        }
+    }
 }
 
 

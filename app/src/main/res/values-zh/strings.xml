@@ -13,7 +13,7 @@
     <string name="have_prohibited_boot_start">已禁止开机自启</string>
     <string name="have_allowed_boot_start">已允许开机自启</string>
     <string name="connect_fail">无法连接</string>
-    <string name="saved_success">已保存</string>
+    <string name="saved_success">已保存密码</string>
     <string name="no_wifi">没有连接wifi</string>
     <string name="login_fail">登陆失败</string>
     <string name="disconnect_fail">注销失败</string>
@@ -47,4 +47,8 @@
     <string name="local_version">当前版本号</string>
     <string name="check_update_error">服务器出错</string>
     <string name="get_local_version_error">读取当前版本号失败</string>
+    <string name="sign_in_portal">登录到WLAN网络</string>
+    <string name="ok">好的</string>
+    <string name="nop">取消</string>
+    <string name="is_portal_network">当前连接的是captive portal网络，需要登陆</string>
 </resources>

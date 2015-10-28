@@ -14,6 +14,8 @@ import android.content.pm.PackageManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -36,6 +38,7 @@ import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
 import com.padeoe.autoconnect.service.InstallService;
+import com.padeoe.autoconnect.ui.CaptivePortalLoginFragment;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
 import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
@@ -224,10 +227,14 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
      */
     public void disconnectNow() {
         if (isConnectedtoWiFi()) {
-            ShowOnMainActivity(ResultUtils.getShowResult(LoginService.getInstance().disconnect(), false));
-            if (sharedPreferences.getBoolean("allow_statistics", false)) {
-                AVAnalytics.onEvent(App.context, "立即注销NJU-WLAN");
+            String disconnectResult=LoginService.getInstance().disconnect();
+            if(disconnectResult.trim().startsWith("http")){
+                ShowOnMainActivity((String) getResources().getText(R.string.is_portal_network));
             }
+            else{
+                ShowOnMainActivity(ResultUtils.getShowResult(disconnectResult, false));
+            }
+
         } else {
             ShowOnMainActivity((String) getResources().getText(R.string.no_wifi));
         }
@@ -244,7 +251,18 @@ public class MainActivity extends Activity implements CheckUpdateFragment.Update
         if (username.length() > 0 && password.length() > 0) {
             if (isConnectedtoWiFi()) {
                 String connectResult = LoginService.getInstance().connect(username, password);
-                ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
+                if(connectResult.trim().startsWith("http")){
+                    CaptivePortalLoginFragment captivePortalLoginFragment=new CaptivePortalLoginFragment();
+                    WifiManager mWifi = (WifiManager) App.context.getSystemService(Context.WIFI_SERVICE);
+                    WifiInfo wifiInfo = mWifi.getConnectionInfo();
+                    captivePortalLoginFragment.setSSID(wifiInfo.getSSID());
+                    captivePortalLoginFragment.setUrl(connectResult);
+                    captivePortalLoginFragment.showDialog(this.getFragmentManager());
+                }
+                else{
+                    ShowOnMainActivity(ResultUtils.getShowResult(connectResult, true));
+                }
+
                 ReturnData returnData = null;
                 returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {

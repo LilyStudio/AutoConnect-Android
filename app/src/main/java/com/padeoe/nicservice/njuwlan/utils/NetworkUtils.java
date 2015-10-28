@@ -1,10 +1,14 @@
 package com.padeoe.nicservice.njuwlan.utils;
 
+import android.util.Log;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.*;
 
 /**
@@ -28,6 +32,7 @@ public class NetworkUtils {
                     .openConnection();
             connection.setConnectTimeout(timeout);
             connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -38,6 +43,7 @@ public class NetworkUtils {
             try (OutputStream outputStream = connection.getOutputStream()) {
                 outputStream.write(postAsBytes);
             }*/
+
             OutputStream outputStream = null;
             try {
                 outputStream = connection.getOutputStream();
@@ -49,9 +55,12 @@ public class NetworkUtils {
 
             }
 
+
+
             //读取10KB返回数据
             byte[] readData = new byte[10240];
             int len = 0;
+            int wholelen = 0;
 /*          java 1.6 do not support
             try (InputStream inputStream = connection.getInputStream()) {
                 len = inputStream.read(readData);
@@ -59,7 +68,14 @@ public class NetworkUtils {
             InputStream inputStream = null;
             try {
                 inputStream = connection.getInputStream();
-                len = inputStream.read(readData, len, readData.length - len);
+                while (true) {
+                    len = inputStream.read(readData, wholelen, readData.length - wholelen);
+                    if (len == -1 || readData.length - wholelen == len) {
+                        break;
+                    }
+                    wholelen += len;
+                }
+
             } finally {
                 if (inputStream != null) {
                     {
@@ -67,8 +83,13 @@ public class NetworkUtils {
                     }
                 }
             }
+            if(connection.getResponseCode()==302){
+                Map<String, List<String>> map = connection.getHeaderFields();
+                return map.get("Location").get(0);
+            }
             connection.disconnect();
-            String data = new String(readData, 0, len, "UTF-8");
+            String data = new String(readData, 0, wholelen, "UTF-8");
+            Log.e("hahahha", data);
             return data;
         } catch (UnsupportedEncodingException e) {
             return e.getMessage();
@@ -112,7 +133,7 @@ public class NetworkUtils {
 
             }
 
-            //读取10KB返回数据
+            //读取20KB返回数据
             byte[] readData = new byte[20480];
             int len = 0;
             int wholelen = 0;
