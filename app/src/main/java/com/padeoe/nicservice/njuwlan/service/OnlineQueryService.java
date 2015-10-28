@@ -18,7 +18,7 @@ public class OnlineQueryService implements DetailQuery {
     public static final int ACCT = 3;
     public static final int BILLS = 4;
     public static final int RECHARGE = 5;
-
+    private String cachedPortalIP=null;
     private OnlineQueryService() {
     }
 
@@ -80,7 +80,7 @@ public class OnlineQueryService implements DetailQuery {
      */
     @Override
     public String getOnline(int page, int row) {
-        String result = NetworkUtils.connectAndPost("page=" + page + "&rows=" + row, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/online/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("page=" + page + "&rows=" + row, "http://"+getCachedPortalIP()+"/portal_io/selfservice/online/getlist", timeout);
         return result;
     }
 
@@ -91,7 +91,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return
      */
     public String getBasicInfo() {
-        String result = NetworkUtils.connectAndPost("", "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/volume/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("", "http://"+getCachedPortalIP()+"/portal_io/selfservice/volume/getlist", timeout);
         return result;
     }
 
@@ -116,7 +116,7 @@ public class OnlineQueryService implements DetailQuery {
      */
     @Override
     public String getAuthLog(int page, int row, boolean order) {
-        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/authlog/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getCachedPortalIP()+"/portal_io/selfservice/authlog/getlist", timeout);
         return result;
     }
 
@@ -141,7 +141,7 @@ public class OnlineQueryService implements DetailQuery {
      */
     @Override
     public String getAcct(int page, int row, boolean order) {
-        String result = NetworkUtils.connectAndPost("sort=acctstoptime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/acct/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=acctstoptime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getCachedPortalIP()+"/portal_io/selfservice/acct/getlist", timeout);
         return result;
     }
 
@@ -166,7 +166,7 @@ public class OnlineQueryService implements DetailQuery {
      */
     @Override
     public String getBills(int page, int row, boolean order) {
-        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/bill/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getCachedPortalIP()+"/portal_io/selfservice/bill/getlist", timeout);
         return result;
     }
 
@@ -191,7 +191,7 @@ public class OnlineQueryService implements DetailQuery {
      */
     @Override
     public String getRecharge(int page, int row, boolean order) {
-        String result = NetworkUtils.connectAndPost("sort=id&desc=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/recharge/getlist", timeout);
+        String result = NetworkUtils.connectAndPost("sort=id&desc=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getCachedPortalIP()+"/portal_io/selfservice/recharge/getlist", timeout);
         return result;
     }
 
@@ -238,6 +238,14 @@ public class OnlineQueryService implements DetailQuery {
      */
     public void setTimeout(int timeout) {
         this.timeout = timeout;
+    }
+
+    private String getCachedPortalIP(){
+        if(cachedPortalIP==null){
+            return cachedPortalIP=NetworkUtils.getCurrentPortalIP();
+        }
+        System.out.println("获得缓存IP:"+cachedPortalIP);
+        return cachedPortalIP;
     }
 
 }

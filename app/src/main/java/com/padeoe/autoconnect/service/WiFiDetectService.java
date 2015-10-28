@@ -14,6 +14,7 @@ public class WiFiDetectService extends Service {
     public static boolean allowStatistics;
     public static String username;
     public static String password;
+    public static String targetSSID;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -29,6 +30,7 @@ public class WiFiDetectService extends Service {
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
         allowStatistics = sharedPreferences.getBoolean("allow_statistics", false);
+        targetSSID=sharedPreferences.getString("target_SSID", null);
         IntentFilter filter = new IntentFilter();
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.WIFI_STATE_CHANGED_ACTION);
