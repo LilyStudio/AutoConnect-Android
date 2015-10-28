@@ -51,4 +51,5 @@
     <string name="ok">好的</string>
     <string name="nop">取消</string>
     <string name="is_portal_network">当前连接的是captive portal网络，需要登陆</string>
+    <string name="installed_are_newer">你安装的版本号比服务器最新版本更高</string>
 </resources>

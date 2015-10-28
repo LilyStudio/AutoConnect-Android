@@ -51,4 +51,5 @@
     <string name="ok">OK</string>
     <string name="nop">no</string>
     <string name="is_portal_network">You are connected to captive portal network</string>
+    <string name="installed_are_newer">The version code of the app is newer than that in server</string>
 </resources>

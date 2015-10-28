@@ -25,6 +25,7 @@ public class CheckUpdateFragment extends DialogFragment {
     public String newVersionName;
     public String installedVersionName;
     public String apkSize;
+    public String log;
     UpdateListener mListener;
 
     @Override
@@ -54,8 +55,8 @@ public class CheckUpdateFragment extends DialogFragment {
 
                     }
                 })
-                .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName)
-                .setMessage(getResources().getString(R.string.apk_size) + apkSize);
+                .setTitle((String) getResources().getText(R.string.find_new_version) + newVersionName+"("+apkSize+")")
+                .setMessage(log);
         return builder.create();
     }
 
@@ -75,12 +76,22 @@ public class CheckUpdateFragment extends DialogFragment {
         }
     }
 
-
-    public void showDownloadDialog(String url, String newVersionName, String installedVersionName, String apkSize, FragmentManager fm) {
-        this.url = url;
-        this.newVersionName = newVersionName;
-        this.installedVersionName = installedVersionName;
-        this.apkSize = apkSize;
+    public void setLog(String log) {
+        this.log = log;
+    }
+    public void setUrl(String url){
+        this.url=url;
+    }
+    public void setNewVersionName(String newVersionName){
+        this.newVersionName=newVersionName;
+    }
+    public void setInstalledVersionName(String installedVersionName){
+        this.installedVersionName=installedVersionName;
+    }
+    public void setApkSize(String apkSize){
+        this.apkSize=apkSize;
+    }
+    public void showDownloadDialog(FragmentManager fm) {
         this.show(fm, "showNewVersion");
         Log.i("downloadApk", "即将下载" + url);
     }
@@ -101,39 +112,36 @@ public class CheckUpdateFragment extends DialogFragment {
 
     /**
      * 判断版本号是否更新
+     *
      * @param versionName1
      * @param versionName2
      * @return versionName1新于versionName2则返回true
      */
-    public static boolean isNewer(String versionName1,String versionName2){
-        String []version1=versionName1.split("\\.|-");
-        String []version2=versionName2.split("\\.|-");
-        for(int i=0;i<Math.min(version1.length,version2.length);i++){
-            if(getCodeNumber(version1[i])>getCodeNumber(version2[i])){
+    public static boolean isNewer(String versionName1, String versionName2) {
+        String[] version1 = versionName1.split("\\.|-");
+        String[] version2 = versionName2.split("\\.|-");
+        for (int i = 0; i < Math.min(version1.length, version2.length); i++) {
+            if (getCodeNumber(version1[i]) > getCodeNumber(version2[i])) {
                 return true;
-            }else{
-                if(getCodeNumber(version1[i])<getCodeNumber(version2[i])){
+            } else {
+                if (getCodeNumber(version1[i]) < getCodeNumber(version2[i])) {
                     return false;
                 }
             }
         }
-        if(version1.length==version2.length){
+        if (version1.length == version2.length) {
             return false;
-        }
-        else{
-            if(version1.length>version2.length){
-                if(getCodeNumber(version1[Math.min(version1.length,version2.length)])>0){
+        } else {
+            if (version1.length > version2.length) {
+                if (getCodeNumber(version1[Math.min(version1.length, version2.length)]) > 0) {
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
-            }
-            else{
-                if(getCodeNumber(version2[Math.min(version1.length,version2.length)])<0){
+            } else {
+                if (getCodeNumber(version2[Math.min(version1.length, version2.length)]) < 0) {
                     return true;
-                }
-                else{
+                } else {
                     return false;
                 }
             }
@@ -142,21 +150,21 @@ public class CheckUpdateFragment extends DialogFragment {
 
     /**
      * 获取版本号分段标识码
+     *
      * @param codeString
      * @return
      */
-    private static double getCodeNumber(String codeString){
-        int n=codeString.charAt(0);
-        if(n>=48&&n<=57){
-            return n-48;
-        }
-        else{
-            switch(codeString){
-                case"beta":
+    private static double getCodeNumber(String codeString) {
+        int n = codeString.charAt(0);
+        if (n >= 48 && n <= 57) {
+            return n - 48;
+        } else {
+            switch (codeString) {
+                case "beta":
                     return -0.1;
-                case"debug":
+                case "debug":
                     return -0.2;
-                case"dev":
+                case "dev":
                     return -0.3;
                 default:
                     return -1;
