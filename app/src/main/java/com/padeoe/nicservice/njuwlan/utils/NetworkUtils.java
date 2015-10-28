@@ -1,19 +1,20 @@
 package com.padeoe.nicservice.njuwlan.utils;
 
-import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.*;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.*;
 
 /**
  * Created by padeoe on 2015/9/23.
  */
 public class NetworkUtils {
-    private static String portalIP = null;
-    private static String brasIP = null;
+
     /**
      * Post请求
      *
@@ -30,6 +31,7 @@ public class NetworkUtils {
                     .openConnection();
             connection.setConnectTimeout(timeout);
             connection.setDoOutput(true);
+            connection.setInstanceFollowRedirects(false);
             connection.setRequestMethod("POST");
             connection.setUseCaches(false);
             connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded; charset=UTF-8");
@@ -54,6 +56,7 @@ public class NetworkUtils {
             //读取10KB返回数据
             byte[] readData = new byte[10240];
             int len = 0;
+            int wholelen = 0;
 /*          java 1.6 do not support
             try (InputStream inputStream = connection.getInputStream()) {
                 len = inputStream.read(readData);
@@ -61,7 +64,13 @@ public class NetworkUtils {
             InputStream inputStream = null;
             try {
                 inputStream = connection.getInputStream();
-                len = inputStream.read(readData, len, readData.length - len);
+                while (true) {
+                    len = inputStream.read(readData, wholelen, readData.length - wholelen);
+                    if (len == -1 || readData.length - wholelen == len) {
+                        break;
+                    }
+                    wholelen += len;
+                }
             } finally {
                 if (inputStream != null) {
                     {
@@ -69,8 +78,12 @@ public class NetworkUtils {
                     }
                 }
             }
+            if(connection.getResponseCode()==302){
+                Map<String, List<String>> map = connection.getHeaderFields();
+                return map.get("Location").get(0);
+            }
             connection.disconnect();
-            String data = new String(readData, 0, len, "UTF-8");
+            String data = new String(readData, 0, wholelen, "UTF-8");
             return data;
         } catch (UnsupportedEncodingException e) {
             return e.getMessage();
@@ -79,7 +92,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            resetPortalIP();
             return ioException.getMessage();
         }
     }
@@ -115,7 +127,7 @@ public class NetworkUtils {
 
             }
 
-            //读取10KB返回数据
+            //读取20KB返回数据
             byte[] readData = new byte[20480];
             int len = 0;
             int wholelen = 0;
@@ -153,8 +165,6 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return protocolException.getMessage();
         } catch (IOException ioException) {
-            //   System.out.println(ioException.getSuppressed());
-            resetBrasIP();
             return ioException.getMessage();
 
         }
@@ -213,12 +223,6 @@ public class NetworkUtils {
 
             cookie = connection.getHeaderField("Set-Cookie");
             cookie = cookie.substring(0, cookie.indexOf(";"));
-/*            CookieStore cookieJar = manager.getCookieStore();
-            List<HttpCookie> cookies =
-                    cookieJar.getCookies();
-            if (cookies.size() > 0 && cookies.get(0) != null) {
-                cookie = cookies.get(0).toString();
-            }*/
             connection.disconnect();
             String data = new String(readData, 0, len, "UTF-8");
             return new String[]{data, cookie};
@@ -230,67 +234,49 @@ public class NetworkUtils {
         } catch (ProtocolException protocolException) {
             return new String[]{protocolException.getMessage(), null};
         } catch (IOException ioException) {
-            resetBrasIP();
             return new String[]{ioException.getMessage(), null};
         }
     }
 
+
     public static String getCurrentPortalIP() {
-        if (portalIP == null) {
-            System.out.println("即将初始化IP");
-            resetPortalIP();
-        }
-        return portalIP;
+        return DNS("p.nju.edu.cn","210.28.129.9",200);
     }
 
-    public static void resetPortalIP() {
-        InetAddress[] inetAddresses;
-        try {
-            System.out.println("请求DNS解析");
-            inetAddresses = InetAddress.getAllByName("p.nju.edu.cn");
-            for (InetAddress e : inetAddresses) {
-                String result = NetworkUtils.connectAndPost("", "http://" + e.getHostAddress() + "/portal_io/getinfo", 200);
-                if (result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n") || result.startsWith("{\"reply_code\":2")) {
-                    portalIP= e.getHostAddress();
-                    System.out.println("DNS解析成功");
-                }
-            }
-            portalIP="210.28.129.9";
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.out.println("DNS无法解析，将使用默认IP");
-            portalIP="210.28.129.9";
-        }
-        LoginService.resetIP();
-    }
 
     public static String getCurrentBrasIP() {
-        if (brasIP == null) {
-            System.out.println("即将初始化bras IP");
-            resetBrasIP();
-        }
-        return brasIP;
+        return DNS("bras.nju.edu.cn","219.219.114.254",200);
     }
 
-    public static void resetBrasIP() {
-        InetAddress[] inetAddresses;
-        try {
-            System.out.println("请求DNS解析");
-            inetAddresses = InetAddress.getAllByName("bras.nju.edu.cn");
-            for (InetAddress e : inetAddresses) {
-                String result = NetworkUtils.connectAndPost("", "http://"+e.getHostAddress()+":8080/manage/self/userinfo/getinfo", 200);
-                if (result.endsWith("\"reply_code\":8}\n")) {
-                    brasIP= e.getHostAddress();
-                    System.out.println("DNS解析成功");
+
+    private static String DNS(final String URL,final String defaultIP,int timeout){
+        class Task implements Callable<String> {
+            @Override
+            public String call() throws Exception {
+                InetAddress[] inetAddresses;
+                try{
+                    inetAddresses = InetAddress.getAllByName(URL);
+                    return inetAddresses[0].getHostAddress();
+                }catch(UnknownHostException e){
+                    System.out.println("未知的域名");
+                    return defaultIP;
                 }
             }
-            brasIP="219.219.114.254";
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-            System.out.println("DNS无法解析，将使用默认IP");
-            brasIP="219.219.114.254";
+        }
+        ExecutorService executor = Executors.newSingleThreadExecutor();
+        Future<String> future = executor.submit(new Task());
+
+        try {
+            System.out.println("开始解析DNS");
+            String result=future.get(timeout, TimeUnit.MILLISECONDS);
+            executor.shutdownNow();
+            return result;
+        } catch (Exception e) {
+            future.cancel(true);
+            System.out.println("解析被终止");
+            executor.shutdownNow();
+            return defaultIP;
         }
     }
-
 
 }
