@@ -1,7 +1,5 @@
 package com.padeoe.nicservice.njuwlan.utils;
 
-import com.padeoe.nicservice.njuwlan.service.LoginService;
-import javafx.concurrent.Task;
 
 import java.io.IOException;
 import java.io.InputStream;
