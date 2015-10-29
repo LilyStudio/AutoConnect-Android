@@ -18,7 +18,7 @@ android {
         minSdkVersion 23
         targetSdkVersion 23
         versionCode 1
-        versionName "2.4-dev"
+        versionName "2.5-dev"
     }
     buildTypes {
         release {
