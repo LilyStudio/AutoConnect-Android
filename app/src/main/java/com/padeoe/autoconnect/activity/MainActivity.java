@@ -40,12 +40,12 @@ import com.avos.avoscloud.AVOSCloud;
 import com.avos.avoscloud.AVObject;
 import com.avos.avoscloud.AVQuery;
 import com.avos.avoscloud.FindCallback;
+import com.padeoe.autoconnect.service.ConnectService;
 import com.padeoe.autoconnect.service.InstallService;
 import com.padeoe.autoconnect.ui.CaptivePortalLoginFragment;
 import com.padeoe.autoconnect.ui.ExplainPermissionFragment;
 import com.padeoe.autoconnect.util.ResultUtils;
 import com.padeoe.autoconnect.R;
-import com.padeoe.autoconnect.service.WiFiDetectService;
 import com.padeoe.autoconnect.ui.AboutDialogFragment;
 import com.padeoe.autoconnect.ui.CheckUpdateFragment;
 import com.padeoe.autoconnect.ui.SettingDialogFragment;
@@ -68,6 +68,10 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.e("time","开始计时");
+        Timer t = new Timer();
+        t.start();
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -80,21 +84,21 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
             this.getWindow().setNavigationBarColor(getResources().getColor(R.color.ColorPrimary));
 
-        //添加LeanCloud用户统计分析，下面一行代码中的key仅用于测试，发布的apk中使用的不同
-        AVOSCloud.initialize(this, "rfdbmj8hpdbo3dwx2unrqmvhfb2y8r6d3xrsaiwwoewr2bc4", "c6n60q7onyffn97vey1jywk3bje590xlntp8ddasdo0hnvcy");
 
         //获取现有配置
         sharedPreferences = App.context.getSharedPreferences("DataFile", MODE_PRIVATE);
         editor = sharedPreferences.edit();
-        String username = sharedPreferences.getString("username", null);
-        String password = sharedPreferences.getString("password", null);
+/*        String username = sharedPreferences.getString("username", null);
+        String password = sharedPreferences.getString("password", null);*/
+        String username=ConnectService.getUsername();
+        String password=ConnectService.getPassword();
         //显示现有配置
         usernameEdit = (EditText) findViewById(R.id.username);
         passwordEdit = (EditText) findViewById(R.id.password);
         if (username != null) usernameEdit.setText(username);
         if (password != null) passwordEdit.setText(password);
         if (username != null & password != null) {
-            this.startService(new Intent(this, WiFiDetectService.class));
+            this.startService(new Intent(this, ConnectService.class));
         }
 
         final ListView listview = (ListView) findViewById(R.id.listview);
@@ -150,7 +154,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-
+        Log.e("time", t.end() + "ms");
     }
 
     /**
@@ -277,7 +281,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
                 ReturnData returnData = null;
                 returnData = ReturnData.getFromJson(connectResult);
                 if (returnData != null && returnData.getReply_message().equals("登录成功!")) {
-                    App.context.startService(new Intent(App.context, WiFiDetectService.class));
+                    App.context.startService(new Intent(App.context, ConnectService.class));
                     if (sharedPreferences.getString("username", null) == null) {
                         storeInfo();
                     }
@@ -302,14 +306,13 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
     public void storeInfo() {
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
-        editor.putString("username", username);
-        editor.putString("password", password);
-        editor.commit();
         if (username.length() > 0 && password.length() > 0) {
-            editor.putString("username", username);
+/*            editor.putString("username", username);
             editor.putString("password", password);
-            editor.commit();
-            App.context.startService(new Intent(App.context, WiFiDetectService.class));
+            editor.apply();*/
+            ConnectService.setUsername(username);
+            ConnectService.setPassword(password);
+            App.context.startService(new Intent(App.context, ConnectService.class));
             Log.i("配置文件", "保存了用户名密码");
             Log.i("保存", " 保存后开启了服务");
             ShowOnMainActivity((String) getResources().getText(R.string.saved_success));
@@ -537,4 +540,18 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
     }
 
 };
+
+/**
+ * 用于实验缓存多大时文件读写速度最快，测量所用时间
+ */
+class Timer {
+    long s;
+    public long start() {
+        s = System.currentTimeMillis();
+        return s;
+    }
+    public long end() {
+        return System.currentTimeMillis() - s;
+    }
+}
 
