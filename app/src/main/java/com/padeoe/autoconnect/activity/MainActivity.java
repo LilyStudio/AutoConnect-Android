@@ -68,9 +68,9 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.e("time","开始计时");
+/*        Log.e("time","开始计时");
         Timer t = new Timer();
-        t.start();
+        t.start();*/
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -154,7 +154,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
             AlertDialog dialog = builder.create();
             dialog.show();
         }
-        Log.e("time", t.end() + "ms");
+        /*Log.e("time", t.end() + "ms");*/
     }
 
     /**
@@ -307,9 +307,6 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
         String username = usernameEdit.getText().toString();
         String password = passwordEdit.getText().toString();
         if (username.length() > 0 && password.length() > 0) {
-/*            editor.putString("username", username);
-            editor.putString("password", password);
-            editor.apply();*/
             ConnectService.setUsername(username);
             ConnectService.setPassword(password);
             App.context.startService(new Intent(App.context, ConnectService.class));
@@ -383,8 +380,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
     }
 
     public void staticsButtonOnClicked(boolean allow) {
-        editor.putBoolean("allow_statistics", allow);
-        editor.commit();
+        ConnectService.setAllowStatistics(allow);
         if (allow) {
             Toast.makeText(App.context, (String) getResources().getText(R.string.have_allowed_statistics), Toast.LENGTH_SHORT).show();
             AVObject Like = new AVObject("AllowData");
@@ -544,7 +540,7 @@ public class MainActivity extends ActionBarActivity implements CheckUpdateFragme
 /**
  * 用于实验缓存多大时文件读写速度最快，测量所用时间
  */
-class Timer {
+/*class Timer {
     long s;
     public long start() {
         s = System.currentTimeMillis();
@@ -553,5 +549,5 @@ class Timer {
     public long end() {
         return System.currentTimeMillis() - s;
     }
-}
+}*/
 
