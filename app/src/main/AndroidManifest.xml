@@ -42,7 +42,7 @@
         </activity>
 
         <service
-            android:name=".service.WiFiDetectService"
+            android:name=".service.ConnectService"
             android:enabled="true"
             android:exported="true">
             <intent-filter>

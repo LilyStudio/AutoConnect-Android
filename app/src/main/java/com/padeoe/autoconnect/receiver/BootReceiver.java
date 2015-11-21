@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import com.padeoe.autoconnect.service.WiFiDetectService;
+import com.padeoe.autoconnect.service.ConnectService;
 
 public class BootReceiver extends BroadcastReceiver {
     @Override
@@ -15,7 +15,7 @@ public class BootReceiver extends BroadcastReceiver {
             boolean isBanned = sharedPreferences.getBoolean("isBanned", false);
             String PostData = sharedPreferences.getString("PostData", null);
             if (!isBanned && PostData != null && PostData.length() > 0) {
-                context.startService(new Intent(context, WiFiDetectService.class));
+                context.startService(new Intent(context, ConnectService.class));
             }
         }
     }
