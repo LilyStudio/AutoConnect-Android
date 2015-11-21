@@ -12,8 +12,7 @@ import android.os.Parcelable;
 import android.util.Log;
 
 import com.avos.avoscloud.AVAnalytics;
-import com.padeoe.autoconnect.service.WiFiDetectService;
-import com.padeoe.autoconnect.util.ResultUtils;
+import com.padeoe.autoconnect.service.ConnectService;
 import com.padeoe.nicservice.njuwlan.service.LoginService;
 
 /**
@@ -34,28 +33,28 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
                     Log.i("连接状态","已连接wifi");
                     WifiManager mWifi = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
                     WifiInfo wifiInfo = mWifi.getConnectionInfo();
-                    if (WiFiDetectService.targetSSID == null) {
+                    if (ConnectService.getTargetSSID() == null) {
                         if (Build.VERSION.SDK_INT >= 17 && wifiInfo.getSSID().startsWith("\"") && wifiInfo.getSSID().endsWith("\"")) {
                             sharedPreferences.edit().putString("target_SSID", "\"NJU-WLAN\"");
-                            WiFiDetectService.targetSSID = "\"NJU-WLAN\"";
+                            ConnectService.setTargetSSID("\"NJU-WLAN\"");
                             sharedPreferences.edit().apply();
                         } else {
                             sharedPreferences.edit().putString("target_SSID", "NJU-WLAN");
-                            WiFiDetectService.targetSSID = "NJU-WLAN";
+                            ConnectService.setTargetSSID("NJU-WLAN");
                             sharedPreferences.edit().apply();
                         }
                     }
-                    if (wifiInfo.getSSID().equals(WiFiDetectService.targetSSID) || wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("NJU-FAST")) {
+                    if (wifiInfo.getSSID().equals(ConnectService.getTargetSSID()) || wifiInfo.getSSID().equals("\"NJU-FAST\"") || wifiInfo.getSSID().equals("NJU-FAST")) {
                         Log.i("后台登陆","是目标ssid");
                         new Thread() {
                             @Override
                             public void run() {
                                 try {
-                                    if (WiFiDetectService.username != null & WiFiDetectService.password != null) {
+                                    if (ConnectService.getUsername() != null & ConnectService.getPassword() != null) {
                                         for (int i = 0; i < 5; i++) {
-                                            if (LoginService.isLoginSuccess(LoginService.getInstance().connect(WiFiDetectService.username, WiFiDetectService.password))) {
+                                            if (LoginService.isLoginSuccess(LoginService.getInstance().connect(ConnectService.getUsername(), ConnectService.getPassword()))) {
                                                 Log.i("后台登陆","后台登陆成功");
-                                                if (WiFiDetectService.allowStatistics) {
+                                                if (ConnectService.isAllowStatistics()) {
                                                     AVAnalytics.onEvent(context, "后台自动登陆NJU-WLAN成功");
                                                 }
                                                 break;
@@ -73,7 +72,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver {
 
                         }.start();
                     } else {
-                        Log.i("RESULT", "SSID不是目标，SSID是"+wifiInfo.getSSID()+"目标是"+WiFiDetectService.targetSSID);
+                        Log.i("RESULT", "SSID不是目标，SSID是"+wifiInfo.getSSID()+"目标是"+ ConnectService.getTargetSSID());
                     }
                 }
             }
