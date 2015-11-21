@@ -17,8 +17,8 @@ android {
         applicationId "com.padeoe.autoconnect"
         minSdkVersion 23
         targetSdkVersion 23
-        versionCode 1
-        versionName "2.4"
+        versionCode 2312241
+        versionName "2.4.1"
     }
     buildTypes {
         release {
