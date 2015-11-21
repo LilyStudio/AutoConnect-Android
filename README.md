@@ -25,6 +25,10 @@ Android 4.0+
 - 默认开启后台服务，将在连接上NJU-WLAN时自动登陆
 
 <h2>下载</h2>
+[<img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png">](https://play.google.com/store/apps/details?id=com.padeoe.autoconnect)
+
+or
+
 | 系统要求  |  版本号 | 下载链接 |文件大小|
 | :------------ |:-------:|:--------:|:---:|
 | android 4.0+          | 2.4.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1016KB|
