@@ -1,55 +1,109 @@
 <resources>
-    <string name="app_name">AutoConnect</string>
-    <string name="hello_world">Please input your account info on p.nju.edu.cn</string>
+    <string name="app_name">NJUNet</string>
+    <string name="large_text">
+        still consider what should be put here...
+    </string>
     <string name="action_settings">Settings</string>
-    <string name="about">About</string>
-    <string name="username">student No.</string>
-    <string name="password">password</string>
-    <string name="storePreference">save</string>
-    <string name="connectNow">connect</string>
-    <string name="disconnect">disconnect</string>
-    <string name="blank_input">input is blank</string>
-    <string name="prohibit_boot_start">prohibit auto run</string>
-    <string name="have_prohibited_boot_start">prohibit auto run success</string>
-    <string name="have_allowed_boot_start">allow auto run success</string>
-    <string name="connect_fail">cannot connect</string>
-    <string name="saved_success">password saved</string>
-    <string name="no_wifi">no wifi connection</string>
-    <string name="login_fail">login fail</string>
-    <string name="disconnect_fail">log out fail</string>
-    <string name="statistics_title">statistics feedback？</string>
-    <string name="statistics_message">Are you willing to send statics to developer？You can change this in setting any time</string>
-    <string name="yes">Yes</string>
-    <string name="no">No</string>
-    <string name="prohibit_statics">prohibit statistics collect</string>
-    <string name="feedback">Feedback</string>
-    <string name="like">Like</string>
-    <string name="version">version:</string>
-    <string name="author">Author:padeoe@gmail.com</string>
-    <string name="author_email">padeoe@gmail.com</string>
-    <string name="send_email">send email to developer?</string>
-    <string name="thankyou">like sent,thank you！^_^</string>
-    <string name="have_allowed_statistics">allow statistics collect success</string>
-    <string name="have_prohibit_statistics">prohibit statistics collect success</string>
-    <string name="complete">OK</string>
-    <string name="githubLink">Project on Github</string>
-    <string name="open_pnju">open p.nju.edu.cn in browser</string>
-    <string name="check_update">check update</string>
-    <string name="isNewestVersion">is up to date</string>
-    <string name="update_now">update</string>
-    <string name="update_soon">not update</string>
-    <string name="find_new_version">New Version: </string>
-    <string name="apk_size">Apk size:</string>
-    <string name="unknownfault">Unknown fault</string>
-    <string name="explain_storage_permission">Download new version into external storage needs permission,please allow it in next system dialog</string>
-    <string name="understand_permission">I understand</string>
-    <string name="permission_tips_title">permission requirement</string>
-    <string name="local_version">current version</string>
-    <string name="check_update_error">server error</string>
-    <string name="get_local_version_error">get current version fail</string>
-    <string name="sign_in_portal">Sign in to Wi-Wi network</string>
-    <string name="ok">OK</string>
-    <string name="nop">no</string>
-    <string name="is_portal_network">You are connected to captive portal network</string>
-    <string name="installed_are_newer">The version code of the app is newer than that in server</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_settings">Settings</string>
+
+    <!-- Strings related to Settings -->
+
+    <!-- Example General settings -->
+    <string name="pref_header_general">General</string>
+
+    <string name="pref_title_social_recommendations">Enable social recommendations</string>
+    <string name="pref_description_social_recommendations">Recommendations for people to contact
+        based on your message history
+    </string>
+
+    <string name="pref_title_display_name">Display name</string>
+    <string name="pref_default_display_name">John Smith</string>
+
+    <string name="pref_title_add_friends_to_messages">Add friends to messages</string>
+    <string-array name="pref_example_list_titles">
+        <item>Always</item>
+        <item>When possible</item>
+        <item>Never</item>
+    </string-array>
+    <string-array name="pref_example_list_values">
+        <item>1</item>
+        <item>0</item>
+        <item>-1</item>
+    </string-array>
+
+    <!-- Example settings for Data & Sync -->
+    <string name="pref_header_data_sync">Data &amp; sync</string>
+
+    <string name="pref_title_sync_frequency">Sync frequency</string>
+    <string-array name="pref_timeout_titles">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>400ms</item>
+        <item>1s</item>
+        <item>不限</item>
+    </string-array>
+    <string-array name="pref_timeout_values">
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>1000</item>
+        <item>-1</item>
+    </string-array>
+
+    <string name="pref_title_system_sync_settings">System sync settings</string>
+
+    <!-- Example settings for Notifications -->
+    <string name="pref_title_new_message_notifications">New message notifications</string>
+
+    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_ringtone_silent">Silent</string>
+
+    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="next">next</string>
+    <string name="permission_request">need one more permission may be...</string>
+    <string name="permission_location_detail">In Android 6.0+,
+        scan the wifi need the location perssion.The app will scan the wifi only when you press the connect button with wifi not connected.</string>
+
+    <string-array name="pref_relogin_times_titles">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="pref_relogin_times_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+    <string name="title_portal_server">Authentication Server IP</string>
+    <string name="summary_portal_server">IP of p.nju.edu.cn,leave blank for default DNS</string>
+    <string name="title_bras_server">Server IP of Bras</string>
+    <string name="summary_bras_server">IP of bras.nju.edu.cn,leave blank for default DNS</string>
+    <string-array name="pref_notification_freqeucy_title">
+        <item>Always shows</item>
+        <item>Shows when connected to NJU WLAN</item>
+        <item>Never shows</item>
+    </string-array>
+    <string-array name="pref_notification_freqeucy_values">
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+    <string name="pref_scan_wifi_summary">If the wifi is not connected When you press login button,the app will scan the wifi and connect to NJU WLAN nearby</string>
+    <string name="pref_login_on_activity_start_title">refresh status on launching</string>
+    <string name="pref_title_account_catagory">Account</string>
+    <string name="scan_and_connect">Refresh wlan and login</string>
+    <string name="refresh">Refresh</string>
+    <string name="login">Login</string>
+    <string name="no_wifi">No WiFi</string>
+    <string name="NJUWLAN">NJU WLAN</string>
+    <string name="Unknown_WLAN">Unknown WLAN</string>
+    <string name="internet_available">Internet Available</string>
+    <string name="internet_unavailable">Internet Unavailable</string>
 </resources>

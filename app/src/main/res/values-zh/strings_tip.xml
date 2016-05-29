@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknownfault">未知错误</string>
+    <string name="nextStep">下一步</string>
+    <string name="setting_finish">设置完成</string>
+    <string name="finish">完成</string>
+    <string name="setting_account">设置网络账号</string>
+    <string name="choose_account_type">选择账号类型</string>
+    <string name="illegal_result_from_server">服务器返回了错误的数据格式</string>
+</resources>

@@ -1,13 +1,10 @@
 package com.padeoe.nicservice.njuwlan.object.bras.row;
 
-import com.padeoe.nicservice.njuwlan.object.portal.row.AcctRow;
-
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 详单信息的行
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询详单信息获得的详单信息列表中具体的一条(行)信息，
+ * 包含用户所在区域，mac地址，id，用户名，使用时长等大量信息。
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class AcctRowBras {
     protected String pvlan;
@@ -15,27 +12,48 @@ public class AcctRowBras {
     protected String area_id;
     protected String acctsessiontime;
     protected String mac;
+    /**
+     * 计费类型
+     */
     protected String service_name;
     protected String ap_id;
     protected String area_type;
     protected String id;
     protected String username;
+    /**
+     * 连接时长
+     */
     protected String acctstarttime;
+    /**
+     * 所在区域
+     */
     protected String area_name;
     protected String user_id;
     protected String acctoutputoctets_ipv4;
+    /**
+     * IPv4地址,以十进制整数存储，例如2886956134
+     */
     protected String user_ipv4;
     protected String refer_ipv6;
     protected String fullname;
     protected String acctoutputoctets_ipv6;
     protected String user_ipv6;
+    /**
+     * IPv4单次计价应收金额，总是=连接时常*20/3600
+     */
     protected String refer_ipv4;
     protected String acctinputoctets_ipv6;
     protected String acctinputoctets_ipv4;
     protected String subport;
     protected String acctsessionid;
+    /**
+     * IPv6单次计价实收金额
+     */
     protected String amount_ipv6;
     protected String acctstoptime;
+    /**
+     * IPv4单次计价实收金额
+     */
     protected String amount_ipv4;
     protected String svlan;
     protected String acctterminatecause;

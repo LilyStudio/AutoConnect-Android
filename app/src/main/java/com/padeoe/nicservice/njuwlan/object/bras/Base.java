@@ -4,23 +4,42 @@ package com.padeoe.nicservice.njuwlan.object.bras;
  * Created by padeoe on 2015/9/23.
  */
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 /**
  * 基类
  */
 public class Base {
+    /**
+     * 列表总行数
+     */
+    protected String total;
+    /**
+     * （无用信息）查询时间，即当前时间
+     */
+    protected String request_time;
+    /**
+     * 服务器返回信息，显示了查询是否成功
+     */
+    protected String reply_msg;
+    /**
+     * 列表最大页数
+     */
     protected String max_page;
-
+    /**
+     * （无用信息）请求url
+     */
+    protected String request_url;
+    /**
+     * 返回码，显示了查询是否成功
+     */
     protected String reply_code;
 
-    protected String reply_msg;
+    public String getTotal() {
+        return total;
+    }
 
-
-
-    protected String request_time;
-
-    protected String request_url;
+    public void setTotal(String total) {
+        this.total = total;
+    }
 
     public String getMax_page() {
         return max_page;

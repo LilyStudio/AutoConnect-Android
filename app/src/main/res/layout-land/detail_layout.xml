@@ -1,0 +1,142 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="160dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:id="@+id/status_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/status_iamge"
+            android:layout_width="@dimen/status_image_width"
+            android:layout_height="@dimen/status_image_width"
+            android:layout_marginLeft="@dimen/status_image_margin_left_tablet"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/remote" />
+
+        <ImageView
+            android:id="@+id/status_image_noconnection"
+            android:layout_width="@dimen/status_image_width"
+            android:layout_height="@dimen/status_image_width"
+            android:layout_marginLeft="@dimen/status_image_margin_left_tablet"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/noconnect"
+            android:visibility="gone" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/status_internet"
+        android:layout_width="@dimen/status_image_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/status_layout"
+        android:layout_marginLeft="@dimen/status_image_margin_left_tablet"
+        android:layout_marginTop="10dp"
+        android:gravity="center"
+        android:text="@string/checking"
+        android:textColor="@color/text_show_detail" />
+
+    <TextView
+        android:id="@+id/netinfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/status_text_margin_left_tablet"
+        android:layout_marginTop="@dimen/username_margin_top"
+        android:layout_toRightOf="@id/status_layout"
+        android:text="@string/internet_status_init"
+        android:textColor="@color/text_show_detail"
+        android:textSize="22dp" />
+
+    <RelativeLayout
+        android:id="@+id/user_detail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/netinfo"
+        android:layout_toRightOf="@id/status_layout"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/amount_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="@dimen/status_text_margin_left_tablet"
+            android:layout_marginTop="@dimen/detail_icon_margin_top_gap"
+            android:src="@drawable/amount_icon" />
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="@dimen/detail_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/detail_text_margin_left_icon"
+            android:layout_marginTop="@dimen/detail_margin_top_gap"
+            android:layout_toRightOf="@id/amount_icon"
+            android:text="@string/detail_init"
+            android:textColor="@color/text_show_detail"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/time_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/amount"
+            android:layout_marginLeft="@dimen/status_text_margin_left_tablet"
+            android:layout_marginTop="@dimen/detail_icon_margin_top"
+            android:src="@drawable/clock" />
+
+        <TextView
+            android:id="@+id/time"
+            android:layout_width="@dimen/detail_text_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/amount"
+            android:layout_marginLeft="@dimen/detail_text_margin_left_icon"
+            android:layout_marginTop="@dimen/detail_margin_top"
+            android:layout_toRightOf="@id/time_icon"
+            android:text="@string/detail_init"
+            android:textColor="@color/text_show_detail"
+            android:textSize="18dp" />
+
+
+        <ImageView
+            android:id="@+id/location_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="@dimen/detail_icon_margin_top_gap"
+            android:layout_toRightOf="@id/amount"
+            android:src="@drawable/location" />
+
+        <TextView
+            android:id="@+id/location"
+            android:layout_width="@dimen/detail_text_width"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/detail_text_margin_left_icon"
+            android:layout_marginTop="@dimen/detail_margin_top_gap"
+            android:layout_toRightOf="@id/location_icon"
+            android:text="@string/detail_init"
+            android:textColor="@color/text_show_detail"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/ip_icon"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:layout_below="@+id/location"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="@dimen/detail_icon_margin_top"
+            android:layout_toRightOf="@id/time"
+            android:src="@drawable/ip" />
+
+        <TextView
+            android:id="@+id/ip"
+            android:layout_width="@dimen/detail_text_width"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/location"
+            android:layout_marginLeft="@dimen/detail_text_margin_left_icon"
+            android:layout_marginTop="@dimen/detail_margin_top"
+            android:layout_toRightOf="@id/ip_icon"
+            android:text="@string/detail_init"
+            android:textColor="@color/text_show_detail"
+            android:textSize="18dp" />
+    </RelativeLayout>
+</RelativeLayout>

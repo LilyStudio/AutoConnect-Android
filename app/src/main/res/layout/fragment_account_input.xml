@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/title_CoordinatorLayout"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        tools:context="com.padeoe.testanimation_nevigtion.FirstSettingActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/first_setting_bg_image_height"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/firstsetting" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/first_setting_title_layout_second"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/first_setting_title_layout_height"
+        android:layout_below="@id/title_CoordinatorLayout"
+        android:background="@color/firstSettingBackground">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/first_setting_title_margin_left"
+            android:textColor="@android:color/white"
+            android:layout_centerVertical="true"
+            android:text="@string/input_account_info"
+            android:textSize="@dimen/first_setting_title_size"
+            />
+        <!--        <android.support.v7.widget.Toolbar
+                    android:layout_width="?attr/actionBarSize"
+                    android:layout_height="wrap_content"
+                    android:title="hhhhhhhh"
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    >
+
+                </android.support.v7.widget.Toolbar>-->
+
+        <!--        <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:textSize="20dp"
+                    android:text="hhhh"
+                    android:textColor=""/>-->
+    </RelativeLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_username_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="40dp">
+
+        <EditText
+            android:id="@+id/input_username"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/username"
+            android:inputType="text"/>
+    </android.support.design.widget.TextInputLayout>
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/input_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center">
+    <EditText
+        android:id="@+id/input_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/password"
+        android:inputType="textPassword"
+        android:imeOptions="actionNext"/>
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>

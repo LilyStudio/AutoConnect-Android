@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hour">小时</string>
+    <string name="minute">分钟</string>
+    <string name="second">秒</string>
+    <string name="checking">检测中</string>
+    <string name="internet_status_init">检测Internet中</string>
+</resources>

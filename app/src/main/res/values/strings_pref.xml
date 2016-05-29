@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_header_account">Account</string>
+    <string name="pref_header_network">Network</string>
+    <string name="pref_header_notifications">Notifications</string>
+    <string name="summary_boot_launch">launch service on boot</string>
+    <string name="summary_auto_connect">when connectted to NJU WLAN</string>
+    <string name="title_auto_connect">login automatically</string>
+    <string name="title_category_autoconnect">Login service</string>
+    <string name="title_category_network">Network parameters</string>
+    <string name="title_timeout_portal">timeout for login</string>
+    <string name="title_times_relogin">retry times to login</string>
+    <string name="set_server_ip">Set server IP</string>
+    <string name="pref_title_account">Edit account</string>
+    <string name="pref_title_notification_show_frequency">frequency of notification</string>
+    <string name="pref_scan_wifi_title">Scanning available</string>
+    <string name="personal_settings">Connect Settings</string>
+</resources>

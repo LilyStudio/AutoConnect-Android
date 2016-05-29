@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewer3"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        tools:context="com.padeoe.testanimation_nevigtion.FirstSettingActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/first_setting_bg_image_height"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/firstsetting" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/first_setting_title_layout_third"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/first_setting_title_layout_height"
+        android:layout_below="@id/coordinatorLayout"
+        android:background="@color/firstSettingBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/first_setting_title_margin_left"
+            android:layout_centerVertical="true"
+            android:text="@string/setting_finish"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/first_setting_title_size" />
+    </RelativeLayout>
+
+</RelativeLayout>

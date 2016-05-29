@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="username_margin_top">20dp</dimen>
+    <dimen name="fab_width">56dp</dimen>
+    <dimen name="height_detail_layout">230dp</dimen>
+</resources>

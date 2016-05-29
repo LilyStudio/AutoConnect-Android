@@ -1,15 +1,13 @@
 package com.padeoe.nicservice.njuwlan.object.portal;
 
-/**
- * Created by padeoe on 2015/9/23.
- */
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.padeoe.nicservice.njuwlan.object.portal.row.BasicInfoRow;
 
 /**
- * 当前登陆信息
+ * 该类表示<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>中查询当前登陆用户获得的用户信息列表
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class BasicInfo extends Base {
     @JSONField(name = "rows")
@@ -17,8 +15,7 @@ public class BasicInfo extends Base {
 
     public static BasicInfo getFromJson(String jsonobject) {
         try {
-            BasicInfo basicInfo = JSON.parseObject(jsonobject, BasicInfo.class);
-            return basicInfo;
+            return JSON.parseObject(jsonobject, BasicInfo.class);
         } catch (Exception e) {
             return null;
         }

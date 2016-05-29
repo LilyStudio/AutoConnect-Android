@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="unknownfault">unknown error</string>
+    <string name="nextStep">Next</string>
+    <string name="setting_finish">All done</string>
+    <string name="finish">Finish</string>
+    <string name="setting_account">Setting Account</string>
+    <string name="choose_account_type">Choose your account type</string>
+    <string name="illegal_result_from_server">illegal data format from server</string>
+</resources>

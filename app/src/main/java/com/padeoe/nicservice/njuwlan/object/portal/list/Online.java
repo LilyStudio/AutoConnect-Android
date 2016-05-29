@@ -6,7 +6,10 @@ import com.padeoe.nicservice.njuwlan.object.portal.Base;
 import com.padeoe.nicservice.njuwlan.object.portal.row.OnlineRow;
 
 /**
- * Created by padeoe on 2015/9/24.
+ * 该类表示<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>中查询当前在线设备获得的列表
+ * 具体包含一个包含{@link OnlineRow}对象的数组以及在线设备列表的总页数
+ * @author padeoe
+ * Date: 2015/9/24
  */
 public class Online extends Base
 {
@@ -16,8 +19,7 @@ public class Online extends Base
     public Online(){}
     public static Online getFromJson(String jsonobject){
         try {
-            Online online = JSON.parseObject(jsonobject, Online.class);
-            return online;
+            return JSON.parseObject(jsonobject, Online.class);
         } catch (Exception e) {
             return null;
         }

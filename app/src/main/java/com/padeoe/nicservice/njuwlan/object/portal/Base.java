@@ -8,10 +8,17 @@ package com.padeoe.nicservice.njuwlan.object.portal;
  * 基类
  */
 public class Base {
+    /**
+     * 列表总行数
+     */
     protected String total;
-
+    /**
+     * 返回码，显示了查询是否成功
+     */
     protected String reply_code;
-
+    /**
+     * 返回信息，显示了查询是否成功
+     */
     protected String reply_msg;
 
     public String getTotal() {

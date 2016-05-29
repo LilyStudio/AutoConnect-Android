@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="firstSettingBackground">#007FAE</color>
+    <color name="colorPrimary">#9bd1ed</color>
+    <color name="colorPrimaryDark">#84cbef</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="backgroundColor">#84cbef</color>
+    <color name="upColor">#d6a0d9</color>
+    <color name="next_step_bar">#e4e7e9</color>
+    <color name="disconnect">#d2b897</color>
+    <color name="backgroundWhite">#fafafa</color>
+    <color name="text_show_detail">#e91b4371</color>
+    <color name="text_show_detail_rc1">#e91b7128</color>
+    <color name="text_show_detail_backup">#f3075284</color>
+    <color name="progress_bar">#f3eae014</color>
+</resources>

@@ -6,19 +6,22 @@ import com.padeoe.nicservice.njuwlan.object.bras.Base;
 import com.padeoe.nicservice.njuwlan.object.bras.row.OnlineRowBras;
 
 /**
- * Created by padeoe on 2015/9/24.
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询当前在线设备获得的列表
+ * 具体包含一个包含{@link OnlineRowBras}对象的数组以及在线设备列表的总页数
+ * @author padeoe
+ * Date: 2015/9/24
  */
 public class OnlineBras extends Base
 {
     @JSONField(name = "rows")
     private OnlineRowBras[] onlineRowBrases;
+
     protected String pageNum;
 
     public OnlineBras(){}
     public static OnlineBras getFromJson(String jsonobject){
         try {
-            OnlineBras onlineBras = JSON.parseObject(jsonobject, OnlineBras.class);
-            return onlineBras;
+            return JSON.parseObject(jsonobject, OnlineBras.class);
         } catch (Exception e) {
             return null;
         }

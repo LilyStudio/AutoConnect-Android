@@ -6,11 +6,10 @@ import com.padeoe.nicservice.njuwlan.object.portal.Base;
 import com.padeoe.nicservice.njuwlan.object.portal.row.BillsRow;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 账单信息
+ * 该类表示<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>中查询账单信息获得的列表
+ * 具体包含一个包含{@link BillsRow}对象的数组以及账单列表的总页数
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class Bills extends Base {
     @JSONField(name = "rows")
@@ -21,8 +20,7 @@ public class Bills extends Base {
 
     public static Bills getFromJson(String jsonobject) {
         try {
-            Bills bills = JSON.parseObject(jsonobject, Bills.class);
-            return bills;
+            return JSON.parseObject(jsonobject, Bills.class);
         } catch (Exception e) {
             return null;
         }

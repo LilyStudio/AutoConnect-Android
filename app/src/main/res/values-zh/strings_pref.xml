@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="pref_header_account">账号</string>
+    <string name="pref_header_network">网络</string>
+    <string name="pref_header_notifications">通知</string>
+    <string name="summary_boot_launch">开机时启动后台服务</string>
+    <string name="summary_auto_connect">检测到校园网WLAN时</string>
+    <string name="title_auto_connect">自动登录</string>
+    <string name="title_category_autoconnect">登陆服务</string>
+    <string name="title_category_network">网络参数</string>
+    <string name="title_timeout_portal">登陆超时时间</string>
+    <string name="title_times_relogin">登陆失败重试次数</string>
+    <string name="set_server_ip">指定服务器IP</string>
+    <string name="permit_dns">自动域名解析</string>
+    <string name="pref_title_account">修改账号</string>
+    <string name="pref_title_notification_show_frequency">通知显示频率</string>
+    <string name="pref_scan_wifi_title">允许打开WiFi并扫描</string>
+    <string name="personal_settings">连接设置</string>
+
+</resources>

@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hour">hour</string>
+    <string name="minute">minute</string>
+    <string name="second">second</string>
+    <string name="checking">checking</string>
+    <string name="offline">No Internet</string>
+    <string name="online">Internet</string>
+    <string name="detecting">Detecting</string>
+    <string name="wifi_lost">no connection</string>
+    <string name="internet_status_init">Checking Internet</string>
+</resources>

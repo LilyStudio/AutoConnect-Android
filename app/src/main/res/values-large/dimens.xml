@@ -1,0 +1,19 @@
+<resources>
+    <dimen name="fab_width">60dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
+    <dimen name="status_image_width">110dp</dimen>
+    <dimen name="status_image_margin_left">56dp</dimen>
+    <dimen name="status_image_margin_left_tablet">90dp</dimen>
+    <dimen name="status_text_margin_left">60dp</dimen>
+    <dimen name="status_text_margin_left_tablet">80dp</dimen>
+    <dimen name="detail_text_width">150dp</dimen>
+    <dimen name="detail_text_margin_left_icon">8dp</dimen>
+    <dimen name="detail_text_margin_left_icon_tablet">8dp</dimen>
+    <dimen name="username_margin_top">5dp</dimen>
+    <dimen name="detail_margin_top">15dp</dimen>
+    <dimen name="detail_icon_margin_top">17dp</dimen>
+    <dimen name="detail_margin_top_gap">25dp</dimen>
+    <dimen name="detail_icon_margin_top_gap">27dp</dimen>
+    <dimen name="height_detail_layout">280dp</dimen>
+</resources>
