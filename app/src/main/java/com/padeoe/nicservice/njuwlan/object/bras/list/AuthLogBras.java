@@ -6,11 +6,10 @@ import com.padeoe.nicservice.njuwlan.object.bras.Base;
 import com.padeoe.nicservice.njuwlan.object.bras.row.AuthLogRowBras;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 认证信息
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询认证信息获得的列表，该列表包含认证的每一次记录
+ * 具体包含一个包含{@link AuthLogRowBras}对象的数组以及认证列表的总页数
+ * @author padeoe
+ * Date: 2015/9/24
  */
 public class AuthLogBras extends Base {
     @JSONField(name = "rows")
@@ -23,8 +22,7 @@ public class AuthLogBras extends Base {
 
     public static AuthLogBras getFromJson(String jsonobject) {
         try {
-            AuthLogBras authLogBras = JSON.parseObject(jsonobject, AuthLogBras.class);
-            return authLogBras;
+            return JSON.parseObject(jsonobject, AuthLogBras.class);
         } catch (Exception e) {
             return null;
         }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="username">username</string>
+    <string name="password">password</string>
+    <string name="detail_init">--</string>
+    <string name="account_type_portal">NIC Account\naccount on p.nju.edu.cn</string>
+    <string name="account_type_unite">united id\naccount on oa.nju.edu.cn</string>
+    <string name="input_account_info">Input username and password</string>
+
+</resources>

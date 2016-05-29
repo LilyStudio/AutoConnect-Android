@@ -1,13 +1,12 @@
 package com.padeoe.nicservice.njuwlan.object.bras.row;
 
-/**
- * Created by padeoe on 2015/9/23.
- */
-
 import com.alibaba.fastjson.annotation.JSONField;
 
 /**
- * 充值信息的行
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询充值记录获得的充值记录列表中具体的一条(行)信息
+ * 具体包括充值金额，充值时间等信息
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class RechargeRowBras {
 

@@ -1,0 +1,70 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory android:title="@string/pref_title_account_catagory">
+        <Preference
+            android:key="account_edit"
+            android:summary="ssss"
+            android:title="@string/pref_title_account">
+            <intent
+                android:action="com.padeoe.njunet.EDIT_ACCOUNT"
+                android:targetClass="com.padeoe.njunet.deploy.FirstSettingActivity"
+                android:targetPackage="com.padeoe.njunet" />
+        </Preference>
+    </PreferenceCategory>
+    <PreferenceCategory android:title="@string/title_category_autoconnect">
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="auto_connect"
+            android:summary="@string/summary_auto_connect"
+            android:title="@string/title_auto_connect" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="auto_connect"
+            android:key="boot_launch"
+            android:summary="@string/summary_boot_launch"
+            android:title="@string/summary_boot_launch" />
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="login_on_activity_start"
+            android:title="@string/pref_login_on_activity_start_title" />
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/pref_notification_freqeucy_title"
+            android:entryValues="@array/pref_notification_freqeucy_values"
+            android:key="notification_frequency"
+            android:title="@string/pref_title_notification_show_frequency" />
+        <SwitchPreference
+            android:key="scan_wifi"
+            android:summary="@string/pref_scan_wifi_summary"
+            android:title="@string/pref_scan_wifi_title" />
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="@string/title_category_network">
+        <ListPreference
+            android:defaultValue="200"
+            android:entries="@array/pref_timeout_titles"
+            android:entryValues="@array/pref_timeout_values"
+            android:key="timeout_portal"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/title_timeout_portal" />
+        <ListPreference
+            android:defaultValue="4"
+            android:entries="@array/pref_relogin_times_titles"
+            android:entryValues="@array/pref_relogin_times_values"
+            android:key="times_relogin"
+            android:negativeButtonText="@null"
+            android:positiveButtonText="@null"
+            android:title="@string/title_times_relogin" />
+
+        <EditTextPreference
+            android:key="portal_server"
+            android:summary="@string/summary_portal_server"
+            android:title="@string/title_portal_server" />
+        <EditTextPreference
+            android:key="bras_server"
+            android:summary="@string/summary_bras_server"
+            android:title="@string/title_bras_server" />
+    </PreferenceCategory>
+
+
+</PreferenceScreen>

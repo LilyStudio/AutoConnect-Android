@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="detail_init">--</string>
+    <string name="account_type_portal">网络认证系统账号\np.nju.edu.cn</string>
+    <string name="account_type_unite">统一身份认证账号\noa.nju.edu.cn</string>
+    <string name="input_account_info">输入用户名密码</string>
+
+</resources>

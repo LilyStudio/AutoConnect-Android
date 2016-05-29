@@ -6,11 +6,10 @@ import com.padeoe.nicservice.njuwlan.object.portal.Base;
 import com.padeoe.nicservice.njuwlan.object.portal.row.AuthLogRow;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 认证信息
+ * 该类表示<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>中查询认证信息获得的列表，该列表包含认证的每一次记录
+ * 具体包含一个包含{@link AuthLogRow}对象的数组以及认证列表的总页数
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class AuthLog extends Base {
     @JSONField(name = "rows")
@@ -21,8 +20,7 @@ public class AuthLog extends Base {
 
     public static AuthLog getFromJson(String jsonobject) {
         try {
-            AuthLog authLog = JSON.parseObject(jsonobject, AuthLog.class);
-            return authLog;
+            return JSON.parseObject(jsonobject, AuthLog.class);
         } catch (Exception e) {
             return null;
         }

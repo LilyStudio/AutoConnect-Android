@@ -6,11 +6,10 @@ import com.padeoe.nicservice.njuwlan.object.bras.Base;
 import com.padeoe.nicservice.njuwlan.object.bras.row.RechargeRowBras;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 充值信息
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询充值信息获得的列表
+ * 具体包含一个包含{@link RechargeRowBras}对象的数组以及充值列表的总页数
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class RechargeBras extends Base {
     @JSONField(name = "rows")

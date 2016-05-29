@@ -1,11 +1,10 @@
 package com.padeoe.nicservice.njuwlan.object.portal.row;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 当前登陆信息的行
+ * 该类表示<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>中查询用户信息获得的用户信息列表中具体的一条(行)信息
+ * 具体包括网络总时长，id，用户名，服务名称等大量信息
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class BasicInfoRow {
     private String total_time;

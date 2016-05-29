@@ -6,23 +6,33 @@ import com.padeoe.nicservice.njuwlan.object.bras.Base;
 import com.padeoe.nicservice.njuwlan.object.bras.row.AcctRowBras;
 
 /**
- * Created by padeoe on 2015/9/23.
- */
-
-/**
- * 详单信息
+ *
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询详单信息获得的列表列表,该列表显示了每一次登陆至下线的详细信息，
+ * 具体包含一个包含{@link AcctRowBras}对象的数组以及详单列表的总页数
+ * @author padeoe
+ * Date: 2015/9/23
  */
 public class AcctBras extends Base {
+    /**
+     * 详单信息的列表，数组每一个元素包含了一个{@link AcctRowBras}，记录了具体的单个详细信息
+     */
     @JSONField(name = "rows")
     private AcctRowBras[] acctRowBrases;
+    /**
+     * 详单信息列表的页号
+     */
     protected String pageNum;
     public AcctBras() {
     }
 
+    /**
+     *
+     * @param jsonobject json格式的字符串
+     * @return {@link AcctBras}对象
+     */
     public static AcctBras getFromJson(String jsonobject) {
         try {
-            AcctBras acctBras = JSON.parseObject(jsonobject, AcctBras.class);
-            return acctBras;
+            return JSON.parseObject(jsonobject, AcctBras.class);
         } catch (Exception e) {
             return null;
         }

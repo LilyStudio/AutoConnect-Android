@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/viewer1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:ignore="RtlHardcoded">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true"
+        tools:context="com.padeoe.testanimation_nevigtion.FirstSettingActivity">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/first_setting_bg_image_height"
+            android:fitsSystemWindows="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/firstsetting" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+    <RelativeLayout
+        android:id="@+id/first_setting_title_layout"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/first_setting_title_layout_height"
+        android:layout_below="@id/coordinatorLayout"
+        android:background="@color/firstSettingBackground">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/first_setting_title_margin_left"
+            android:layout_centerVertical="true"
+            android:text="@string/setting_account"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/first_setting_title_size"
+            />
+    </RelativeLayout>
+
+    <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/AccountKindRadio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/first_setting_title_layout"
+        android:layout_marginLeft="@dimen/first_setting_content_margin_left"
+        android:layout_marginTop="@dimen/first_setting_content_margin_top"
+        android:orientation="vertical"
+        >
+
+        <RadioButton
+            android:id="@+id/radio_pnju"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/radio_button_padding_left"
+            android:text="@string/account_type_portal"
+            android:textSize="@dimen/first_setting_content_size"
+            android:lineSpacingExtra="5dp"/>
+
+        <RadioButton
+            android:id="@+id/radio_oa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/first_setting_radio_button_gap"
+            android:paddingLeft="@dimen/radio_button_padding_left"
+            android:enabled="false"
+            android:text="@string/account_type_unite"
+            android:textSize="@dimen/first_setting_content_size"
+            android:lineSpacingExtra="5dp"/>
+    </RadioGroup>
+
+
+</RelativeLayout>

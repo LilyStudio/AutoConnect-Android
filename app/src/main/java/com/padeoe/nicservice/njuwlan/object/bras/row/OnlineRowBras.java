@@ -1,7 +1,10 @@
 package com.padeoe.nicservice.njuwlan.object.bras.row;
 
 /**
- * Created by padeoe on 2015/9/24.
+ * 该类表示<a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>中查询当前在线设备获得的在线设备列表中具体的一条(行)信息
+ * 具体包括登陆区域，mac地址，登陆返回信息，用户名等大量信息
+ * @author padeoe
+ * Date: 2015/9/24
  */
 public class OnlineRowBras
 {
