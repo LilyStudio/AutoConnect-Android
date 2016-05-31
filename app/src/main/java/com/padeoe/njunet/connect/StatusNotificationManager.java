@@ -67,6 +67,7 @@ public class StatusNotificationManager {
                     break;
                 case WIFI_LOST:
                     if (notification_frequency == 2) {
+                        removeNotification();
                         return;
                     }
                     builder.setColor(App.getAppContext().getResources().getColor(R.color.disconnect)).setContentTitle(App.getAppContext().getResources().getString(R.string.no_wifi)).setSmallIcon(R.drawable.ic_wifi_off).addAction(R.drawable.ic_settings,

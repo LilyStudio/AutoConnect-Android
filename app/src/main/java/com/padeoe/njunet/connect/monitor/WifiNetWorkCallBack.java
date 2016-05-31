@@ -92,17 +92,5 @@ public class WifiNetWorkCallBack extends ConnectivityManager.NetworkCallback imp
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(App.getAppContext());
         broadcastManager.sendBroadcast(intent);
     }
-
-/*
-    *//**
-     * 作为{@link ConnectManager}的订阅者，获得结果后更新界面。
-     *
-     * @param myObservable
-     * @param data
-     *//*
-    @Override
-    public void update(MyObservable myObservable, ConnectResultHandle data) {
-        data.handleNetworkMonitor(this);
-    }*/
 }
 
