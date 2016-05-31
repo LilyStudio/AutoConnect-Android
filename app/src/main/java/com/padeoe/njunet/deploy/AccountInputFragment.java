@@ -1,9 +1,11 @@
 package com.padeoe.njunet.deploy;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
@@ -35,12 +37,12 @@ public class AccountInputFragment extends DeployFragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        Button button=(Button)(getActivity().findViewById(R.id.nextStepButton));
+        Button button = (Button) (getActivity().findViewById(R.id.nextStepButton));
         button.setText(getNextStepButtonText());
         view = inflater.inflate(R.layout.fragment_account_input, container, false);
         usernameEdit = ((EditText) (view.findViewById(R.id.input_username)));
         passwordEdit = ((EditText) (view.findViewById(R.id.input_password)));
-        usernameEdit.setText(PrefFileManager.getAccountPref().getString("username",""));
+        usernameEdit.setText(PrefFileManager.getAccountPref().getString("username", ""));
         TextWatcher textWatcher = new TextWatcher() {
 
             @Override
@@ -66,8 +68,8 @@ public class AccountInputFragment extends DeployFragment{
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_NEXT) {
-                    if(hasInput(passwordEdit)){
-                        ((FirstSettingActivity)getActivity()).onNextStepButtonClicked(getActivity().findViewById(R.id.nextStepButton));
+                    if (hasInput(passwordEdit)) {
+                        ((FirstSettingActivity) getActivity()).onNextStepButtonClicked(getActivity().findViewById(R.id.nextStepButton));
                     }
                     handled = true;
                 }
@@ -100,7 +102,7 @@ public class AccountInputFragment extends DeployFragment{
         return editText.getText().toString().length() > 0;
     }
 
-    public String getNextStepButtonText(){
+    public String getNextStepButtonText() {
         return getString(R.string.nextStep);
     }
 }

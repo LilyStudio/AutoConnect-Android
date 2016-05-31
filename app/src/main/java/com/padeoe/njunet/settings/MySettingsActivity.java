@@ -2,7 +2,10 @@ package com.padeoe.njunet.settings;
 
 import android.Manifest;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.preference.ListPreference;
@@ -12,6 +15,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -22,6 +26,7 @@ import com.padeoe.njunet.App;
 import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.PermissionExplainFragment;
 import com.padeoe.njunet.connect.StatusNotificationManager;
+import com.padeoe.njunet.connect.controller.ConnectManager;
 import com.padeoe.njunet.connect.controller.ConnectService;
 import com.padeoe.njunet.util.PrefFileManager;
 
@@ -49,6 +54,7 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                     break;
                 case "account_edit":
                     preference.setSummary(PrefFileManager.getAccountPref().getString("username",null));
+                    break;
             }
             String stringValue = newValue.toString();
             if (preference instanceof ListPreference) {
@@ -73,13 +79,23 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        System.out.println("打开了设置");
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         setupActionBar();
+
     }
 
+
+
     public static class MyPreferenceFragment extends PreferenceFragment {
+
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -127,6 +143,13 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                     return true;
                 }
             });
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            //补修改在第二屏中被修改的preferences，这在onCreate中没有捕获
+            bindPreferenceSummaryToValue(findPreference("account_edit"));
         }
     }
 
