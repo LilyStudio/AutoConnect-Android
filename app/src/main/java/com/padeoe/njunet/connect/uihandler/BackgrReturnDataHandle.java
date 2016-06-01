@@ -26,6 +26,7 @@ public class BackgrReturnDataHandle implements ConnectResultHandle {
 
     /**
      * MainActivity通过通知的形式接收到本类的实例，并将自己传进本实例的本方法进行更新界面
+     *
      * @param activity
      */
     @Override
@@ -71,24 +72,4 @@ public class BackgrReturnDataHandle implements ConnectResultHandle {
         ReturnData returnData = ReturnData.getFromJson(result);
         return returnData == null ? new UnknownErrorHandle(result) : new ReturnDataHandle(returnData);
     }
-
-
-/*    @Override
-    public void handleNetworkMonitor(MyObserver<ConnectResultHandle> myObserver) {
-        ConnectFailHandle.resetTimes();
-        if(ReturnData.getFromJson(result)==null){
-            new UnknownErrorHandle().handleNetworkMonitor(myObserver);
-        }
-        else{
-            //更改全局状态
-            ConnectManager.setStatus(ConnectManager.Status.ONLINE);
-            StatusNotificationManager.showStatus("南大校园网");
-            //发送广播，通知其他界面更新信息
-            Intent intent = new Intent(ConnectManager.BACKGROUND_LOGIN_ACTION);
-            intent.putExtra("LOGIN_RESULT", this);
-            LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(App.getAppContext());
-            broadcastManager.sendBroadcast(intent);
-        }
-
-    }*/
 }

@@ -181,19 +181,11 @@ public class OfflineQueryService implements DetailQuery {
     }
 
     private static String getCachedBrasIP() {
-        if (cachedBrasIP == null) {
-            return cachedBrasIP = NetworkUtils.getCurrentBrasIP();
-        }
-        System.out.println("获得缓存IP:" + cachedBrasIP);
-        return cachedBrasIP;
+        return cachedBrasIP == null?cachedBrasIP = NetworkUtils.getCurrentBrasIP():cachedBrasIP;
     }
 
     public static String getBrasIP() {
-        if (settingsBrasIP == null) {
-            return getCachedBrasIP();
-        }
-        System.out.println("获用户指定IP:" + settingsBrasIP);
-        return settingsBrasIP;
+        return settingsBrasIP == null?getCachedBrasIP():settingsBrasIP;
     }
 
     public static String getSettingsBrasIP() {

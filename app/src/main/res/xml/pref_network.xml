@@ -65,6 +65,9 @@
             android:summary="@string/summary_bras_server"
             android:title="@string/title_bras_server" />
     </PreferenceCategory>
-
-
+    <PreferenceCategory android:title="@string/others">
+        <Preference
+            android:key="about"
+            android:title="@string/about"></Preference>
+    </PreferenceCategory>
 </PreferenceScreen>

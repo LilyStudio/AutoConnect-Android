@@ -14,7 +14,7 @@ public class WifiLostHandle implements ConnectResultHandle {
     public void updateView(MainActivity activity) {
         activity.hideProgress();
         activity.setNetInfo(null);
-      //  activity.user_detail.setVisibility(View.INVISIBLE);
+        //  activity.user_detail.setVisibility(View.INVISIBLE);
         ConnectManager.setStatus(ConnectManager.Status.WIFI_LOST);
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());
         activity.showOnMainActivity("未连接wifi");

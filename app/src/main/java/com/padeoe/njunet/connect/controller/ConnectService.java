@@ -34,7 +34,6 @@ public class ConnectService extends Service {
     private static String targetSSID;
     Object wifiNetWorkCallBack;
     public static final String STOP_SERVICE_ACTION = "com.padeoe.njunet.STOP_SERVICE_ACTION";
-    public static final String CONNECTY_TEST = "com.padeoe.njunet.CONNECTY_TEST";
     public static final String SCAN_AND_CONNECT_ACTION = "com.padeoe.njunet.SCAN_AND_CONNECT_ACTION";
 
     NetworkConnectChangedReceiver networkConnectChangedReceiver;
@@ -75,7 +74,6 @@ public class ConnectService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        System.out.println("onDestroyed");
         endMonitor();
     }
 
@@ -197,7 +195,7 @@ public class ConnectService extends Service {
         Log.i("API14", "API14网络监测");
         networkConnectChangedReceiver = new NetworkConnectChangedReceiver();
         IntentFilter filter = new IntentFilter();
-    //    filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
+        //    filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(networkConnectChangedReceiver, filter);
     }

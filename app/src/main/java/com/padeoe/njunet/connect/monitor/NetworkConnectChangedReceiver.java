@@ -12,6 +12,7 @@ import android.util.Log;
 
 import com.padeoe.nicservice.njuwlan.service.LoginService;
 import com.padeoe.njunet.App;
+import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.StatusNotificationManager;
 import com.padeoe.njunet.connect.controller.ConnectManager;
 import com.padeoe.njunet.connect.controller.ConnectService;
@@ -33,7 +34,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver implements 
             if (state == NetworkInfo.DetailedState.DISCONNECTED && ConnectManager.getStatus() != ConnectManager.Status.WIFI_LOST) {
                 ConnectManager.stopAllConnect();
                 ConnectManager.setStatus(ConnectManager.Status.WIFI_LOST);
-                StatusNotificationManager.showStatus("未连接网络");
+                StatusNotificationManager.showStatus(App.getAppContext().getResources().getString(R.string.no_wifi));
 
                 //发送离线广播，可能别处的界面需要更新信息
                 Intent wifiLostIntent = new Intent(ConnectManager.WIFI_LOST_ACTION);
@@ -42,10 +43,8 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver implements 
                 broadcastManager.sendBroadcast(wifiLostIntent);
             } else {
                 if (state == NetworkInfo.DetailedState.CONNECTED && ConnectManager.getStatus() == ConnectManager.Status.WIFI_LOST) {
-                    System.out.println("wifi连接");
                     ConnectManager.setStatus(ConnectManager.Status.DETECTING);
                     StatusNotificationManager.showStatus();
-                    System.out.println("即将检查网络");
                     //绑定网络，开始监测portal的连通性
                     ConnectManager.bindNetWork();
                     ConnectManager connectManager = new ConnectManager();
@@ -67,7 +66,6 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver implements 
     @Override
     public void update(MyObservable myObservable, ConnectResultHandle data) {
         //发送广播，可能别处的界面需要更新信息
-        System.out.println("发送登陆结果广播");
         Intent intent = new Intent(ConnectManager.BACKGROUND_LOGIN_ACTION);
         intent.putExtra("LOGIN_RESULT", data);
         LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(App.getAppContext());

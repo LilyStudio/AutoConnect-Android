@@ -34,7 +34,7 @@ import java.util.List;
  *
  * @see MyObserver
  */
-public class MyObservable <T>{
+public class MyObservable<T> {
 
     List<MyObserver> myObservers = new ArrayList<MyObserver>();
 
@@ -50,8 +50,7 @@ public class MyObservable <T>{
      * Adds the specified observer to the list of myObservers. If it is already
      * registered, it is not added a second time.
      *
-     * @param myObserver
-     *            the Observer to add.
+     * @param myObserver the Observer to add.
      */
     public void addObserver(MyObserver myObserver) {
         if (myObserver == null) {
@@ -84,8 +83,7 @@ public class MyObservable <T>{
      * Removes the specified observer from the list of myObservers. Passing null
      * won't do anything.
      *
-     * @param observer
-     *            the observer to remove.
+     * @param observer the observer to remove.
      */
     public synchronized void deleteObserver(MyObservable observer) {
         myObservers.remove(observer);
@@ -102,7 +100,7 @@ public class MyObservable <T>{
      * Returns the changed flag for this {@code Observable}.
      *
      * @return {@code true} when the changed flag for this {@code Observable} is
-     *         set, {@code false} otherwise.
+     * set, {@code false} otherwise.
      */
     public boolean hasChanged() {
         return changed;
@@ -112,7 +110,7 @@ public class MyObservable <T>{
      * If {@code hasChanged()} returns {@code true}, calls the {@code update()}
      * method for every observer in the list of myObservers using null as the
      * argument. Afterwards, calls {@code clearChanged()}.
-     * <p>
+     * <p/>
      * Equivalent to calling {@code notifyObservers(null)}.
      */
     public void notifyObservers() {
@@ -124,8 +122,7 @@ public class MyObservable <T>{
      * method for every Observer in the list of myObservers using the specified
      * argument. Afterwards calls {@code clearChanged()}.
      *
-     * @param data
-     *            the argument passed to {@code update()}.
+     * @param data the argument passed to {@code update()}.
      */
     @SuppressWarnings("unchecked")
     public void notifyObservers(T data) {

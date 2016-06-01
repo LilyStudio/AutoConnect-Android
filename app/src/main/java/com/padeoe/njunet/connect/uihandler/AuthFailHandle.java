@@ -15,18 +15,20 @@ import com.padeoe.njunet.connect.controller.ConnectManager;
  */
 public class AuthFailHandle implements ConnectResultHandle {
     ReturnData returnData;
-    public AuthFailHandle(ReturnData returnData){
-        this.returnData=returnData;
+
+    public AuthFailHandle(ReturnData returnData) {
+        this.returnData = returnData;
         ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
-        StatusNotificationManager.showStatus("连接出错:"+returnData.getReply_message());
+        StatusNotificationManager.showStatus("连接出错:" + returnData.getReply_message());
     }
+
     @Override
     public void updateView(MainActivity activity) {
         activity.hideProgress();
         WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
         activity.setNetInfo(wifiManager.getConnectionInfo().getSSID());
-     //   activity.user_detail.setVisibility(View.VISIBLE);
-        activity.updateViewStatus(activity.status,ConnectManager.getStatus());
+        //   activity.user_detail.setVisibility(View.VISIBLE);
+        activity.updateViewStatus(activity.status, ConnectManager.getStatus());
         activity.showOnMainActivity(returnData.getReply_message());
     }
 

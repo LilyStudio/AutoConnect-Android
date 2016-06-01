@@ -5,7 +5,7 @@
     <item
         android:id="@+id/disconnect"
         android:orderInCategory="100"
-        android:title="下线"
+        android:title="@string/disconnect"
         app:showAsAction="always" />
     <item
         android:id="@+id/settings"

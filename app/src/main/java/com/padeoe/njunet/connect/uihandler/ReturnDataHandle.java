@@ -35,13 +35,16 @@ public class ReturnDataHandle implements ConnectResultHandle {
         if (returnData != null) {
             UserInfo userinfo = returnData.getUserInfo();
             if (userinfo != null) {
-            //    mainActivity.username.setText(userinfo.getUsername() + "(" + userinfo.getFullname() + ")");
+                //    mainActivity.username.setText(userinfo.getUsername() + "(" + userinfo.getFullname() + ")");
                 WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
                 mainActivity.setNetInfo(wifiManager.getConnectionInfo().getSSID());
-               // mainActivity.user_detail.setVisibility(View.VISIBLE);
+                // mainActivity.user_detail.setVisibility(View.VISIBLE);
                 mainActivity.amount.setText(Double.valueOf(userinfo.getBalance()) / 100 + "元");
                 mainActivity.location.setText(userinfo.getArea_name());
                 mainActivity.ip.setText(ConvertionUtils.getIP(userinfo.getUseripv4()));
+                MyAnimation.fadeInTextView(mainActivity.amount);
+                MyAnimation.fadeInTextView(mainActivity.location);
+                MyAnimation.fadeInTextView(mainActivity.ip);
                 UpdateInfo updateInfo = new UpdateInfo();
                 updateInfo.addObserver(mainActivity);
                 updateInfo.updateOnlineTime();

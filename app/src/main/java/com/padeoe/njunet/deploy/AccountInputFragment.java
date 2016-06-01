@@ -19,7 +19,8 @@ import android.widget.TextView;
 
 import com.padeoe.njunet.R;
 import com.padeoe.njunet.util.PrefFileManager;
-public class AccountInputFragment extends DeployFragment{
+
+public class AccountInputFragment extends DeployFragment {
     EditText usernameEdit;
     EditText passwordEdit;
     View view;

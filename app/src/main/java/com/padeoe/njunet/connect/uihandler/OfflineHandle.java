@@ -21,8 +21,7 @@ public class OfflineHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity mainActivity) {
         mainActivity.hideProgress();
-      //  mainActivity.user_detail.setVisibility(View.INVISIBLE);
-        System.out.println("离线处理");
+        //  mainActivity.user_detail.setVisibility(View.INVISIBLE);
         ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
         StatusNotificationManager.showStatus();
         mainActivity.updateViewStatus(mainActivity.status, ConnectManager.getStatus());

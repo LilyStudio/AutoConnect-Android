@@ -11,8 +11,9 @@ import com.padeoe.njunet.connect.MainActivity;
  */
 public class ErrorHandle implements ConnectResultHandle {
     String error;
-    public ErrorHandle(String error){
-        this.error=error;
+
+    public ErrorHandle(String error) {
+        this.error = error;
     }
 
 

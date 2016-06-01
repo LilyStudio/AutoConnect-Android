@@ -9,12 +9,11 @@ android {
         minSdkVersion 14
         targetSdkVersion 23
         versionCode 1
-        versionName "2.5-dev"
+        versionName "2.5"
     }
     buildTypes {
         release {
             minifyEnabled false
-            shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

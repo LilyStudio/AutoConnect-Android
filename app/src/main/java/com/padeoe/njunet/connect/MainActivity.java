@@ -16,6 +16,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -45,7 +46,7 @@ import com.padeoe.njunet.util.MyObservable;
 import com.padeoe.njunet.util.MyObserver;
 import com.padeoe.njunet.util.PrefFileManager;
 
-public class MainActivity extends AppCompatActivity implements MyObserver<ConnectResultHandle>, PermissionExplainFragment.PermissionHandler {
+public class MainActivity extends AppCompatActivity implements MyObserver<ConnectResultHandle> {
     public ConnectManager.Status status = ConnectManager.Status.ONLINE;
     public View online;
     public View offline;
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         receiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                Log.d("自定义广播", "已经接收到广播" + intent.getAction());
                 ConnectResultHandle infoHandle = null;
                 switch (intent.getAction()) {
                     case ConnectManager.BACKGROUND_LOGIN_ACTION:
@@ -102,53 +102,6 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
                 }
             }
         };
-        if (PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("login_on_activity_start", true)) {
-            initData();
-        }
-
-
-
-
-
-/*        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            NetworkRequest.Builder builder = new NetworkRequest.Builder();
-       //     builder.addCapability(NetworkCapabilities.NET_CAPABILITY_NOT_VPN);
-            builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
-            NetworkRequest wifiNetworkRequest = builder.build();
-            ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            connectivityManager.registerNetworkCallback(wifiNetworkRequest, new WifiNetWorkCallBack());
-            Log.d("已经开启了网络请求回调","已经开启了网络请求回调");
-        }*/
-/*
-        Intent intent = getIntent();
-        if (ConnectivityManager.ACTION_CAPTIVE_PORTAL_SIGN_IN.equals(intent.getAction())) {
-            Log.d("captivePortal","存在captivePortal的intent");
-            CaptivePortal captivePortal=intent.getParcelableExtra(ConnectivityManager.EXTRA_CAPTIVE_PORTAL);
-            Network network=intent.getParcelableExtra(ConnectivityManager.EXTRA_NETWORK);
-            if(captivePortal!=null){
-                Log.e("captivePortal不为空","captivePortal不为空");
-            }else {
-                Log.e("captivePortal是空的","captivePortal为空");
-            }
-            if(network!=null){
-                Log.d("网络的具体信息","网络的具体信息存在");
-                ConnectivityManager connectivityManager=(ConnectivityManager) this.getSystemService(Context.CONNECTIVITY_SERVICE);
-             //   connectivityManager.bindProcessToNetwork(network);
-                new Thread() {
-                    @Override
-                    public void run() {
-                        super.run();
-                        ConnectManager connectManager = new ConnectManager();
-                        connectManager.addObserver(MainActivity.this);
-                        connectManager.connectNow();
-                    }
-                }.start();
-            }
-            else{
-                Log.e("网络的具体信息不存在","网络的具体信息不存在");
-            }
-        }*/
-
     }
 
     private void initUI() {
@@ -186,14 +139,12 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         netinfo.setText(getNetInfo(ssid));
     }
 
-    ;
-
-    private static SpannableString getNetInfo(String ssid) {
+    private SpannableString getNetInfo(String ssid) {
         if (ssid == null) {
-            return new SpannableString("未连接");
+            return new SpannableString(getResources().getString(R.string.no_wifi));
         } else {
             StringBuilder builder = new StringBuilder();
-            String type = App.isInPortalWiFiSet(ssid) || App.isInSuspiciousWiFiSSIDSet(ssid) ? "校园网" : "未知网络";
+            String type = App.isInPortalWiFiSet(ssid) || App.isInSuspiciousWiFiSSIDSet(ssid) ? getResources().getString(R.string.NJUWLAN) : getResources().getString(R.string.Unknown_WLAN);
             builder.append(type).append("\n").append(ssid);
             String status_internet_str = builder.toString();
             SpannableString spannableString = new SpannableString(status_internet_str);
@@ -255,11 +206,9 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
     }
 
     public void updateViewStatus(ConnectManager.Status oldStatus, ConnectManager.Status newStatus) {
-        System.out.println(oldStatus + "=>" + newStatus);
         status_internet.setText(ConnectManager.getInternetStatus());
         MyAnimation.fadeInTextView(status_internet);
         if (getStatusView(oldStatus) != getStatusView(newStatus)) {
-            System.out.println("当前状态不一致");
             MyAnimation.flip(getStatusView(oldStatus), getStatusView(newStatus), 300);
             if (getStatusView(newStatus) == offline) {
                 MyAnimation.updateBackground(appBarLayout, getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.disconnect), 1000);
@@ -295,8 +244,9 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
     @Override
     protected void onResume() {
         super.onResume();
-
-
+        if (PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("login_on_activity_start", true)) {
+            initData();
+        }
     }
 
     @Override
@@ -321,14 +271,12 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.e("MainActivity", "更新");
                 data.updateView(MainActivity.this);
             }
         });
     }
 
     public void showProgress() {
-        Log.e("开始显示progress", "progress");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             appBarLayout.setElevation(0f);
         }
@@ -336,34 +284,9 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
     }
 
     public void hideProgress() {
-        Log.e("开始隐藏progress", "progress");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             appBarLayout.setElevation(5f);
         }
         progressBar.setVisibility(View.GONE);
-    }
-
-    public void checkPermission() {
-        if (/*ContextCompat.checkSelfPermission(App.getAppContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED*/false) {
-            System.out.println("权限已经获得");
-        } else {
-            PermissionExplainFragment permissionExplainFragment = new PermissionExplainFragment();
-            FragmentManager fragmentManager = this.getFragmentManager();
-            permissionExplainFragment.show(fragmentManager, "请求定位权限");
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            showOnMainActivity("权限已经获得");
-        } else {
-            showOnMainActivity("权限没有获得");
-        }
-    }
-
-    @Override
-    public void onPermissionExplained() {
-        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_COARSE_LOCATION}, 1);
     }
 }

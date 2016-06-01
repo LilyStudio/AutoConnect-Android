@@ -19,46 +19,43 @@ import com.padeoe.njunet.util.MyObservable;
  * Created by padeoe on 2016/4/26.
  */
 public class UpdateInfo extends MyObservable<ConnectResultHandle> {
-    public void updateInfo(){
-        new Thread(){
+    public void updateInfo() {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                OnlineQueryService onlineQueryService=new OnlineQueryService();
-                String result=onlineQueryService.getUserInfo();
-                ReturnData returnData=ReturnData.getFromJson(result);
+                OnlineQueryService onlineQueryService = new OnlineQueryService();
+                String result = onlineQueryService.getUserInfo();
+                ReturnData returnData = ReturnData.getFromJson(result);
                 setChanged();
-                notifyObservers(returnData!=null?new ReturnDataHandle(returnData):new ErrorHandle(result));
+                notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
             }
         }.start();
     }
 
-    public void updateOnlineTime(){
-        new Thread(){
+    public void updateOnlineTime() {
+        new Thread() {
             @Override
             public void run() {
                 super.run();
-                OnlineQueryService onlineQueryService=new OnlineQueryService();
-                Log.d("开始获取时间","开始");
-                String result=onlineQueryService.getBasicInfo();
-                BasicInfo basicInfo=BasicInfo.getFromJson(result);
+                OnlineQueryService onlineQueryService = new OnlineQueryService();
+                String result = onlineQueryService.getBasicInfo();
+                BasicInfo basicInfo = BasicInfo.getFromJson(result);
                 int seconds;
-                if(basicInfo!=null&&basicInfo.getBasicInfoRows()!=null&&basicInfo.getBasicInfoRows().length>0){
-                    BasicInfoRow basicInfoRow=basicInfo.getBasicInfoRows()[0];
+                if (basicInfo != null && basicInfo.getBasicInfoRows() != null && basicInfo.getBasicInfoRows().length > 0) {
+                    BasicInfoRow basicInfoRow = basicInfo.getBasicInfoRows()[0];
                     try {
-                        Log.d("获取时间成功","成功");
-                        seconds=Integer.parseInt(basicInfoRow.getTotal_ipv4_volume());
+                        seconds = Integer.parseInt(basicInfoRow.getTotal_ipv4_volume());
                         setChanged();
                         notifyObservers(new OnlineTimeHandle(seconds));
-                    }catch ( NumberFormatException e){
+                    } catch (NumberFormatException e) {
                         setChanged();
                         notifyObservers(new ErrorHandle(App.context.getString(R.string.illegal_result_from_server)));
                     }
-                }
-                else {
+                } else {
                     setChanged();
                     notifyObservers(new GetOnlineTimeFailHandle());
-                    Log.e("获取时间失败",result);
+                    Log.e("获取时间失败", result);
                 }
 
             }

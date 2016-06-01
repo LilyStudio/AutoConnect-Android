@@ -84,32 +84,6 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
         }
     }
 
-    public void connectNow() {
-        if (isConnecting.compareAndSet(false, true)) {
-            Thread thread;
-            threadList.add(thread = new Thread() {
-                @Override
-                public void run() {
-                    super.run();
-                    // bindNetWork(null);
-                    System.out.println("登陆开始");
-                    String result = LoginService.getInstance().connect(ConnectService.getUsername(), ConnectService.getPassword());
-                    isConnecting.set(false);
-                    System.out.println("登陆结束" + result);
-                    setChanged();
-                    if (!LoginService.isLoginSuccess(result)) {
-                        notifyObservers(new ErrorHandle(result));
-                    } else {
-                        ReturnData returnData = ReturnData.getFromJson(result);
-                        notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
-                    }
-                    threadList.remove(this);
-                }
-            });
-            thread.start();
-        }
-    }
-
     public void backgrConnect() {
         backgrConnect(null);
     }
@@ -121,15 +95,12 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                 @Override
                 public void run() {
                     super.run();
-                    System.out.println("开始进入后台连接线程");
                     if (bindNetWork()) {
-                        System.out.println("后台登陆开始");
-                        if(ConnectService.getUsername()==null||ConnectService.getPassword()==null){
+                        if (ConnectService.getUsername() == null || ConnectService.getPassword() == null) {
                             isConnecting.set(false);
                             setChanged();
                             notifyObservers(new NoPasswordHandle());
-                        }
-                        else{
+                        } else {
                             String result = LoginService.getInstance().connect(ConnectService.getUsername(), ConnectService.getPassword());
                             isConnecting.set(false);
                             System.out.println("后台登陆结束" + result);
@@ -179,13 +150,11 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                     public void run() {
                         super.run();
                         if (bindNetWork()) {
-                            Log.e("网络测试","开始");
-                            try{
-                                int code = NetworkTest.testNetwork("http://"+NetworkUtils.DNS("padeoe.com",200)+"/generate_204");
-                                Log.e("网络测试",""+code);
+                            try {
+                                int code = NetworkTest.testNetwork("http://" + NetworkUtils.DNS("padeoe.com", 200) + "/generate_204");
                                 setChanged();
                                 notifyObservers(new Reachable(code));
-                            }catch (Exception e){
+                            } catch (Exception e) {
                                 setChanged();
                                 notifyObservers(new Reachable(-1));
                             }
@@ -209,14 +178,12 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                 super.run();
                 OnlineQueryService onlineQueryService = new OnlineQueryService();
                 onlineQueryService.setTimeout(200);
-                Log.d("开始获取时间", "开始");
                 String result = onlineQueryService.getBasicInfo();
                 BasicInfo basicInfo = BasicInfo.getFromJson(result);
                 int seconds;
                 if (basicInfo != null && basicInfo.getBasicInfoRows() != null && basicInfo.getBasicInfoRows().length > 0) {
                     BasicInfoRow basicInfoRow = basicInfo.getBasicInfoRows()[0];
                     try {
-                        Log.d("获取时间成功", "成功");
                         seconds = Integer.parseInt(basicInfoRow.getTotal_ipv4_volume());
                         setChanged();
                         notifyObservers(new OnlineTimeHandle(seconds));
@@ -292,21 +259,22 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
     }
 
     public static void stopAllConnect() {
+        //暂时不进行线程中断，以下语句是否注释不影响运行
 /*        for (Thread thread : threadList) {
             thread.interrupt();
         }*/
     }
 
-    public static String getInternetStatus(){
-        switch (status){
+    public static String getInternetStatus() {
+        switch (status) {
             case OFFLINE:
                 return App.getAppContext().getResources().getString(R.string.offline);
             case ONLINE:
                 return App.getAppContext().getResources().getString(R.string.online);
             case DETECTING:
-                return  App.getAppContext().getResources().getString(R.string.detecting);
+                return App.getAppContext().getResources().getString(R.string.detecting);
             case WIFI_LOST:
-                return  App.getAppContext().getResources().getString(R.string.wifi_lost);
+                return App.getAppContext().getResources().getString(R.string.wifi_lost);
             default:
                 return "unknown";
         }

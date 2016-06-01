@@ -25,6 +25,13 @@ Android 4.0+
 - 默认开启后台服务，将在连接上南大校园网WLAN时自动登陆
 - 可以使用状态栏通知快捷登陆
 
+<h2>下载</h2>
+[<img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png">](https://play.google.com/store/apps/details?id=com.padeoe.njunet)
+
+或
+
+[apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
+
 <h2>更新日志</h2>
 
 - [查看更新日志](https://github.com/padeoe/AutoConnect/blob/newUI/UPDATE.md)
