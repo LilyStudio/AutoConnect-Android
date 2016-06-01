@@ -26,16 +26,16 @@ public class AccountTypeFragment extends DeployFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        Button button=(Button)(getActivity().findViewById(R.id.nextStepButton));
+        Button button = (Button) (getActivity().findViewById(R.id.nextStepButton));
         button.setText(getNextStepButtonText());
         // Inflate the layout for this fragment
-        View view= inflater.inflate(R.layout.fragment_account_type, container, false);
-        RadioGroup accountKind=(RadioGroup) view.findViewById(R.id.AccountKindRadio);
+        View view = inflater.inflate(R.layout.fragment_account_type, container, false);
+        RadioGroup accountKind = (RadioGroup) view.findViewById(R.id.AccountKindRadio);
         accountKind.setOnCheckedChangeListener(
                 new RadioGroup.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(RadioGroup group, int checkedId) {
-                        Log.d("被点击","点击");
+                        Log.d("被点击", "点击");
                         getActivity().findViewById(R.id.nextStepButton).setEnabled(true);
 /*                        NextStepEnable nextStepEnable=new NextStepEnable();
                         nextStepEnable.addObserver();
@@ -43,8 +43,8 @@ public class AccountTypeFragment extends DeployFragment {
                     }
                 }
         );
-        RadioButton portalradioButton=(RadioButton) view.findViewById(R.id.radio_pnju);
-        RadioButton oaRadioButton=(RadioButton) view.findViewById(R.id.radio_oa);
+        RadioButton portalradioButton = (RadioButton) view.findViewById(R.id.radio_pnju);
+        RadioButton oaRadioButton = (RadioButton) view.findViewById(R.id.radio_oa);
         setRadioButtonTextColor(portalradioButton);
         setRadioButtonTextColor(oaRadioButton);
         return view;
@@ -55,20 +55,19 @@ public class AccountTypeFragment extends DeployFragment {
         view.setEnabled(false);
     }
 
-    public String getNextStepButtonText(){
+    public String getNextStepButtonText() {
         return getString(R.string.nextStep);
     }
 
-    private void setRadioButtonTextColor(RadioButton radioButton){
-        String pnjuRadioText=radioButton.getText().toString();
-        SpannableString spannableString=new SpannableString(pnjuRadioText);
-        int index_newline=pnjuRadioText.indexOf("\n");
-        if(index_newline!=-1){
-            spannableString.setSpan(new ForegroundColorSpan(Color.GRAY),index_newline,pnjuRadioText.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+    private void setRadioButtonTextColor(RadioButton radioButton) {
+        String pnjuRadioText = radioButton.getText().toString();
+        SpannableString spannableString = new SpannableString(pnjuRadioText);
+        int index_newline = pnjuRadioText.indexOf("\n");
+        if (index_newline != -1) {
+            spannableString.setSpan(new ForegroundColorSpan(Color.GRAY), index_newline, pnjuRadioText.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             radioButton.setText(spannableString);
-        }
-        else{
-            Log.e("内部错误","first setting fragment中radio button文字不包含换行符");
+        } else {
+            Log.e("内部错误", "first setting fragment中radio button文字不包含换行符");
         }
     }
 }

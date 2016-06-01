@@ -1,10 +1,7 @@
-AutoConnect Android App
+NJUNet Android App
 ======================
 
-AutoConnect是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
-
-<h2>缘起</h2>
-南大校园网实在太渣，尤其无线网一节课能断十几次真是醉，遂作该程序
+NJUNet是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
 
 <h2>适用平台</h2>
 Android 4.0+
@@ -24,26 +21,16 @@ Android 4.0+
 <img src="screenshot4.png" width="355" height="631">
 
 <h2>功能说明</h2>
-- 可手动进行登陆，下线
-- 默认开启后台服务，将在连接上NJU-WLAN时自动登陆
+- 可手动进行登陆，下线，查看登陆数据(时长，余额等)
+- 默认开启后台服务，将在连接上南大校园网WLAN时自动登陆
+- 可以使用状态栏通知快捷登陆
 
 <h2>下载</h2>
-[<img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png">](https://play.google.com/store/apps/details?id=com.padeoe.autoconnect)
+[<img src="http://developer.android.com/images/brand/en_generic_rgb_wo_60.png">](https://play.google.com/store/apps/details?id=com.padeoe.njunet)
 
-or
+或
 
-| 系统要求  |  版本号 | 下载链接 |文件大小|
-| :------------ |:-------:|:--------:|:---:|
-| android 4.0+          | 2.4.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)    |1016KB|
-| android 5.0+          | 2.4.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI21/app/app-release.apk)    |416KB|
-| android 6.0+          | 2.4.1   | [apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/minAPI23/app/app-release.apk)    |416KB|
-
-<h2>To Do</h2>
-- [x] 数据加密传输
-- [ ] 数据加密存储
-- [ ] widget小组件
-- [ ] 显示登陆，账单，等详单列表
-- [ ] 账号共享
+[apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
 
 <h2>更新日志</h2>
 
@@ -54,31 +41,3 @@ or
 
 <h2>特别感谢</h2>
 - 技术顾问[@Nifury](https://github.com/Nifury)
-
-<h2>许可证</h2>
-在最为宽松的MIT许可下开源
-
-```
-Copyright (c) 2015 padeoe
-padeoe@gmail.com
-The MIT License
-
-Permission is hereby granted, free of charge, to any person obtaining
-a copy of this software and associated documentation files (the
-"Software"), to deal in the Software without restriction, including
-without limitation the rights to use, copy, modify, merge, publish,
-distribute, sublicense, and/or sell copies of the Software, and to
-permit persons to whom the Software is furnished to do so, subject to
-the following conditions:
-
-The above copyright notice and this permission notice shall be
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```

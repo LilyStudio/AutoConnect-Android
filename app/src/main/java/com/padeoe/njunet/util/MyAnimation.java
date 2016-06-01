@@ -26,8 +26,7 @@ public class MyAnimation {
                     ObjectAnimator.ofFloat(back, "rotationY", 0).setDuration(duration / 2)
             );
             set.start();
-        }
-        else {
+        } else {
             front.animate().rotationY(90).setDuration(duration / 2).setListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
@@ -40,14 +39,14 @@ public class MyAnimation {
         }
     }
 
-    public static void fadeInTextView(TextView textView){
-        AlphaAnimation fadeIn = new AlphaAnimation(0.0f , 1.0f ) ;
+    public static void fadeInTextView(TextView textView) {
+        AlphaAnimation fadeIn = new AlphaAnimation(0.0f, 1.0f);
         textView.startAnimation(fadeIn);
         fadeIn.setDuration(1000);
         fadeIn.setFillAfter(true);
     }
 
-    public static void updateBackground(View view,int initColor,int endColor,int duration){
+    public static void updateBackground(View view, int initColor, int endColor, int duration) {
         ColorDrawable[] color = {new ColorDrawable(initColor), new ColorDrawable(endColor)};
         TransitionDrawable trans = new TransitionDrawable(color);
         view.setBackgroundDrawable(trans);

@@ -20,16 +20,17 @@ import java.util.List;
 public class FirstSettingActivity extends AppCompatActivity {
     private List<DeployFragment> fragments;
     FragmentManager fragmentManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_first_setting);
         Intent intent = getIntent();
-        String action=intent.getAction();
+        String action = intent.getAction();
         fragmentManager = getSupportFragmentManager();
         //首次安装，设置fragment
-        if(PrefFileManager.getAccountPref().getBoolean("isFirstInstall", true)){
-            fragments=new ArrayList<>();
+        if (PrefFileManager.getAccountPref().getBoolean("isFirstInstall", true)) {
+            fragments = new ArrayList<>();
             fragments.add(new AccountTypeFragment());
             fragments.add(new AccountInputFragment());
             fragments.add(new SettingFinishFragment());
@@ -37,19 +38,17 @@ public class FirstSettingActivity extends AppCompatActivity {
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.root, fragments.get(0));
             fragmentTransaction.commit();
-        }
-        else{
+        } else {
             //不是首次安装，测试是否是设置项跳转来的
-            if(action!=null&&action.equals("com.padeoe.njunet.EDIT_ACCOUNT")){
-                fragments=new ArrayList<>();
+            if (action != null && action.equals("com.padeoe.njunet.EDIT_ACCOUNT")) {
+                fragments = new ArrayList<>();
                 fragments.add(new AccountInputFragment());
                 fragments.add(new SettingFinishFragment());
                 //设置第一屏
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 fragmentTransaction.add(R.id.root, fragments.get(0));
                 fragmentTransaction.commit();
-            }
-            else{
+            } else {
                 openMainActivity();
                 finish();
             }
@@ -75,14 +74,13 @@ public class FirstSettingActivity extends AppCompatActivity {
 
     public void onNextStepButtonClicked(View view) {
         Log.d("栈大小", fragmentManager.getBackStackEntryCount() + "");
-        int stackSize=fragmentManager.getBackStackEntryCount();
-        if(stackSize<fragments.size()-1){
+        int stackSize = fragmentManager.getBackStackEntryCount();
+        if (stackSize < fragments.size() - 1) {
             fragments.get(stackSize).handle(view);
-            showNewFragment(fragments.get(stackSize+1));
-        }
-        else{
+            showNewFragment(fragments.get(stackSize + 1));
+        } else {
             Intent intent = getIntent();
-            if(intent.getAction()!=null&&intent.getAction().equals("android.intent.action.MAIN")){
+            if (intent.getAction() != null && intent.getAction().equals("android.intent.action.MAIN")) {
                 openMainActivity();
             }
             finish();

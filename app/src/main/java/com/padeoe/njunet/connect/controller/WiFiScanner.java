@@ -17,25 +17,26 @@ import com.padeoe.njunet.util.MyObserver;
 /**
  * Created by padeoe on 2016/5/20.
  */
-public class WiFiScanner implements MyObserver<ConnectResultHandle>{
+public class WiFiScanner implements MyObserver<ConnectResultHandle> {
     static BroadcastReceiver receiver;
-    public void startScan(){
+
+    public void startScan() {
         //如果wifi未连接，才进行扫描
-        if(ConnectManager.getStatus()== ConnectManager.Status.WIFI_LOST){
+        if (ConnectManager.getStatus() == ConnectManager.Status.WIFI_LOST) {
             StatusNotificationManager.showStatus("正在扫描WLAN");
             //首先确保wifi开关已打开
-            WifiManager wifiManager= (WifiManager)App.getAppContext().getSystemService(Context.WIFI_SERVICE);
-            App.getAppContext().registerReceiver(receiver=new ScanResultReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
-            if(wifiManager.isWifiEnabled()||wifiManager.setWifiEnabled(true)){
+            WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+            App.getAppContext().registerReceiver(receiver = new ScanResultReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+            if (wifiManager.isWifiEnabled() || wifiManager.setWifiEnabled(true)) {
                 wifiManager.startScan();
             }
         }
         //如果已连接，不进行扫描，做网络检测刷新或登录。
-        else{
+        else {
             System.out.println("无需扫描wifi，即将检查网络");
             ConnectManager.setStatus(ConnectManager.Status.DETECTING);
             StatusNotificationManager.showStatus();
-            ConnectManager connectManager=new ConnectManager();
+            ConnectManager connectManager = new ConnectManager();
             connectManager.addObserver(this);
             connectManager.backgrConnect();
         }

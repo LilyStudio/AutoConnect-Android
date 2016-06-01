@@ -52,10 +52,13 @@ public class StatusNotificationManager {
             android.support.v4.app.NotificationCompat.Builder builder =
                     new NotificationCompat.Builder(App.getAppContext());
             builder
-                    .setContentText("下拉本通知展开菜单".intern())
+                    .setContentText(App.getAppContext().getResources().getString(R.string.pull_down_notification))
                     .setDefaults(Notification.DEFAULT_LIGHTS)
                     .setColor(0xff123456)
                     .setStyle(new NotificationCompat.BigTextStyle().bigText(detail));
+            Intent resultIntent = new Intent(App.getAppContext(), MainActivity.class);
+            PendingIntent resultPendingIntent = PendingIntent.getActivity(App.getAppContext(), 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            builder.setContentIntent(resultPendingIntent);
             switch (ConnectManager.getStatus()) {
                 case OFFLINE:
                     builder.setColor(App.getAppContext().getResources().getColor(R.color.disconnect)).setContentTitle(App.getAppContext().getResources().getString(R.string.internet_unavailable)).setSmallIcon(R.drawable.icon_wifi_nointernet).addAction(R.drawable.ic_settings,
@@ -67,6 +70,7 @@ public class StatusNotificationManager {
                     break;
                 case WIFI_LOST:
                     if (notification_frequency == 2) {
+                        removeNotification();
                         return;
                     }
                     builder.setColor(App.getAppContext().getResources().getColor(R.color.disconnect)).setContentTitle(App.getAppContext().getResources().getString(R.string.no_wifi)).setSmallIcon(R.drawable.ic_wifi_off).addAction(R.drawable.ic_settings,

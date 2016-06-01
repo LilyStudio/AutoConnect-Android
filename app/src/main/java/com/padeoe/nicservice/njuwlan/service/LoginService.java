@@ -37,10 +37,7 @@ public class LoginService {
     }
 
     public static LoginService getInstance() {
-        System.out.println("获取实例");
-        if (loginService == null)
-            loginService = new LoginService();
-        return loginService;
+        return loginService == null?loginService=new LoginService():loginService;
     }
 
     /**

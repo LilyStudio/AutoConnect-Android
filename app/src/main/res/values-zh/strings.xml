@@ -1,0 +1,76 @@
+<resources>
+    <string name="app_name">NJUNet</string>
+    <string name="large_text">
+        还没想好放什么...
+    </string>
+    <string name="action_settings">Settings</string>
+    <string-array name="pref_timeout_titles">
+        <item>100ms</item>
+        <item>200ms</item>
+        <item>400ms</item>
+        <item>1s</item>
+        <item>不限</item>
+    </string-array>
+    <string-array name="pref_timeout_values">
+        <item>100</item>
+        <item>200</item>
+        <item>400</item>
+        <item>1000</item>
+        <item>-1</item>
+    </string-array>
+    <string name="next">继续</string>
+    <string name="permission_request">或许还需要一个权限...</string>
+    <string name="permission_location_detail">Android 6.0+中扫描wifi需要定位权限。本程序只会在你手动点击了联机按钮且没有连接wifi的时候才会扫描网络。</string>
+    <string name="title_portal_server">认证服务器地址</string>
+    <string name="summary_portal_server">p.nju.edu.cn服务器IP,留空以默认DNS解析</string>
+    <string name="title_bras_server">bras服务器地址</string>
+    <string name="summary_bras_server">bras.nju.edu.cn服务器IP,留空以默认DNS解析</string>
+    <string-array name="pref_relogin_times_titles">
+        <item>0次</item>
+        <item>1次</item>
+        <item>2次</item>
+        <item>4次</item>
+        <item>8次</item>
+    </string-array>
+    <string-array name="pref_relogin_times_values">
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>4</item>
+        <item>8</item>
+    </string-array>
+    <string-array name="pref_notification_freqeucy_title">
+        <item>总是显示</item>
+        <item>连接到校园网时显示</item>
+        <item>不显示</item>
+    </string-array>
+    <string-array name="pref_notification_freqeucy_values">
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+    </string-array>
+    <string name="pref_scan_wifi_summary">当年点击连接登陆按钮时,如果WiFi未连接，将自动打开WiFi开关并扫描附近校园网WLAN</string>
+    <string name="pref_login_on_activity_start_title">打开app时刷新网络状态</string>
+    <string name="pref_title_account_catagory">账号</string>
+    <string name="scan_and_connect">连接WLAN并登录</string>
+    <string name="refresh">刷新</string>
+    <string name="login">登录</string>
+    <string name="no_wifi">未连接WLAN</string>
+    <string name="NJUWLAN">校园网</string>
+    <string name="Unknown_WLAN">未知网络</string>
+    <string name="internet_available">Internet可用</string>
+    <string name="internet_unavailable">Internet不可用</string>
+    <string name="others">其他</string>
+    <string name="about">关于NJUNet</string>
+    <string name="check_update">检查更新</string>
+    <string name="author_email">padeoe@gmail.com</string>
+    <string name="feedback">问题反馈</string>
+    <string name="send_email">发送邮件给开发者?</string>
+    <string name="version">版本号:</string>
+    <string name="author" >作者:padeoe@gmail.com</string>
+    <string name="githubLink" >Github开源项目</string>
+    <string name="connect_fail">无法连接到p.nju.edu.cn</string>
+    <string name="need_auth">该网络需要登录</string>
+    <string name="disconnect">下线</string>
+    <string name="pull_down_notification">下拉本通知展开菜单</string>
+</resources>

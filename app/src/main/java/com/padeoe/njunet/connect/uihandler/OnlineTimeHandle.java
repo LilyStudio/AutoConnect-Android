@@ -4,22 +4,25 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import com.padeoe.njunet.connect.MainActivity;
+import com.padeoe.njunet.util.MyAnimation;
 
 /**
  * Created by padeoe on 2016/5/10.
  */
 public class OnlineTimeHandle implements ConnectResultHandle {
     int second;
-    public OnlineTimeHandle(int second){
-        this.second=second;
+
+    public OnlineTimeHandle(int second) {
+        this.second = second;
     }
 
     @Override
     public void updateView(MainActivity activity) {
         GetOnlineTimeFailHandle.resetTimes();
-        StringBuilder stringBuilder=new StringBuilder();
-        stringBuilder.append(second/3600).append("小时").append(second%3600/60).append("分钟");
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append(second / 3600).append("小时").append(second % 3600 / 60).append("分钟");
         activity.time.setText(stringBuilder.toString());
+        MyAnimation.fadeInTextView(activity.time);
         activity.hideProgress();
     }
 

@@ -2,6 +2,7 @@ package com.padeoe.njunet.connect.uihandler;
 
 import android.os.Parcel;
 
+import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.MainActivity;
 import com.padeoe.njunet.connect.controller.ConnectManager;
 import com.padeoe.njunet.util.MyAnimation;
@@ -19,11 +20,11 @@ public class UnknownNetHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity activity) {
         activity.hideProgress();
-      //  activity.user_detail.setVisibility(View.VISIBLE);
+        //  activity.user_detail.setVisibility(View.VISIBLE);
         activity.setNetInfo(SSID);
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());
         MyAnimation.fadeInTextView(activity.status_internet);
-        activity.showOnMainActivity("无法连接到p.nju.edu.cn");
+        activity.showOnMainActivity(activity.getResources().getString(R.string.connect_fail));
     }
 
     @Override

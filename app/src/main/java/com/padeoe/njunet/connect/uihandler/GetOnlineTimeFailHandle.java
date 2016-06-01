@@ -21,7 +21,7 @@ public class GetOnlineTimeFailHandle extends MyObservable<ConnectResultHandle> i
     @Override
     public void updateView(MainActivity activity) {
         if (times < maxTry) {
-            Log.d("尝试","即将第"+times+"次获取时长");
+            Log.d("尝试", "即将第" + times + "次获取时长");
             UpdateInfo updateInfo = new UpdateInfo();
             updateInfo.addObserver(activity);
             updateInfo.updateOnlineTime();
@@ -30,11 +30,13 @@ public class GetOnlineTimeFailHandle extends MyObservable<ConnectResultHandle> i
             activity.hideProgress();
             resetTimes();
             notifyObservers(new ErrorHandle("获取时长失败"));
-            Log.e("获取时长失败","失败");
+            Log.e("获取时长失败", "失败");
         }
     }
 
-    public static void resetTimes(){times=0;}
+    public static void resetTimes() {
+        times = 0;
+    }
 
     @Override
     public int describeContents() {

@@ -2,8 +2,12 @@ package com.padeoe.njunet.settings;
 
 import android.Manifest;
 import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.ListPreference;
 import android.preference.Preference;
@@ -12,8 +16,11 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.ActionBar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.padeoe.nicservice.njuwlan.service.LoginService;
@@ -22,18 +29,18 @@ import com.padeoe.njunet.App;
 import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.PermissionExplainFragment;
 import com.padeoe.njunet.connect.StatusNotificationManager;
+import com.padeoe.njunet.connect.controller.ConnectManager;
 import com.padeoe.njunet.connect.controller.ConnectService;
 import com.padeoe.njunet.util.PrefFileManager;
 
 /**
  * Created by padeoe on 2016/5/26.
  */
-public class MySettingsActivity extends AppCompatPreferenceActivity implements PermissionExplainFragment.PermissionHandler {
+public class MySettingsActivity extends AppCompatPreferenceActivity implements PermissionExplainFragment.PermissionHandler, Preference.OnPreferenceClickListener {
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
 
         @Override
         public boolean onPreferenceChange(Preference preference, Object newValue) {
-            System.out.println("设置改变");
             switch (preference.getKey()) {
                 case "timeout_portal":
                     LoginService.getInstance().setTimeout(Integer.parseInt(newValue.toString()));
@@ -48,11 +55,11 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                         StatusNotificationManager.showStatus(Integer.parseInt(newValue.toString()));
                     break;
                 case "account_edit":
-                    preference.setSummary(PrefFileManager.getAccountPref().getString("username",null));
+                    preference.setSummary(PrefFileManager.getAccountPref().getString("username", null));
+                    break;
             }
             String stringValue = newValue.toString();
             if (preference instanceof ListPreference) {
-                System.out.println("新值"+stringValue);
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
                 preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
@@ -77,9 +84,21 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
         super.onCreate(savedInstanceState);
         getFragmentManager().beginTransaction().replace(android.R.id.content, new MyPreferenceFragment()).commit();
         setupActionBar();
+
     }
 
+    @Override
+    public boolean onPreferenceClick(Preference preference) {
+        if (preference.getKey().equals("about")) {
+            FragmentManager fm = getFragmentManager();
+            new AboutDialogFragment().show(fm, "About_Dialog");
+        }
+        return true;
+    }
+
+
     public static class MyPreferenceFragment extends PreferenceFragment {
+
         @Override
         public void onCreate(final Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -88,6 +107,7 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
             bindPreferenceSummaryToValue(findPreference("notification_frequency"));
             bindPreferenceSummaryToValue(findPreference("times_relogin"));
             bindPreferenceSummaryToValue(findPreference("account_edit"));
+            findPreference("about").setOnPreferenceClickListener((MySettingsActivity) getActivity());
             findPreference("auto_connect").setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
@@ -105,7 +125,6 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
                     if (newValue.equals(true)) {
-                        System.out.println("得获得权限");
                         ((MySettingsActivity) getActivity()).mycheckPermission();
                     }
                     return true;
@@ -127,6 +146,13 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                     return true;
                 }
             });
+        }
+
+        @Override
+        public void onStart() {
+            super.onStart();
+            //补修改在第二屏中被修改的preferences，这在onCreate中没有捕获
+            bindPreferenceSummaryToValue(findPreference("account_edit"));
         }
     }
 
@@ -169,5 +195,17 @@ public class MySettingsActivity extends AppCompatPreferenceActivity implements P
                 this.finish();
         }
         return true;
+    }
+
+    /**
+     * ListView事件响应：浏览器中打开github项目
+     *
+     * @param view
+     */
+    public void linkGithub(View view) {
+        String githubURL = "https://github.com/padeoe/AutoConnect";
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse(githubURL));
+        startActivity(intent);
     }
 }

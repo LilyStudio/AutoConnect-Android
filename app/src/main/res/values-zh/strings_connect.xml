@@ -4,5 +4,9 @@
     <string name="minute">分钟</string>
     <string name="second">秒</string>
     <string name="checking">检测中</string>
+    <string name="offline">无Internet</string>
+    <string name="online">Internet</string>
+    <string name="detecting">检测中</string>
+    <string name="wifi_lost">无连接</string>
     <string name="internet_status_init">检测Internet中</string>
 </resources>

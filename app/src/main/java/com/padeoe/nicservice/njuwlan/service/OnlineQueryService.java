@@ -218,19 +218,11 @@ public class OnlineQueryService implements DetailQuery {
     }
 
     private String getCachedPortalIP(){
-        if(cachedPortalIP==null){
-            return cachedPortalIP=NetworkUtils.getCurrentPortalIP();
-        }
-        System.out.println("获得缓存IP:"+cachedPortalIP);
-        return cachedPortalIP;
+        return cachedPortalIP==null?cachedPortalIP=NetworkUtils.getCurrentPortalIP():cachedPortalIP;
     }
 
     private String getPortalIP(){
-        if(settingsPortalIP==null){
-            return getCachedPortalIP();
-        }
-        System.out.println("获用户指定IP:"+settingsPortalIP);
-        return settingsPortalIP;
+        return settingsPortalIP==null?getCachedPortalIP():settingsPortalIP;
     }
 
     public String getSettingsPortalIP() {

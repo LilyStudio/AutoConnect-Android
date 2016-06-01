@@ -11,7 +11,6 @@
     <string name="title_timeout_portal">登陆超时时间</string>
     <string name="title_times_relogin">登陆失败重试次数</string>
     <string name="set_server_ip">指定服务器IP</string>
-    <string name="permit_dns">自动域名解析</string>
     <string name="pref_title_account">修改账号</string>
     <string name="pref_title_notification_show_frequency">通知显示频率</string>
     <string name="pref_scan_wifi_title">允许打开WiFi并扫描</string>

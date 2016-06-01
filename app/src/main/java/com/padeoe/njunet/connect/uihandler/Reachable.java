@@ -17,18 +17,11 @@ public class Reachable implements ConnectResultHandle {
 
     public Reachable(int code) {
         this.code = code;
-/*        if(this.isInternetAvailable()){
-            Log.d("Reachable","网络测试可用");
-        }
-        else{
-            Log.d("Reachable","网络测试不可用，即将继续尝试登陆");
-            connectManager.backgrConnect();
-        }*/
     }
 
     @Override
     public void updateView(MainActivity activity) {
-        activity.showOnMainActivity("code="+code);
+        activity.showOnMainActivity("code=" + code);
     }
 
     @Override
@@ -57,9 +50,11 @@ public class Reachable implements ConnectResultHandle {
         }
     };
 
-    public boolean isInternetAvailable(){
-        return code==204;
+    public boolean isInternetAvailable() {
+        return code == 204;
     }
 
-    public boolean isCaptital(){return code!=204&&code>=200&&code<=399;}
+    public boolean isCaptital() {
+        return code != 204 && code >= 200 && code <= 399;
+    }
 }
