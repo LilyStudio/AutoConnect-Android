@@ -9,15 +9,9 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.padeoe.njunet.R;
+import com.padeoe.njunet.util.PrefFileManager;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link SettingFinishFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link SettingFinishFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class SettingFinishFragment extends DeployFragment {
 
     @Override
@@ -37,6 +31,7 @@ public class SettingFinishFragment extends DeployFragment {
 
     @Override
     public void handle(View view) {
+        PrefFileManager.getAccountPref().edit().putBoolean("isFirstInstall",false).apply();
     }
 
     /**

@@ -75,8 +75,8 @@ public class FirstSettingActivity extends AppCompatActivity {
     public void onNextStepButtonClicked(View view) {
         Log.d("栈大小", fragmentManager.getBackStackEntryCount() + "");
         int stackSize = fragmentManager.getBackStackEntryCount();
+        fragments.get(stackSize).handle(view);
         if (stackSize < fragments.size() - 1) {
-            fragments.get(stackSize).handle(view);
             showNewFragment(fragments.get(stackSize + 1));
         } else {
             Intent intent = getIntent();
