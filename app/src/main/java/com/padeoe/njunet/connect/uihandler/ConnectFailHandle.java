@@ -50,7 +50,7 @@ public class ConnectFailHandle extends MyObservable<ConnectResultHandle> impleme
         } else {
             if (currentTimes < App.getMaxTry()) {
                 currentTimes++;
-                connectManager.backgrConnect(this);
+                connectManager.login(this);
             } else {
                 StatusNotificationManager.showStatus();
                 Log.e("ConnectFailHandle", "达到了最大尝试次数,判定为未知网路");
@@ -83,7 +83,7 @@ public class ConnectFailHandle extends MyObservable<ConnectResultHandle> impleme
                 connectManager.notifyObservers(new UnknownNetHandle(ssid));
             } else {
                 ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
-                connectManager.backgrConnect(this);
+                connectManager.login(this);
             }
         }
     }

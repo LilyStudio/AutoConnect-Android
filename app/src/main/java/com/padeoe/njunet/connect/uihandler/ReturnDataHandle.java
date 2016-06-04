@@ -37,7 +37,8 @@ public class ReturnDataHandle implements ConnectResultHandle {
             if (userinfo != null) {
                 //    mainActivity.username.setText(userinfo.getUsername() + "(" + userinfo.getFullname() + ")");
                 WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
-                mainActivity.setNetInfo(wifiManager.getConnectionInfo().getSSID());
+                mainActivity.setNetInfo(userinfo,wifiManager.getConnectionInfo().getSSID());
+                MyAnimation.fadeInTextView(mainActivity.netinfo);
                 // mainActivity.user_detail.setVisibility(View.VISIBLE);
                 mainActivity.amount.setText(Double.valueOf(userinfo.getBalance()) / 100 + "元");
                 mainActivity.location.setText(userinfo.getArea_name());
@@ -49,7 +50,9 @@ public class ReturnDataHandle implements ConnectResultHandle {
                 updateInfo.addObserver(mainActivity);
                 updateInfo.updateOnlineTime();
             } else {
-                ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
+                //mainActivity.hideProgress();
+                //ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
+                new OfflineHandle(returnData).updateView(mainActivity);
             }
             mainActivity.updateViewStatus(mainActivity.status, ConnectManager.getStatus());
         }

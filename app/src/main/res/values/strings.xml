@@ -52,7 +52,7 @@
         <item>1</item>
     </string-array>
     <string name="pref_scan_wifi_summary">If the wifi is not connected When you press login button,the app will scan the wifi and connect to NJU WLAN nearby</string>
-    <string name="pref_login_on_activity_start_title">refresh status on launching</string>
+    <string name="pref_login_on_activity_start_title">login on launching</string>
     <string name="pref_title_account_catagory">Account</string>
     <string name="scan_and_connect">Refresh wlan and login</string>
     <string name="refresh">Refresh</string>

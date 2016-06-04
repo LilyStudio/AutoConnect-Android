@@ -3,6 +3,8 @@ package com.padeoe.icroom;
 import com.padeoe.icroom.util.NetworkUtils;
 import com.padeoe.utils.LoginException;
 
+import java.io.IOException;
+
 /**
  * 该类用于实现 <a href="http://114.212.7.24/ClientWeb/xcus/IC2/">南京大学IC空间管理系统</a> 的接口
  * @author padeoe
@@ -18,7 +20,7 @@ public class ICRoom {
      * @param username 用户名:学号/工号
      * @param password <a href="http://114.212.7.24/ClientWeb/xcus/IC2/">南京大学IC空间管理系统</a>的密码:初始值是用户名
      */
-    public ICRoom(String username, String password) throws LoginException {
+    public ICRoom(String username, String password) throws LoginException, IOException {
         String[] returnData = login(username, password);
         cookie = returnData[1];
     }
@@ -43,7 +45,7 @@ public class ICRoom {
      * @return 数组长度为2，第一个元素是服务器返回的原始数据，第二个元素是cookie
      * @throws LoginException 登陆失败
      */
-    public static String[] login(String username, String password) throws LoginException {
+    public static String[] login(String username, String password) throws LoginException, IOException {
         String returnInfo[] = NetworkUtils.myPostAndGetCookie("id=" + username + "&pwd=" + password + "&act=login", "http://114.212.7.24/ClientWeb/pro/ajax/login.aspx", 10000);
         if (returnInfo == null || returnInfo[0] == null || returnInfo[0].startsWith("{\"ret\":0")) {
             if (returnInfo != null &&returnInfo[0] != null)
@@ -60,7 +62,7 @@ public class ICRoom {
      * @param ID 用户名:学号/工号
      * @return 服务器返回的用户信息字符串，非json格式，需要调用 {@link #parse(String)}方法处理成json格式
      */
-    public String queryStudentInfo(String ID) {
+    public String queryStudentInfo(String ID) throws IOException {
         String time = String.valueOf(System.currentTimeMillis());
         return NetworkUtils.mygetWithCookie("type=&&term=" + ID + "&_=" + time, "http://114.212.7.24/ClientWeb/pro/ajax/data/searchAccount.aspx?type=&&term=" + ID + "&_=" + time,
                 cookie, 20000);
@@ -95,7 +97,7 @@ public class ICRoom {
      * @param ID 用户名:学号/工号
      * @return 用户信息的对象格式 {@link ICRoomUser}
      */
-    public ICRoomUser queryStudentInfo_Object(String ID){
+    public ICRoomUser queryStudentInfo_Object(String ID) throws IOException {
         String result = queryStudentInfo(ID);
         String newResult=parse(result);
         return ICRoomUser.getFromJson(newResult);

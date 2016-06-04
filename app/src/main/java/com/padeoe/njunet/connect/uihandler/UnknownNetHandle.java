@@ -2,6 +2,7 @@ package com.padeoe.njunet.connect.uihandler;
 
 import android.os.Parcel;
 
+import com.padeoe.njunet.App;
 import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.MainActivity;
 import com.padeoe.njunet.connect.controller.ConnectManager;
@@ -21,7 +22,8 @@ public class UnknownNetHandle implements ConnectResultHandle {
     public void updateView(MainActivity activity) {
         activity.hideProgress();
         //  activity.user_detail.setVisibility(View.VISIBLE);
-        activity.setNetInfo(SSID);
+        activity.setNetInfo(App.isInPortalWiFiSet(SSID) || App.isInSuspiciousWiFiSSIDSet(SSID) ?
+                App.getAppContext().getResources().getString(R.string.NJUWLAN) : App.getAppContext().getResources().getString(R.string.Unknown_WLAN), SSID);
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());
         MyAnimation.fadeInTextView(activity.status_internet);
         activity.showOnMainActivity(activity.getResources().getString(R.string.connect_fail));

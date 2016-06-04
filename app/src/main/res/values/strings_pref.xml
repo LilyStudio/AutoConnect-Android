@@ -5,7 +5,7 @@
     <string name="pref_header_notifications">Notifications</string>
     <string name="summary_boot_launch">launch service on boot</string>
     <string name="summary_auto_connect">when connectted to NJU WLAN</string>
-    <string name="title_auto_connect">login automatically</string>
+    <string name="title_auto_connect">allow login automatically</string>
     <string name="title_category_autoconnect">Login service</string>
     <string name="title_category_network">Network parameters</string>
     <string name="title_timeout_portal">timeout for login</string>

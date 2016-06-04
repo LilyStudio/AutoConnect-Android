@@ -5,6 +5,7 @@ import com.padeoe.nicservice.njuwlan.object.bras.list.AuthLogBras;
 import com.padeoe.nicservice.njuwlan.utils.NetworkUtils;
 import com.padeoe.utils.LoginException;
 
+import java.io.IOException;
 import java.util.Calendar;
 
 /**
@@ -32,7 +33,7 @@ public class OfflineQueryService implements DetailQuery {
      * @param password <a href="http://bras.nju.edu.cn">南京大学网络认证计费系统自助平台</a>的密码
      * @throws LoginException 登陆失败
      */
-    public OfflineQueryService(String username, String password) throws LoginException {
+    public OfflineQueryService(String username, String password) throws LoginException, IOException {
         authkey = "username=" + username + "&password=" + password;
         resetCookie(authkey);
     }
@@ -45,7 +46,7 @@ public class OfflineQueryService implements DetailQuery {
      * @param row     每页行数
      * @return 服务器返回的json格式的数据
      */
-    public String queryBy(int catalog, int page, int row) {
+    public String queryBy(int catalog, int page, int row) throws IOException {
         return queryBy(catalog, page, row, true);
     }
 
@@ -59,7 +60,7 @@ public class OfflineQueryService implements DetailQuery {
      * @return 服务器返回的json格式的数据
      */
     @Override
-    public String queryBy(int catalog, int page, int row, boolean order) {
+    public String queryBy(int catalog, int page, int row, boolean order) throws IOException {
         switch (catalog) {
             case ONLINE:
                 return getOnline(page, row);
@@ -76,61 +77,61 @@ public class OfflineQueryService implements DetailQuery {
     }
 
     @Override
-    public String getOnline(int page, int row) {
+    public String getOnline(int page, int row) throws IOException {
         return NetworkUtils.postWithCookie("page=" + page + "&rows=" + row, cookie, "http://" + getBrasIP() + ":8080/manage/self/online/getlist", timeout);
     }
 
     @Override
-    public String getAuthLog(int page, int row, boolean order) {
+    public String getAuthLog(int page, int row, boolean order) throws IOException {
         return NetworkUtils.postWithCookie("sort=datetime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, cookie, "http://" + getBrasIP() + ":8080/manage/self/authlog/getlist", timeout);
     }
 
-    public String getAuthLog(int page, int row) {
+    public String getAuthLog(int page, int row) throws IOException {
         return getAuthLog(page, row, true);
     }
 
     @Override
-    public String getAcct(int page, int row, boolean order) {
+    public String getAcct(int page, int row, boolean order) throws IOException {
         int currentMonth = Calendar.getInstance().get(Calendar.MONTH) + 1;
         return getAcct(currentMonth, page, row, order);
     }
 
-    public String getAcct(int month, int page, int row, boolean order) {
+    public String getAcct(int month, int page, int row, boolean order) throws IOException {
         return NetworkUtils.postWithCookie("month=" + month + "&sort=acctstarttime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, cookie, "http://" + getBrasIP() + ":8080/manage/self/detail/getlist", timeout);
     }
 
-    public String getAcct(int page, int row) {
+    public String getAcct(int page, int row) throws IOException {
         return getAcct(page, row, true);
     }
 
     @Override
-    public String getBills(int page, int row, boolean order) {
+    public String getBills(int page, int row, boolean order) throws IOException {
         return NetworkUtils.postWithCookie("sort=createtime&order=" + (order ? "DESC" : "ASC") + "&page=" + page + "&rows=" + row, cookie, "http://" + getBrasIP() + ":8080/manage/self/bill/getlist", timeout);
     }
 
-    public String getBills(int page, int row) {
+    public String getBills(int page, int row) throws IOException {
         return getBills(page, row, true);
     }
 
     @Override
-    public String getRecharge(int page, int row, boolean order) {
+    public String getRecharge(int page, int row, boolean order) throws IOException {
         return NetworkUtils.postWithCookie("sort=oper_time&order=" + (order ? "DESC" : "ASC") + "&page=" + page + "&rows=" + row, cookie, "http://" + getBrasIP() + ":8080/manage/self/recharge/getlist", timeout);
     }
 
-    public String getRecharge(int page, int row) {
+    public String getRecharge(int page, int row) throws IOException {
         return getRecharge(page, row, true);
     }
 
-    public void resetCookie(String authkey) throws LoginException {
+    public void resetCookie(String authkey) throws LoginException, IOException {
         String[] returnData = login(authkey, timeout);
         cookie = returnData[1];
     }
 
-    public static String[] login(String username, String password, int timeout) throws LoginException {
+    public static String[] login(String username, String password, int timeout) throws LoginException, IOException {
         return login("username=" + username + "&password=" + password, timeout);
     }
 
-    public static String[] login(String authkey, int timeout) throws LoginException {
+    public static String[] login(String authkey, int timeout) throws LoginException, IOException {
         String[] result = NetworkUtils.postAndGetCookie(authkey, "http://" + getBrasIP() + ":8080/manage/self/auth/login", timeout);
         if (result[0].endsWith("\"reply_code\":0}\n")) {
             return result;
@@ -204,12 +205,12 @@ public class OfflineQueryService implements DetailQuery {
         this.timeout = timeout;
     }
 
-    public static BrasIDInfo getBrasIDInfo(String cookie) {
+    public static BrasIDInfo getBrasIDInfo(String cookie) throws IOException {
         String result = NetworkUtils.postWithCookie(null, cookie, "http://bras.nju.edu.cn:8080/manage/self/userinfo/getinfo", 1000);
         return BrasIDInfo.getFromJson(result);
     }
 
-    public static AuthLogBras getAuthLog(int page, int row, boolean order, String cookie) {
+    public static AuthLogBras getAuthLog(int page, int row, boolean order, String cookie) throws IOException {
         String result = NetworkUtils.postWithCookie("sort=datetime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, cookie, "http://" + "bras.nju.edu.cn" + ":8080/manage/self/authlog/getlist", 300);
         return AuthLogBras.getFromJson(result);
     }

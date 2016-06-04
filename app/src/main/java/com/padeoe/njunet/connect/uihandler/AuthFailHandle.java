@@ -26,7 +26,7 @@ public class AuthFailHandle implements ConnectResultHandle {
     public void updateView(MainActivity activity) {
         activity.hideProgress();
         WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
-        activity.setNetInfo(wifiManager.getConnectionInfo().getSSID());
+        activity.setNetInfo("认证失败",wifiManager.getConnectionInfo().getSSID());
         //   activity.user_detail.setVisibility(View.VISIBLE);
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());
         activity.showOnMainActivity(returnData.getReply_message());

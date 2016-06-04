@@ -16,6 +16,7 @@
             android:key="auto_connect"
             android:summary="@string/summary_auto_connect"
             android:title="@string/title_auto_connect" />
+
         <SwitchPreference
             android:defaultValue="true"
             android:dependency="auto_connect"

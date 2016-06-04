@@ -2,6 +2,8 @@ package com.padeoe.nicservice.njuwlan.service;
 
 import com.padeoe.nicservice.njuwlan.utils.NetworkUtils;
 
+import java.io.IOException;
+
 /**
  * 该类实现了<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>提供的各类查询功能。
  * 包括查询用户信息，当前在线设备，详单信息，认证信息，充值信息，账单信息等。
@@ -28,7 +30,7 @@ public class OnlineQueryService implements DetailQuery {
      * @param row     每页行数
      * @return 服务器返回的查询结果,json格式
      */
-    public String queryBy(int catalog, int page, int row) {
+    public String queryBy(int catalog, int page, int row) throws IOException {
         return queryBy(catalog, page, row,true);
     }
 
@@ -42,7 +44,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String queryBy(int catalog, int page, int row, boolean order) {
+    public String queryBy(int catalog, int page, int row, boolean order) throws IOException {
         switch (catalog) {
             case ONLINE:
                 return getOnline(page, row);
@@ -66,7 +68,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String getOnline(int page, int row) {
+    public String getOnline(int page, int row) throws IOException {
         return NetworkUtils.connectAndPost("page=" + page + "&rows=" + row, "http://"+getPortalIP()+"/portal_io/selfservice/online/getlist", timeout);
     }
 
@@ -76,18 +78,10 @@ public class OnlineQueryService implements DetailQuery {
      *
      * @return 服务器返回的查询结果,json格式
      */
-    public String getBasicInfo() {
+    public String getBasicInfo() throws IOException {
         return NetworkUtils.connectAndPost("", "http://"+getPortalIP()+"/portal_io/selfservice/volume/getlist", timeout);
     }
 
-    /**
-     * 获取UserInfo
-     *
-     * @return 服务器返回的查询结果,json格式
-     */
-    public String getUserInfo() {
-        return NetworkUtils.connectAndPost("", "http://"+getPortalIP()+"/portal_io/getinfo", timeout);
-    }
     /**
      * 获取登陆历史
      *
@@ -95,7 +89,7 @@ public class OnlineQueryService implements DetailQuery {
      * @param row  每页行数
      * @return 服务器返回的查询结果,json格式
      */
-    public String getAuthLog(int page, int row) {
+    public String getAuthLog(int page, int row) throws IOException {
         return getAuthLog(page, row, true);
     }
 
@@ -108,7 +102,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String getAuthLog(int page, int row, boolean order) {
+    public String getAuthLog(int page, int row, boolean order) throws IOException {
         return NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getPortalIP()+"/portal_io/selfservice/authlog/getlist", timeout);
     }
 
@@ -119,7 +113,7 @@ public class OnlineQueryService implements DetailQuery {
      * @param row  每页行数
      * @return 服务器返回的查询结果,json格式
      */
-    public String getAcct(int page, int row) {
+    public String getAcct(int page, int row) throws IOException {
         return getAcct(page, row, true);
     }
 
@@ -132,7 +126,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String getAcct(int page, int row, boolean order) {
+    public String getAcct(int page, int row, boolean order) throws IOException {
         return NetworkUtils.connectAndPost("sort=acctstoptime&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getPortalIP()+"/portal_io/selfservice/acct/getlist", timeout);
     }
 
@@ -143,7 +137,7 @@ public class OnlineQueryService implements DetailQuery {
      * @param row  每页行数
      * @return 服务器返回的查询结果,json格式
      */
-    public String getBills(int page, int row) {
+    public String getBills(int page, int row) throws IOException {
         return getBills(page, row, true);
     }
 
@@ -156,7 +150,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String getBills(int page, int row, boolean order) {
+    public String getBills(int page, int row, boolean order) throws IOException {
         return NetworkUtils.connectAndPost("sort=id&order=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getPortalIP()+"/portal_io/selfservice/bill/getlist", timeout);
     }
 
@@ -167,7 +161,7 @@ public class OnlineQueryService implements DetailQuery {
      * @param row  每页行数
      * @return 服务器返回的查询结果,json格式
      */
-    public String getRecharge(int page, int row) {
+    public String getRecharge(int page, int row) throws IOException {
         return getRecharge(page, row, true);
     }
 
@@ -180,8 +174,34 @@ public class OnlineQueryService implements DetailQuery {
      * @return 服务器返回的查询结果,json格式
      */
     @Override
-    public String getRecharge(int page, int row, boolean order) {
+    public String getRecharge(int page, int row, boolean order) throws IOException {
         return NetworkUtils.connectAndPost("sort=id&desc=" + (order ? "desc" : "asc") + "&page=" + page + "&rows=" + row, "http://"+getPortalIP()+"/portal_io/selfservice/recharge/getlist", timeout);
+    }
+
+    /**
+     * 查询当前设备登录了<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的用户信息，如果没登陆，将返回错误提示
+     * @return 服务器返回的查询结果,json格式，可被{@link com.padeoe.nicservice.njuwlan.object.portal.ReturnData#getFromJson(String)}解析为对象
+     */
+    public String getCurrentUserInfo() throws IOException {
+        return NetworkUtils.connectAndPost("", "http://" + getPortalIP() + "/portal_io/getinfo", 200);
+    }
+
+    /**
+     * 查询当前是否已登录<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>
+     *
+     * @return 表示当前是否在线
+     */
+    public boolean isPortalOnline() throws IOException {
+        return isPortalOnline(getCurrentUserInfo());
+    }
+
+    /**
+     * 根据已有的服务器返回信息查询当前是否已登录<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>
+     * @param result 调用{@link #getCurrentUserInfo()} 查询获得的结果
+     * @return 表示当前是否在线
+     */
+    public static boolean isPortalOnline(String result) {
+        return result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n");
     }
 
     /**
