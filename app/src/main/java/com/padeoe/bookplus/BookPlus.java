@@ -3,6 +3,7 @@ package com.padeoe.bookplus;
 import com.padeoe.icroom.util.NetworkUtils;
 import com.padeoe.utils.LoginException;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -21,7 +22,7 @@ public class BookPlus {
      * @param password <a href="http://book.njulib.cn/">南京大学图书馆Book+</a>的密码:初始密码是用户名
      * @throws LoginException 登陆失败
      */
-    public BookPlus(String username, String password) throws LoginException {
+    public BookPlus(String username, String password) throws LoginException, IOException {
         String[] returnInfo = login(username, password);
         cookie = returnInfo[1];
     }
@@ -43,7 +44,7 @@ public class BookPlus {
      * @return 一个长度为2的字符数组，第一个元素是服务器返回的数据，第二个是获取的cookie
      * @throws LoginException 登陆失败
      */
-    public static String[] login(String username, String password) throws LoginException {
+    public static String[] login(String username, String password) throws LoginException, IOException {
         double random = Math.random();
         String url = "http://book.njulib.cn/smarty_lib/control/controller.php?control=control_log&action=user_login&user_id=" + username + "&user_pwd=" + password + "&rand=" + random;
         String returnInfo[] = NetworkUtils.myPostAndGetCookie("control=control_log&action=user_login&user_id=" + username + "&user_pwd=" + password + "&rand=" + random, url, 2000);
@@ -61,7 +62,7 @@ public class BookPlus {
      *
      * @return 服务器返回的包括姓名和性别的html文本
      */
-    public String showReaderInfo() {
+    public String showReaderInfo() throws IOException {
         HashMap<String, String> attr = new HashMap<>();
         attr.put("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
         attr.put("Accept-Encoding", "gzip, deflate, sdch");
@@ -78,8 +79,14 @@ public class BookPlus {
      * @return 用户的性别，“男”或“女”
      */
     public String showGender() {
-        String returnData = showReaderInfo();
-        return getGender(returnData);
+        String returnData = null;
+        try {
+            returnData = showReaderInfo();
+            return getGender(returnData);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 
     /**

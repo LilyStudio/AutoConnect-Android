@@ -12,11 +12,13 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.net.NetworkRequest;
 import android.net.wifi.WifiManager;
 import android.os.Build;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.padeoe.njunet.App;
@@ -25,13 +27,13 @@ import com.padeoe.njunet.connect.monitor.WifiNetWorkCallBack;
 import com.padeoe.njunet.util.PrefFileManager;
 
 /**
- * 用于负责后台网络连接的服务，存储了网络连接相关的数据，包括用户名密码，目标SSID
+ * 用于负责后台网络连接的服务，存储了网络连接相关的数据，包括用户名密码
  * 对于不同API等级，使用了不同的接口实现了网络状态监测
  */
 public class ConnectService extends Service {
     private static String username;
     private static String password;
-    private static String targetSSID;
+    private static Boolean checkBeforeLogin = null;
     Object wifiNetWorkCallBack;
     public static final String STOP_SERVICE_ACTION = "com.padeoe.njunet.STOP_SERVICE_ACTION";
     public static final String SCAN_AND_CONNECT_ACTION = "com.padeoe.njunet.SCAN_AND_CONNECT_ACTION";
@@ -67,8 +69,10 @@ public class ConnectService extends Service {
         SharedPreferences sharedPreferences = PrefFileManager.getAccountPref();
         username = sharedPreferences.getString("username", null);
         password = sharedPreferences.getString("password", null);
-        targetSSID = sharedPreferences.getString("target_SSID", null);
-        startMonitor();
+        if (PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).getBoolean("auto_connect", true)) {
+            startMonitor();
+        }
+
     }
 
     @Override
@@ -92,9 +96,7 @@ public class ConnectService extends Service {
      * @param username
      */
     public static void setUsername(String username) {
-        SharedPreferences.Editor editor = PrefFileManager.getAccountPref().edit();
-        ConnectService.username = username;
-        editor.putString("username", username).apply();
+        PrefFileManager.getAccountPref().edit().putString("username", ConnectService.username = username).apply();
     }
 
     /**
@@ -112,78 +114,23 @@ public class ConnectService extends Service {
      * @param password
      */
     public static void setPassword(String password) {
-        SharedPreferences.Editor editor = PrefFileManager.getAccountPref().edit();
-        ConnectService.password = password;
-        editor.putString("password", password).apply();
+        PrefFileManager.getAccountPref().edit().putString("password", ConnectService.password = password).apply();
     }
 
-    /**
-     * 获得识别校园网连接使用的SSID名称，若当前为空，则会从配置文件中查找
-     */
-    public static String getTargetSSID() {
-        return targetSSID != null ? targetSSID : (targetSSID = PrefFileManager.getAccountPref().getString("target_SSID", null));
-    }
-
-    /**
-     * 设置校园网连接的SSID，并写入配置文件
-     *
-     * @param targetSSID
-     */
-    public static void setTargetSSID(String targetSSID) {
-        SharedPreferences.Editor editor = PrefFileManager.getAccountPref().edit();
-        ConnectService.targetSSID = targetSSID;
-        editor.putString("target_SSID", targetSSID).apply();
-    }
-
-    public static boolean isTargetWifi(String SSID) {
-        //如果目标wifi名称不存在就首先确定目标wifi名称
-        if (getTargetSSID() == null)
-            ConnectService.setTargetSSID((Build.VERSION.SDK_INT >= 17 && SSID.startsWith("\"") && SSID.endsWith("\"")) ? "\"NJU-WLAN\"" : "NJU-WLAN");
-        return SSID.equals(getTargetSSID()) || SSID.equals("NJU-FAST") || SSID.equals("\"NJU-FAST\"");
-    }
 
     private void startMonitor() {
-        //共有两个功能
-        //1.后台连接p.nju.edu.cn
-        //2.检测portal网络并提示登录（仅Android N及以上具有该功能）
-
-        //API<21  Android 4.0-4.4使用动态注册广播接收器的形式实现功能
-        //API=21 Android 5.0使用public void requestNetwork (NetworkRequest request, ConnectivityManager.NetworkCallback networkCallback)实现功能1
-        //API=22 Android 6.0使用public void requestNetwork (NetworkRequest request, PendingIntent operation)实现功能1
-        //API=23 Android N使用 public void registerNetworkCallback (NetworkRequest request, PendingIntent operation)实现功能1和功能2
-
-        if (Build.VERSION.SDK_INT <= 20) {
+        if (/*Build.VERSION.SDK_INT <= 20*/true) {
             registerWifiReceiver();
         }
-        //开启后台自动连接项目
-        if (Build.VERSION.SDK_INT >= 21) {
+        /**
+         * 本打算对API21采用注册网络回调{@link android.net.ConnectivityManager.NetworkCallback#registerNetworkCallback(NetworkRequest, ConnectivityManager.NetworkCallback)}的方法进行监听，
+         * 因为这样能方便的检查到网络的详细变化包括{@link android.net.ConnectivityManager.NetworkCallback#onCapabilitiesChanged(Network, NetworkCapabilities)}等。然而首次打开或者后台被杀时，service重启再次打开回调时
+         * 会导致{@link android.net.ConnectivityManager.NetworkCallback#onAvailable(Network)}方法可能被调用(wifi连接的情况下是一定会)(该方法中会调用登陆函数)，所以用户会发现，本来点击下线已退出，然而杀掉后台后，又重新登录了。
+         *
+         */
+        if (/*Build.VERSION.SDK_INT >= 21*/false) {
             registerNetworkCallback();
         }
-
-        /*
-        if (Build.VERSION.SDK_INT == 22) {
-            Log.i("API22", "API22网络监测");
-            NetworkRequest.Builder builder = new NetworkRequest.Builder();
-            builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
-            builder.addCapability(NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL);
-            NetworkRequest wifiNetworkRequest = builder.build();
-            ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            PendingIntent pendingIntent = PendingIntent.getService(this, 233, new Intent(getApplicationContext(), ConnectService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-            connectivityManager.requestNetwork(wifiNetworkRequest, pendingIntent);
-        }
-
-
-        //API23测试可用
-        if (Build.VERSION.SDK_INT >= 23) {
-            Log.i("API23", "API23网络监测");
-            NetworkRequest.Builder newbuilder = new NetworkRequest.Builder();
-            newbuilder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
-            newbuilder.addCapability(NetworkCapabilities.NET_CAPABILITY_CAPTIVE_PORTAL);
-            NetworkRequest portalNetworkRequest = newbuilder.build();
-            ConnectivityManager connectivityManager = (ConnectivityManager) getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
-            PendingIntent pendingIntent = PendingIntent.getService(this, 233, new Intent(getApplicationContext(), ConnectService.class), PendingIntent.FLAG_UPDATE_CURRENT);
-            connectivityManager.registerNetworkCallback(portalNetworkRequest, pendingIntent);
-        }*/
     }
 
     private void endMonitor() {
@@ -192,17 +139,14 @@ public class ConnectService extends Service {
     }
 
     private void registerWifiReceiver() {
-        Log.i("API14", "API14网络监测");
         networkConnectChangedReceiver = new NetworkConnectChangedReceiver();
         IntentFilter filter = new IntentFilter();
-        //    filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         filter.addAction(WifiManager.NETWORK_STATE_CHANGED_ACTION);
         registerReceiver(networkConnectChangedReceiver, filter);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void registerNetworkCallback() {
-        Log.i("API21", "API21网络监测");
         NetworkRequest.Builder builder = new NetworkRequest.Builder();
         builder.addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
         NetworkRequest wifiNetworkRequest = builder.build();
@@ -238,6 +182,14 @@ public class ConnectService extends Service {
 
     public static boolean isRunning() {
         return isServiceRunning(ConnectService.class);
+    }
+
+    public static boolean isCheckBeforeLogin() {
+        return checkBeforeLogin != null ? checkBeforeLogin : (checkBeforeLogin = PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).getBoolean("checkBeforeLogin", false));
+    }
+
+    public static void setCheckBeforeLogin(boolean checkBeforeLogin) {
+        PrefFileManager.getAccountPref().edit().putBoolean("checkBeforeLogin", ConnectService.checkBeforeLogin = checkBeforeLogin).apply();
     }
 }
 

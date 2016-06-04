@@ -1,7 +1,7 @@
 NJUNet Android App
 ======================
 
-NJUNet是一个用于安卓手机连接到NJU-WLAN后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
+NJUNet是一个用于安卓手机连接到南大校园网(包括宿舍WiFi)后自动登陆p.nju.edu.cn的Android程序，代替手动打开浏览器登陆的繁琐操作，做到有NJU-WLAN的地方总是保持网络连接。
 
 <h2>适用平台</h2>
 Android 4.0+
@@ -22,7 +22,7 @@ Android 4.0+
 
 <h2>功能说明</h2>
 - 可手动进行登陆，下线，查看登陆数据(时长，余额等)
-- 默认开启后台服务，将在连接上南大校园网WLAN时自动登陆
+- 默认开启后台服务，将在连接上南大校园网WLAN(包括宿舍路由器无线网)时自动登陆
 - 可以使用状态栏通知快捷登陆
 
 <h2>下载</h2>
@@ -30,7 +30,7 @@ Android 4.0+
 
 或
 
-[apk download](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
+[apk-v2.5.1](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
 
 <h2>更新日志</h2>
 

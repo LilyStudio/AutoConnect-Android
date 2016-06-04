@@ -33,11 +33,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.padeoe.nicservice.njuwlan.object.portal.ReturnData;
+import com.padeoe.nicservice.njuwlan.object.portal.UserInfo;
 import com.padeoe.njunet.App;
 
 import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.controller.ConnectManager;
 import com.padeoe.njunet.connect.controller.ConnectService;
+import com.padeoe.njunet.connect.controller.UpdateInfo;
 import com.padeoe.njunet.connect.uihandler.ConnectResultHandle;
 import com.padeoe.njunet.deploy.FirstSettingActivity;
 import com.padeoe.njunet.settings.MySettingsActivity;
@@ -131,26 +134,33 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         location = (TextView) findViewById(R.id.location);
         ip = (TextView) findViewById(R.id.ip);
         status_internet = (TextView) findViewById(R.id.status_internet);
-        WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
-        setNetInfo(wifiManager.getConnectionInfo().getSSID());
     }
 
-    public void setNetInfo(String ssid) {
-        netinfo.setText(getNetInfo(ssid));
-    }
-
-    private SpannableString getNetInfo(String ssid) {
+    public void setNetInfo(UserInfo userInfo, String ssid) {
         if (ssid == null) {
-            return new SpannableString(getResources().getString(R.string.no_wifi));
+            netinfo.setText(new SpannableString(getResources().getString(R.string.no_wifi)));
         } else {
             StringBuilder builder = new StringBuilder();
-            String type = App.isInPortalWiFiSet(ssid) || App.isInSuspiciousWiFiSSIDSet(ssid) ? getResources().getString(R.string.NJUWLAN) : getResources().getString(R.string.Unknown_WLAN);
-            builder.append(type).append("\n").append(ssid);
+            builder.append(userInfo.getFullname()).append('(').append(userInfo.getUsername()).append(')').append("\n").append(ssid);
             String status_internet_str = builder.toString();
             SpannableString spannableString = new SpannableString(status_internet_str);
             spannableString.setSpan(new StyleSpan(Typeface.ITALIC), status_internet_str.indexOf(ssid), status_internet_str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             spannableString.setSpan(new RelativeSizeSpan(0.7f), status_internet_str.indexOf(ssid), status_internet_str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return spannableString;
+            netinfo.setText(spannableString);
+        }
+    }
+
+    public void setNetInfo(String title, String subtitle) {
+        if (subtitle == null) {
+            netinfo.setText(title);
+        } else {
+            StringBuilder builder = new StringBuilder();
+            builder.append(title).append('\n').append(subtitle);
+            String status_internet_str = builder.toString();
+            SpannableString spannableString = new SpannableString(status_internet_str);
+            spannableString.setSpan(new StyleSpan(Typeface.ITALIC), status_internet_str.indexOf('\n'), status_internet_str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannableString.setSpan(new RelativeSizeSpan(0.7f), status_internet_str.indexOf('\n'), status_internet_str.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            netinfo.setText(spannableString);
         }
     }
 
@@ -236,17 +246,25 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
 
     public void initData() {
         showProgress();
-        ConnectManager connectManager = new ConnectManager();
-        connectManager.addObserver(this);
-        connectManager.backgrConnect();
+
+        if (PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("login_on_activity_start", true)) {
+            ConnectManager connectManager = new ConnectManager();
+            connectManager.addObserver(this);
+            connectManager.backgrConnect();
+        } else {
+            System.out.println("即将获得当前是否登陆的数据");
+            UpdateInfo updateInfo = new UpdateInfo();
+            updateInfo.addObserver(this);
+            updateInfo.updateInfo();
+        }
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("login_on_activity_start", true)) {
-            initData();
-        }
+        initData();
+
     }
 
     @Override

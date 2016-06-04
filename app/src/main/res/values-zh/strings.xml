@@ -50,7 +50,7 @@
         <item>1</item>
     </string-array>
     <string name="pref_scan_wifi_summary">当年点击连接登陆按钮时,如果WiFi未连接，将自动打开WiFi开关并扫描附近校园网WLAN</string>
-    <string name="pref_login_on_activity_start_title">打开app时刷新网络状态</string>
+    <string name="pref_login_on_activity_start_title">每次打开app主界面时都进行一次立即登录</string>
     <string name="pref_title_account_catagory">账号</string>
     <string name="scan_and_connect">连接WLAN并登录</string>
     <string name="refresh">刷新</string>

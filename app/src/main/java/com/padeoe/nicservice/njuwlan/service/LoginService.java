@@ -2,6 +2,7 @@ package com.padeoe.nicservice.njuwlan.service;
 
 import com.padeoe.nicservice.njuwlan.utils.NetworkUtils;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -45,7 +46,7 @@ public class LoginService {
      *
      * @return challenge，null时失败
      */
-    private String[] getChallenge() {
+    private String[] getChallenge() throws IOException {
         String result = NetworkUtils.connectAndPost("", "http://" + getPortalIP() + "/portal_io/getchallenge", timeout);
         if (result != null && result.startsWith("{\"reply_msg\":\"操作成功\"")) {
             return new String[]{result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\"")), result};
@@ -63,7 +64,7 @@ public class LoginService {
      * @return 返回的字符串的JSON解析
      */
     @Deprecated
-    public String oldConnect(String username, String password, int timeout) {
+    public String oldConnect(String username, String password, int timeout) throws IOException {
         String postdata = "action=login&username=" + username + "&password=" + password;
         return NetworkUtils.connectAndPost(postdata, "http://" + getPortalIP() + "/portal_io/login", timeout);
     }
@@ -75,7 +76,7 @@ public class LoginService {
      * @param password <a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的密码
      * @return 服务器返回数据
      */
-    public String connect(String username, String password) {
+    public String connect(String username, String password) throws IOException {
         String challenge[] = getChallenge();
         if (challenge[0] != null) {
             String postdata = "username=" + username + "&password=" + createChapPassword(password, challenge[0]) + "&challenge=" + challenge[0];
@@ -91,7 +92,7 @@ public class LoginService {
      *
      * @return 服务器返回的数据
      */
-    public String disconnect() {
+    public String disconnect() throws IOException {
         return NetworkUtils.connectAndPost("", "http://" + getPortalIP() + "/portal_io/logout", timeout);
     }
 
@@ -172,16 +173,6 @@ public class LoginService {
      */
     public static boolean isLogoutSuccess(String result) {
         return result.startsWith("{\"reply_code\":101");
-    }
-
-    /**
-     * 查询当前是否已登录<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>
-     *
-     * @return 表示当前是否在线
-     */
-    public boolean isPortalOnline() {
-        String result = NetworkUtils.connectAndPost("", "http://" + getPortalIP() + "/portal_io/getinfo", 200);
-        return result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n");
     }
 
     /**

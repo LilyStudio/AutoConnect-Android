@@ -2,6 +2,8 @@ package com.padeoe.nicservice.njuwlan.service;
 
 import com.padeoe.nicservice.njuwlan.utils.NetworkUtils;
 
+import java.io.IOException;
+
 /**
  * 该类用于实现<a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的账户管理功能，包括修改密码功能
  * Created by padeoe on 2015/9/26.
@@ -17,8 +19,8 @@ public class AccountService {
      * @param newPassword <a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的新密码
      * @return <a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的服务器返回消息,可以通过 {@link #isChangePasswSuccess(String)}来对返回值分析是否改密成功
      */
-    public static String changePassword(String username, String oldPassword, String newPassword) {
-        if (LoginService.getInstance().isPortalOnline()) {
+    public static String changePassword(String username, String oldPassword, String newPassword) throws IOException {
+        if (new OnlineQueryService().isPortalOnline()) {
             return NetworkUtils.connectAndPost("oldpassword=" + oldPassword + "&newpassword=" + newPassword + "&confirmpassword=" + newPassword, "http://"+NetworkUtils.getCurrentPortalIP()+"/portal_io/selfservice/modifypassword", 200);
         } else {
             //首先登陆bras.nju.edu.cn获取cookie

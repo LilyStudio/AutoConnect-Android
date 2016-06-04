@@ -2,6 +2,7 @@ package com.padeoe.icroom.util;
 
 import com.padeoe.utils.network.MyHttpRequest;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -10,7 +11,7 @@ import java.util.HashMap;
  * Date: 2016/3/7
  */
 public class NetworkUtils {
-    public static String mygetWithCookie(String data,String URL,String cookie,int timeout){
+    public static String mygetWithCookie(String data,String URL,String cookie,int timeout) throws IOException {
         HashMap<String,String> attr=new HashMap<>();
         attr.put("Accept","application/json, text/javascript, */*; q=0.01");
         attr.put("Referer", "http://114.212.7.24/ClientWeb/xcus/IC2/Default.aspx");
@@ -18,7 +19,7 @@ public class NetworkUtils {
         attr.put("X-Requested-With", "XMLHttpRequest");
         return MyHttpRequest.getWithCookie(data,URL,attr,cookie,"UTF-8", "UTF-8",timeout);
     }
-    public static String[] myPostAndGetCookie(String data,String URL,int timeout){
+    public static String[] myPostAndGetCookie(String data,String URL,int timeout) throws IOException {
         HashMap<String,String> attr=new HashMap<>();
         attr.put("Accept","application/json, text/javascript, */*; q=0.01");
         attr.put("Referer", "http://114.212.7.24/ClientWeb/xcus/IC2/Default.aspx");

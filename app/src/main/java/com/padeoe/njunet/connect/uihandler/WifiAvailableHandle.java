@@ -2,6 +2,8 @@ package com.padeoe.njunet.connect.uihandler;
 
 import android.os.Parcel;
 
+import com.padeoe.njunet.App;
+import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.MainActivity;
 
 /**
@@ -12,7 +14,8 @@ public class WifiAvailableHandle implements ConnectResultHandle {
 
     @Override
     public void updateView(MainActivity activity) {
-        activity.setNetInfo(ssid);
+        activity.setNetInfo(App.isInPortalWiFiSet(ssid) || App.isInSuspiciousWiFiSSIDSet(ssid) ?
+                App.getAppContext().getResources().getString(R.string.NJUWLAN) : App.getAppContext().getResources().getString(R.string.Unknown_WLAN), ssid);
     }
 
     @Override

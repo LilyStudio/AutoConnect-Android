@@ -13,7 +13,7 @@ public class WifiLostHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity activity) {
         activity.hideProgress();
-        activity.setNetInfo(null);
+        activity.setNetInfo("未连接WLAN",null);
         //  activity.user_detail.setVisibility(View.INVISIBLE);
         ConnectManager.setStatus(ConnectManager.Status.WIFI_LOST);
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());

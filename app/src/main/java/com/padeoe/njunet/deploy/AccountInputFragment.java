@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.padeoe.njunet.R;
+import com.padeoe.njunet.connect.controller.ConnectService;
 import com.padeoe.njunet.util.PrefFileManager;
 
 public class AccountInputFragment extends DeployFragment {
@@ -37,7 +38,6 @@ public class AccountInputFragment extends DeployFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Button button = (Button) (getActivity().findViewById(R.id.nextStepButton));
         button.setText(getNextStepButtonText());
         view = inflater.inflate(R.layout.fragment_account_input, container, false);
@@ -83,10 +83,8 @@ public class AccountInputFragment extends DeployFragment {
 
     @Override
     public void handle(View view) {
-        String username = getUserName();
-        String password = getPassword();
-        SharedPreferences.Editor editor = PrefFileManager.getAccountPref().edit();
-        editor.putString("username", username).putString("password", password).putBoolean("isFirstInstall", false).apply();
+        ConnectService.setUsername(getUserName());
+        ConnectService.setPassword(getPassword());
         view.setEnabled(true);
     }
 

@@ -2,6 +2,7 @@ package com.padeoe.nicservice.njuwlan.utils;
 
 import com.padeoe.utils.network.MyHttpRequest;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
@@ -34,7 +35,7 @@ public class NetworkUtils {
      *@param timeout 超时时间
      * @return Post返回的数据
      */
-    public static String connectAndPost(String postData, String URL, int timeout) {
+    public static String connectAndPost(String postData, String URL, int timeout) throws IOException {
         return MyHttpRequest.post(postData, URL, null, "UTF-8", "UTF-8", timeout);
     }
 
@@ -46,7 +47,7 @@ public class NetworkUtils {
      * @param timeout 超时时间
      * @return 服务器返回的数据
      */
-    public static String postWithCookie(String postData, String cookie, String URL, int timeout) {
+    public static String postWithCookie(String postData, String cookie, String URL, int timeout) throws IOException {
         return MyHttpRequest.postWithCookie(postData, URL, null, cookie, "UTF-8", "UTF-8", timeout);
     }
 
@@ -57,7 +58,7 @@ public class NetworkUtils {
      * @param timeout 超时时间
      * @return 服务器返回的数据
      */
-    public static String[] postAndGetCookie(String postData, String URL, int timeout) {
+    public static String[] postAndGetCookie(String postData, String URL, int timeout) throws IOException {
         return MyHttpRequest.postAndGetCookie(postData, URL, null, "UTF-8", "UTF-8", timeout);
     }
 

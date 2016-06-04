@@ -4,7 +4,7 @@
     <string name="pref_header_network">网络</string>
     <string name="pref_header_notifications">通知</string>
     <string name="summary_boot_launch">开机时启动后台服务</string>
-    <string name="summary_auto_connect">检测到校园网WLAN时</string>
+    <string name="summary_auto_connect">将在刚连接到校园网WLAN的瞬间进行一次自动登录</string>
     <string name="title_auto_connect">自动登录</string>
     <string name="title_category_autoconnect">登陆服务</string>
     <string name="title_category_network">网络参数</string>

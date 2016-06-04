@@ -15,6 +15,8 @@ import com.padeoe.njunet.connect.uihandler.OnlineTimeHandle;
 import com.padeoe.njunet.connect.uihandler.ReturnDataHandle;
 import com.padeoe.njunet.util.MyObservable;
 
+import java.io.IOException;
+
 /**
  * Created by padeoe on 2016/4/26.
  */
@@ -25,10 +27,17 @@ public class UpdateInfo extends MyObservable<ConnectResultHandle> {
             public void run() {
                 super.run();
                 OnlineQueryService onlineQueryService = new OnlineQueryService();
-                String result = onlineQueryService.getUserInfo();
-                ReturnData returnData = ReturnData.getFromJson(result);
-                setChanged();
-                notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
+                try {
+                    String result = onlineQueryService.getCurrentUserInfo();
+                    ReturnData returnData = ReturnData.getFromJson(result);
+                    setChanged();
+                    notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
+                } catch (IOException e) {
+                    setChanged();
+                    notifyObservers(new ErrorHandle(e.getMessage()));
+                    e.printStackTrace();
+                }
+
             }
         }.start();
     }
@@ -39,25 +48,31 @@ public class UpdateInfo extends MyObservable<ConnectResultHandle> {
             public void run() {
                 super.run();
                 OnlineQueryService onlineQueryService = new OnlineQueryService();
-                String result = onlineQueryService.getBasicInfo();
-                BasicInfo basicInfo = BasicInfo.getFromJson(result);
-                int seconds;
-                if (basicInfo != null && basicInfo.getBasicInfoRows() != null && basicInfo.getBasicInfoRows().length > 0) {
-                    BasicInfoRow basicInfoRow = basicInfo.getBasicInfoRows()[0];
-                    try {
-                        seconds = Integer.parseInt(basicInfoRow.getTotal_ipv4_volume());
+                String result = null;
+                try {
+                    result = onlineQueryService.getBasicInfo();
+                    BasicInfo basicInfo = BasicInfo.getFromJson(result);
+                    int seconds;
+                    if (basicInfo != null && basicInfo.getBasicInfoRows() != null && basicInfo.getBasicInfoRows().length > 0) {
+                        BasicInfoRow basicInfoRow = basicInfo.getBasicInfoRows()[0];
+                        try {
+                            seconds = Integer.parseInt(basicInfoRow.getTotal_ipv4_volume());
+                            setChanged();
+                            notifyObservers(new OnlineTimeHandle(seconds));
+                        } catch (NumberFormatException e) {
+                            setChanged();
+                            notifyObservers(new ErrorHandle(App.context.getString(R.string.illegal_result_from_server)));
+                        }
+                    } else {
                         setChanged();
-                        notifyObservers(new OnlineTimeHandle(seconds));
-                    } catch (NumberFormatException e) {
-                        setChanged();
-                        notifyObservers(new ErrorHandle(App.context.getString(R.string.illegal_result_from_server)));
+                        notifyObservers(new GetOnlineTimeFailHandle());
+                        Log.e("获取时间失败", result);
                     }
-                } else {
+                } catch (IOException e) {
                     setChanged();
-                    notifyObservers(new GetOnlineTimeFailHandle());
-                    Log.e("获取时间失败", result);
+                    notifyObservers(new ErrorHandle(e.getMessage()));
+                    e.printStackTrace();
                 }
-
             }
         }.start();
     }
