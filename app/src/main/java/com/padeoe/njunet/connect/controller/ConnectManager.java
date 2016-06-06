@@ -24,6 +24,7 @@ import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.StatusNotificationManager;
 import com.padeoe.njunet.connect.uihandler.AuthFailHandle;
 import com.padeoe.njunet.connect.uihandler.BackgrReturnDataHandle;
+import com.padeoe.njunet.connect.uihandler.ClientLimitHandle;
 import com.padeoe.njunet.connect.uihandler.ConnectFailHandle;
 import com.padeoe.njunet.connect.uihandler.ConnectResultHandle;
 import com.padeoe.njunet.connect.uihandler.ErrorHandle;
@@ -32,6 +33,7 @@ import com.padeoe.njunet.connect.uihandler.OfflineHandle;
 import com.padeoe.njunet.connect.uihandler.OnlineTimeHandle;
 import com.padeoe.njunet.connect.uihandler.Reachable;
 import com.padeoe.njunet.connect.uihandler.ReturnDataHandle;
+import com.padeoe.njunet.connect.uihandler.UnknownNetHandle;
 import com.padeoe.njunet.connect.uihandler.WifiLostHandle;
 import com.padeoe.njunet.util.MyObservable;
 import com.padeoe.njunet.util.NetworkTest;
@@ -65,7 +67,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
         ConnectManager.status = status;
     }
 
-    public enum Status {ONLINE, OFFLINE, WIFI_LOST, DETECTING}
+    public enum Status {ONLINE, OFFLINE, WIFI_LOST, DETECTING,REMOTE_ONLINE}
 
     private static Status status = Status.OFFLINE;
 
@@ -99,7 +101,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
     }
 
     public void backgrConnect() {
-        if (/*ConnectService.isCheckBeforeLogin()*/false) {
+        if (ConnectService.isCheckBeforeLogin()) {
             checkOnline();
         } else {
             login();
@@ -133,12 +135,19 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                                 OnlineBras onlineBras = OnlineBras.getFromJson(offlineQueryService.getOnline(1, 20));
                                 isConnecting.set(false);
                                 if (onlineBras != null) {
-                                    if (onlineBras.getOnlineRowBrases().length == 0) {
+                                    if (onlineBras.getOnlineRowBrases()==null) {
                                         System.out.println("当前没有设备在线");
                                         login();
                                     } else {
                                         System.out.println("当前已有其他设备在线");
+                                        setChanged();
+                                        notifyObservers(new ClientLimitHandle());
                                     }
+                                }
+                                else{
+                                    System.out.println("查询失败");
+                                    setChanged();
+                                    notifyObservers(new ErrorHandle(App.getAppContext().getResources().getString(R.string.connect_fail)));
                                 }
                             }
                         } catch (LoginException e) {
@@ -149,6 +158,8 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                         } catch (IOException io) {
                             isConnecting.set(false);
                             io.printStackTrace();
+                            setChanged();
+                            notifyObservers(new ErrorHandle(io.getMessage()));
                         }
 
 
@@ -191,7 +202,8 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                                 if (LoginService.isLoginSuccess(result)) {
                                     notifyObservers(new BackgrReturnDataHandle(result));
                                 } else {
-                                    notifyObservers(new AuthFailHandle(ReturnData.getFromJson(result)));
+                                    ReturnData returnData = ReturnData.getFromJson(result);
+                                    notifyObservers(returnData == null ? new ErrorHandle(App.getAppContext().getResources().getString(R.string.connect_fail)) : new AuthFailHandle(returnData));
                                 }
                             } catch (IOException e) {
                                 isConnecting.set(false);
@@ -329,5 +341,21 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
         StatusNotificationManager.showStatus("未连接网络");
         Log.e("没有网络", "不应该进行连接操作");
         isConnecting.set(false);
+    }
+
+    public static int getColor(ConnectManager.Status status) {
+        switch (status) {
+            case ONLINE:
+                return App.getAppContext().getResources().getColor(R.color.colorPrimary);
+            case OFFLINE:
+                return App.getAppContext().getResources().getColor(R.color.disconnect);
+            case WIFI_LOST:
+                return App.getAppContext().getResources().getColor(R.color.colorPrimary);
+            case DETECTING:
+                return App.getAppContext().getResources().getColor(R.color.colorPrimary);
+            case REMOTE_ONLINE:
+                return App.getAppContext().getResources().getColor(R.color.remote_online);
+        }
+        return App.getAppContext().getResources().getColor(R.color.colorPrimary);
     }
 }

@@ -185,7 +185,7 @@ public class ConnectService extends Service {
     }
 
     public static boolean isCheckBeforeLogin() {
-        return checkBeforeLogin != null ? checkBeforeLogin : (checkBeforeLogin = PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).getBoolean("checkBeforeLogin", false));
+        return checkBeforeLogin != null ? checkBeforeLogin : (checkBeforeLogin = PreferenceManager.getDefaultSharedPreferences(App.getAppContext()).getBoolean("checkBeforeLogin", true));
     }
 
     public static void setCheckBeforeLogin(boolean checkBeforeLogin) {

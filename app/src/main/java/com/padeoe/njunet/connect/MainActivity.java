@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
     public ConnectManager.Status status = ConnectManager.Status.ONLINE;
     public View online;
     public View offline;
+    public View remoteOnline;
     public TextView netinfo;
     public TextView amount;
     public TextView time;
@@ -122,12 +123,13 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
                 ConnectManager connectManager = new ConnectManager();
                 connectManager.addObserver(MainActivity.this);
                 Log.d("login request", "triggered by button in MainActivity");
-                connectManager.backgrConnect();
+                connectManager.login();
             }
         });
 
         online = findViewById(R.id.status_iamge);
         offline = findViewById(R.id.status_image_noconnection);
+        remoteOnline = findViewById(R.id.status_image_remote_online);
         netinfo = (TextView) findViewById(R.id.netinfo);
         amount = (TextView) findViewById(R.id.amount);
         time = (TextView) findViewById(R.id.time);
@@ -216,15 +218,12 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
     }
 
     public void updateViewStatus(ConnectManager.Status oldStatus, ConnectManager.Status newStatus) {
+        System.out.println(oldStatus+" "+newStatus);
         status_internet.setText(ConnectManager.getInternetStatus());
         MyAnimation.fadeInTextView(status_internet);
         if (getStatusView(oldStatus) != getStatusView(newStatus)) {
             MyAnimation.flip(getStatusView(oldStatus), getStatusView(newStatus), 300);
-            if (getStatusView(newStatus) == offline) {
-                MyAnimation.updateBackground(appBarLayout, getResources().getColor(R.color.colorPrimary), getResources().getColor(R.color.disconnect), 1000);
-            } else {
-                MyAnimation.updateBackground(appBarLayout, getResources().getColor(R.color.disconnect), getResources().getColor(R.color.colorPrimary), 1000);
-            }
+            MyAnimation.updateBackground(appBarLayout, ConnectManager.getColor(oldStatus), ConnectManager.getColor(newStatus), 1000);
             this.status = newStatus;
         }
     }
@@ -239,6 +238,8 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
                 return offline;
             case DETECTING:
                 return offline;
+            case REMOTE_ONLINE:
+                return remoteOnline;
         }
         return null;
     }
@@ -305,6 +306,6 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             appBarLayout.setElevation(5f);
         }
-        progressBar.setVisibility(View.GONE);
+        progressBar.setVisibility(View.INVISIBLE);
     }
 }

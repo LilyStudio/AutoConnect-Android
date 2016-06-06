@@ -79,6 +79,9 @@ public class StatusNotificationManager {
                 case DETECTING:
                     builder.setColor(App.getAppContext().getResources().getColor(R.color.disconnect)).setContentTitle(App.getAppContext().getResources().getString(R.string.checking)).setSmallIcon(R.drawable.icon_wifi_nointernet).addAction(R.drawable.ic_settings,
                             App.getAppContext().getResources().getString(R.string.refresh), piDismiss);
+                case REMOTE_ONLINE:
+                    builder.setColor(App.getAppContext().getResources().getColor(R.color.remote_online)).setContentTitle(App.getAppContext().getResources().getString(R.string.remote_online)).setSmallIcon(R.drawable.icon_wifi_nointernet).addAction(R.drawable.ic_settings,
+                            App.getAppContext().getResources().getString(R.string.force_login), piDismiss);
                     break;
             }
             builder.setOngoing(notification_frequency == 3);

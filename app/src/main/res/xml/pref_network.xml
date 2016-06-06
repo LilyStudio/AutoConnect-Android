@@ -25,6 +25,10 @@
             android:title="@string/summary_boot_launch" />
         <SwitchPreference
             android:defaultValue="true"
+            android:key="checkBeforeLogin"
+            android:title="@string/summary_check_before_login" />
+        <SwitchPreference
+            android:defaultValue="true"
             android:key="login_on_activity_start"
             android:title="@string/pref_login_on_activity_start_title" />
         <ListPreference

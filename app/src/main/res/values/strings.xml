@@ -75,4 +75,9 @@
     <string name="need_auth">the network need sign in</string>
     <string name="disconnect">logout</string>
     <string name="pull_down_notification">pull down for more menus</string>
+    <string name="remote_online">other device online</string>
+    <string name="force_login">force login</string>
+    <string name="force_login_button">Press button to force login</string>
+    <string name="connect_error">Connect Error</string>
+    <string name="summary_check_before_login">check devices online before login</string>
 </resources>

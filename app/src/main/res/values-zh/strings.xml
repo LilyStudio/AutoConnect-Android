@@ -73,4 +73,9 @@
     <string name="need_auth">该网络需要登录</string>
     <string name="disconnect">下线</string>
     <string name="pull_down_notification">下拉本通知展开菜单</string>
+    <string name="remote_online">其他设备在线</string>
+    <string name="force_login">强制登录</string>
+    <string name="force_login_button">点击按钮强制登录</string>
+    <string name="connect_error">连接错误</string>
+    <string name="summary_check_before_login">登陆前检查其他在线设备</string>
 </resources>
