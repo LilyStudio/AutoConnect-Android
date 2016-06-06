@@ -38,7 +38,7 @@ public class WiFiScanner implements MyObserver<ConnectResultHandle> {
             StatusNotificationManager.showStatus();
             ConnectManager connectManager = new ConnectManager();
             connectManager.addObserver(this);
-            connectManager.backgrConnect();
+            connectManager.login();
         }
     }
 
