@@ -13,4 +13,5 @@
     <color name="text_show_detail_rc1">#e91b7128</color>
     <color name="text_show_detail_backup">#f3075284</color>
     <color name="progress_bar">#f3eae014</color>
+    <color name="remote_online">#d6a0d9</color>
 </resources>

@@ -1,8 +1,14 @@
 package com.padeoe.njunet.connect.uihandler;
 
+import android.content.Context;
+import android.net.wifi.WifiManager;
 import android.os.Parcel;
 
+import com.padeoe.njunet.App;
+import com.padeoe.njunet.R;
 import com.padeoe.njunet.connect.MainActivity;
+import com.padeoe.njunet.connect.StatusNotificationManager;
+import com.padeoe.njunet.connect.controller.ConnectManager;
 
 /**
  * Created by padeoe on 2016/6/3.
@@ -10,7 +16,11 @@ import com.padeoe.njunet.connect.MainActivity;
 public class ClientLimitHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity activity) {
-
+        WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        activity.setNetInfo(App.getAppContext().getResources().getString(R.string.remote_online),wifiManager.getConnectionInfo().getSSID());
+        activity.hideProgress();
+        activity.updateViewStatus(activity.status, ConnectManager.getStatus());
+        activity.showOnMainActivity(App.getAppContext().getResources().getString(R.string.force_login_button));
     }
 
     @Override
@@ -23,6 +33,8 @@ public class ClientLimitHandle implements ConnectResultHandle {
     }
 
     public ClientLimitHandle() {
+        ConnectManager.setStatus(ConnectManager.Status.REMOTE_ONLINE);
+        StatusNotificationManager.showStatus(App.getAppContext().getResources().getString(R.string.remote_online));
     }
 
     protected ClientLimitHandle(Parcel in) {

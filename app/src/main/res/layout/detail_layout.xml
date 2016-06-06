@@ -24,6 +24,15 @@
             android:layout_marginTop="30dp"
             android:src="@drawable/noconnect"
             android:visibility="gone" />
+
+        <ImageView
+            android:id="@+id/status_image_remote_online"
+            android:layout_width="@dimen/status_image_width"
+            android:layout_height="@dimen/status_image_width"
+            android:layout_marginLeft="@dimen/status_image_margin_left"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/pc"
+            android:visibility="gone" />
     </LinearLayout>
 
     <TextView
