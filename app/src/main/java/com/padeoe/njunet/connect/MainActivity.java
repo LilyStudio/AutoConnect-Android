@@ -249,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
         showProgress();
 
         if (PreferenceManager.getDefaultSharedPreferences(this.getApplicationContext()).getBoolean("login_on_activity_start", true)) {
+            System.out.println("即将尝试一次立即登录");
             ConnectManager connectManager = new ConnectManager();
             connectManager.addObserver(this);
             connectManager.backgrConnect();
@@ -287,6 +288,7 @@ public class MainActivity extends AppCompatActivity implements MyObserver<Connec
 
     @Override
     public void update(MyObservable myObservable, final ConnectResultHandle data) {
+        System.out.println("已经收到连接结果");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
