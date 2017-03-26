@@ -53,7 +53,7 @@ public class NetworkConnectChangedReceiver extends BroadcastReceiver implements 
                     connectManager.backgrConnect();
 
                     //发送广播，可能别处的界面需要更新信息
-                    WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+                    WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                     Intent wifiConnectedIntent = new Intent(ConnectManager.WIFI_AVAILABLE_ACTION);
                     wifiConnectedIntent.putExtra("NETINFO", new WifiAvailableHandle(wifiManager.getConnectionInfo().getSSID()));
                     LocalBroadcastManager broadcastManager = LocalBroadcastManager.getInstance(App.getAppContext());

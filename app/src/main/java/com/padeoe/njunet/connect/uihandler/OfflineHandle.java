@@ -25,7 +25,7 @@ public class OfflineHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity mainActivity) {
         mainActivity.hideProgress();
-        mainActivity.setNetInfo("未登录",((WifiManager)App.getAppContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getSSID());
+        mainActivity.setNetInfo("未登录",((WifiManager)App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE)).getConnectionInfo().getSSID());
         MyAnimation.fadeInTextView(mainActivity.netinfo);
         ConnectManager.setStatus(ConnectManager.Status.OFFLINE);
         StatusNotificationManager.showStatus();

@@ -194,7 +194,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                         } else {
                             String result = null;
                             try {
-                                result = LoginService.getInstance().connect(ConnectService.getUsername(), ConnectService.getPassword());
+                                result = LoginService.getInstance().oldConnect(ConnectService.getUsername(), ConnectService.getPassword());
                                 isConnecting.set(false);
                                 System.out.println("后台登陆结束" + result);
                                 setChanged();
@@ -303,13 +303,13 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
 
 
     private static void saveCurrentSSID() {
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         App.addWiFiSSID(wifiInfo.getSSID());
     }
 
     private static void removeCurrentSSID() {
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         App.removeWiFiSSID(wifiInfo.getSSID());
     }

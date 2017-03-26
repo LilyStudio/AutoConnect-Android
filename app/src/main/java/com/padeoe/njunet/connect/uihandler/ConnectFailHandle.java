@@ -68,7 +68,7 @@ public class ConnectFailHandle extends MyObservable<ConnectResultHandle> impleme
     @Override
     public void update(MyObservable myObservable, Reachable data) {
         Log.d("测试结果", "已接收到测试结果" + data.getCode());
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         String ssid = wifiInfo.getSSID();
 

@@ -26,7 +26,7 @@ public class StatusNotificationManager {
     }
 
     public static void showStatus(int notification_frequency) {
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         boolean isNJUWLAN = App.isInPortalWiFiSet(wifiInfo.getSSID()) || App.isInSuspiciousWiFiSSIDSet(wifiInfo.getSSID());
         if (isNJUWLAN) {
@@ -87,7 +87,7 @@ public class StatusNotificationManager {
             }
             builder.setOngoing(notification_frequency == 3);
             NotificationManager mNotificationManager =
-                    (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                    (NotificationManager) App.getAppContext().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(
                     notificationID,
                     builder.build());
@@ -96,7 +96,7 @@ public class StatusNotificationManager {
 
     public static void removeNotification() {
         NotificationManager mNotificationManager =
-                (NotificationManager) App.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
+                (NotificationManager) App.getAppContext().getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.cancel(notificationID);
     }
 }

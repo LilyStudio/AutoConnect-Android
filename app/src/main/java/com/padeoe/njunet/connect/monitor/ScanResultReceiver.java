@@ -18,7 +18,7 @@ import java.util.List;
  * Created by padeoe on 2016/5/21.
  */
 public class ScanResultReceiver extends BroadcastReceiver {
-    WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+    WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
     @Override
     public void onReceive(Context context, Intent intent) {

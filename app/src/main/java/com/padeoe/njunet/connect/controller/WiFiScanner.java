@@ -25,7 +25,7 @@ public class WiFiScanner implements MyObserver<ConnectResultHandle> {
         if (ConnectManager.getStatus() == ConnectManager.Status.WIFI_LOST) {
             StatusNotificationManager.showStatus("正在扫描WLAN");
             //首先确保wifi开关已打开
-            WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+            WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
             App.getAppContext().registerReceiver(receiver = new ScanResultReceiver(), new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
             if (wifiManager.isWifiEnabled() || wifiManager.setWifiEnabled(true)) {
                 wifiManager.startScan();

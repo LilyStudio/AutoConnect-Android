@@ -36,7 +36,7 @@ public class ReturnDataHandle implements ConnectResultHandle {
             UserInfo userinfo = returnData.getUserInfo();
             if (userinfo != null) {
                 //    mainActivity.username.setText(userinfo.getUsername() + "(" + userinfo.getFullname() + ")");
-                WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+                WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
                 mainActivity.setNetInfo(userinfo,wifiManager.getConnectionInfo().getSSID());
                 MyAnimation.fadeInTextView(mainActivity.netinfo);
                 // mainActivity.user_detail.setVisibility(View.VISIBLE);
