@@ -48,7 +48,7 @@ public class LoginService {
      */
     private String[] getChallenge() throws IOException {
         String result = NetworkUtils.connectAndPost("", "http://" + getPortalIP() + "/portal_io/getchallenge", timeout);
-        if (result != null && result.startsWith("{\"reply_msg\":\"操作成功\"")) {
+        if (result != null && -1 != result.indexOf("\"reply_msg\":\"操作成功\"")) {
             return new String[]{result.substring(result.indexOf("\"challenge\":\"") + 13, result.indexOf("\",\"reply_code\"")), result};
         }
         return new String[]{null, result};
@@ -151,7 +151,7 @@ public class LoginService {
      * @return 是否登陆成功
      */
     public static boolean isLoginSuccess(String result) {
-        return result.startsWith("{\"reply_code\":1") || result.startsWith("{\"reply_code\":6");
+        return (-1 != result.indexOf("\"reply_code\":1")) || (-1 != result.indexOf("\"reply_code\":6"));
     }
 
     /**
@@ -161,7 +161,7 @@ public class LoginService {
      * @return
      */
     public static boolean isLoginConnectSuccess(String result) {
-        return result.startsWith("{\"reply_code\"");
+        return -1 != result.indexOf("\"reply_code\"");
     }
 
     /**
@@ -171,7 +171,7 @@ public class LoginService {
      * @return 是否下线成功
      */
     public static boolean isLogoutSuccess(String result) {
-        return result.startsWith("{\"reply_code\":101");
+        return -1 != result.indexOf("\"reply_code\":101");
     }
 
     /**
