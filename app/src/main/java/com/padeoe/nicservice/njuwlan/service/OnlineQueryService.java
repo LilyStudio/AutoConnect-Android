@@ -201,7 +201,7 @@ public class OnlineQueryService implements DetailQuery {
      * @return 表示当前是否在线
      */
     public static boolean isPortalOnline(String result) {
-        return result.endsWith("\"reply_code\":0,\"reply_msg\":\"操作成功\"}\n");
+        return -1 != result.indexOf("\"reply_code\":0,\"reply_msg\":\"操作成功\"");
     }
 
     /**
@@ -214,22 +214,22 @@ public class OnlineQueryService implements DetailQuery {
     public static boolean isQuerySuccess(String result, int catalog) {
         switch (catalog) {
             case BASICINFO:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             case ONLINE:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             case AUTHLOG:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             case ACCT:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             case BILLS:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             case RECHARGE:
-                if (result.endsWith("\"reply_code\":0}\n")) return true;
+                if (result.indexOf("\"reply_code\":0") != -1) return true;
                 break;
             default:
                 return false;
