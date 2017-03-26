@@ -60,11 +60,10 @@ public class LoginService {
      *
      * @param username <a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的用户名
      * @param password <a href="http://p.nju.edu.cn">南京大学网络认证系统</a>的密码
-     * @param timeout  超时时间
      * @return 返回的字符串的JSON解析
      */
     @Deprecated
-    public String oldConnect(String username, String password, int timeout) throws IOException {
+    public String oldConnect(String username, String password) throws IOException {
         String postdata = "action=login&username=" + username + "&password=" + password;
         return NetworkUtils.connectAndPost(postdata, "http://" + getPortalIP() + "/portal_io/login", timeout);
     }
@@ -148,7 +147,7 @@ public class LoginService {
     /**
      * 根据返回消息判断是否登陆成功
      *
-     * @param result {@link LoginService#connect(String, String)}或{@link LoginService#oldConnect(String, String, int)}返回值
+     * @param result {@link LoginService#connect(String, String)}或{@link LoginService#oldConnect(String, String)}返回值
      * @return 是否登陆成功
      */
     public static boolean isLoginSuccess(String result) {

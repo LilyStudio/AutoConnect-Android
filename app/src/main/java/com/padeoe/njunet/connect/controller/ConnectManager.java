@@ -117,6 +117,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                 public void run() {
                     super.run();
                     if (bindNetWork()) {
+                        System.out.println("即将检查在线设备");
                         try {
                             //首先查询当前设备是否已登录，如果已登录，则放弃登陆操作并刷新数据。如果未登录，查询其他设备是否登陆
                             OnlineQueryService onlineQueryService = new OnlineQueryService();
@@ -150,7 +151,6 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                                 }
                             }
                         } catch (LoginException e) {
-                            isConnecting.set(false);
                             e.printStackTrace();
                             setChanged();
                             Log.e("bras登陆错误", e.getMessage());
@@ -164,15 +164,13 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
 
 
                     } else {
+                        isConnecting.set(false);
                         onWiFiLost();
                     }
                     threadList.remove(this);
                 }
             });
             thread.start();
-        }
-        else{
-            System.out.println("已有线程在连接");
         }
     }
 
@@ -196,7 +194,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
                         } else {
                             String result = null;
                             try {
-                                result = LoginService.getInstance().connect(ConnectService.getUsername(), ConnectService.getPassword());
+                                result = LoginService.getInstance().oldConnect(ConnectService.getUsername(), ConnectService.getPassword());
                                 isConnecting.set(false);
                                 System.out.println("后台登陆结束" + result);
                                 setChanged();
@@ -305,13 +303,13 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
 
 
     private static void saveCurrentSSID() {
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         App.addWiFiSSID(wifiInfo.getSSID());
     }
 
     private static void removeCurrentSSID() {
-        WifiManager mWifi = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager mWifi = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         WifiInfo wifiInfo = mWifi.getConnectionInfo();
         App.removeWiFiSSID(wifiInfo.getSSID());
     }
@@ -338,12 +336,11 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
         }
     }
 
-    public  void onWiFiLost() {
-        isConnecting.set(false);
-        setChanged();
-        notifyObservers(new WifiLostHandle());
+    private static void onWiFiLost() {
+        ConnectManager.setStatus(ConnectManager.Status.WIFI_LOST);
+        StatusNotificationManager.showStatus("未连接网络");
         Log.e("没有网络", "不应该进行连接操作");
-
+        isConnecting.set(false);
     }
 
     public static int getColor(ConnectManager.Status status) {
@@ -353,7 +350,7 @@ public class ConnectManager extends MyObservable<ConnectResultHandle> {
             case OFFLINE:
                 return App.getAppContext().getResources().getColor(R.color.disconnect);
             case WIFI_LOST:
-                return App.getAppContext().getResources().getColor(R.color.disconnect);
+                return App.getAppContext().getResources().getColor(R.color.colorPrimary);
             case DETECTING:
                 return App.getAppContext().getResources().getColor(R.color.colorPrimary);
             case REMOTE_ONLINE:

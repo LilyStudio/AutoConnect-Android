@@ -8,13 +8,11 @@ import com.padeoe.nicservice.njuwlan.object.portal.row.BasicInfoRow;
 import com.padeoe.nicservice.njuwlan.service.OnlineQueryService;
 import com.padeoe.njunet.App;
 import com.padeoe.njunet.R;
-import com.padeoe.njunet.connect.StatusNotificationManager;
 import com.padeoe.njunet.connect.uihandler.ConnectResultHandle;
 import com.padeoe.njunet.connect.uihandler.ErrorHandle;
 import com.padeoe.njunet.connect.uihandler.GetOnlineTimeFailHandle;
 import com.padeoe.njunet.connect.uihandler.OnlineTimeHandle;
 import com.padeoe.njunet.connect.uihandler.ReturnDataHandle;
-import com.padeoe.njunet.connect.uihandler.WifiLostHandle;
 import com.padeoe.njunet.util.MyObservable;
 
 import java.io.IOException;
@@ -28,24 +26,17 @@ public class UpdateInfo extends MyObservable<ConnectResultHandle> {
             @Override
             public void run() {
                 super.run();
-                if (ConnectManager.bindNetWork()) {
-                    OnlineQueryService onlineQueryService = new OnlineQueryService();
-                    try {
-                        String result = onlineQueryService.getCurrentUserInfo();
-                        ReturnData returnData = ReturnData.getFromJson(result);
-                        setChanged();
-                        notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
-                    } catch (IOException e) {
-                        setChanged();
-                        notifyObservers(new ErrorHandle(e.getMessage()));
-                        e.printStackTrace();
-                    }
-                }
-                else{
+                OnlineQueryService onlineQueryService = new OnlineQueryService();
+                try {
+                    String result = onlineQueryService.getCurrentUserInfo();
+                    ReturnData returnData = ReturnData.getFromJson(result);
                     setChanged();
-                    notifyObservers(new WifiLostHandle());
+                    notifyObservers(returnData != null ? new ReturnDataHandle(returnData) : new ErrorHandle(result));
+                } catch (IOException e) {
+                    setChanged();
+                    notifyObservers(new ErrorHandle(e.getMessage()));
+                    e.printStackTrace();
                 }
-
 
             }
         }.start();
@@ -85,4 +76,5 @@ public class UpdateInfo extends MyObservable<ConnectResultHandle> {
             }
         }.start();
     }
+
 }

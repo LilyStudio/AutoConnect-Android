@@ -16,7 +16,7 @@ import com.padeoe.njunet.connect.controller.ConnectManager;
 public class ClientLimitHandle implements ConnectResultHandle {
     @Override
     public void updateView(MainActivity activity) {
-        WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         activity.setNetInfo(App.getAppContext().getResources().getString(R.string.remote_online),wifiManager.getConnectionInfo().getSSID());
         activity.hideProgress();
         activity.updateViewStatus(activity.status, ConnectManager.getStatus());

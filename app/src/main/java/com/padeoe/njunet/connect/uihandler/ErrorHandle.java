@@ -28,7 +28,7 @@ public class ErrorHandle implements ConnectResultHandle {
     public void updateView(MainActivity mainActivity) {
         mainActivity.hideProgress();
         mainActivity.showOnMainActivity(error);
-        WifiManager wifiManager = (WifiManager) App.getAppContext().getSystemService(Context.WIFI_SERVICE);
+        WifiManager wifiManager = (WifiManager) App.getAppContext().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
         mainActivity.setNetInfo(App.getAppContext().getResources().getString(R.string.connect_error),wifiManager.getConnectionInfo().getSSID());
         mainActivity.updateViewStatus(mainActivity.status,ConnectManager.getStatus());
     }
