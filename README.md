@@ -28,7 +28,7 @@ Android 4.0+
 
 或
 
-[apk-v2.5.3](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
+[apk-v2.5.4](https://raw.githubusercontent.com/padeoe/AutoConnect/newUI/app/app-release.apk)
 
 <h2>更新日志</h2>
 

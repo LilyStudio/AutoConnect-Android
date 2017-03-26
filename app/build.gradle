@@ -8,8 +8,8 @@ android {
         applicationId "com.padeoe.njunet"
         minSdkVersion 14
         targetSdkVersion 23
-        versionCode 1404
-        versionName "2.5.3"
+        versionCode 1405
+        versionName "2.5.4"
     }
     buildTypes {
         release {
